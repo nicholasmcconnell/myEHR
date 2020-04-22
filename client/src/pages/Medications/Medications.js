@@ -6,22 +6,20 @@ function Medications() {
 
     //load all drugs and store them 
     useEffect(() => {
-      loadDrugs()
+        loadDrugs()
     }, [])
-  
-    //loads all drugs and set them to drugs
+
+    //loads all drugs and set them to drugs... needs to be fixed later so that there's one to load drugs and then one for the btn (modal?)
     function loadDrugs() {
-      API.getDrugs()
-        .then(res => 
-          console.log(res.data[0])
-        )
-        .catch(err => console.log(err));
+        API.getDrugInfo()
+            .then(res =>
+                setDrugs(res.data[0].shortdef[0]) 
+            )
+            .catch(err => console.log(err));
     };
 
-    return (
-        
-                <h1>{drugs}</h1>
-       
+    return ( 
+      <p>{drugs}</p>
     );
 }
 
