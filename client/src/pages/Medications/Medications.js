@@ -13,7 +13,7 @@ function Medications() {
     function loadDrugs() {
         API.getDrugInfo()
             .then(res =>
-                setDrugs(res.data[0].shortdef[0]) 
+                console.log(res.data)
             )
             .catch(err => console.log(err));
     };
