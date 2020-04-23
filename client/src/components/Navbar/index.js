@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import { Link, useLocation as location } from 'react-router-dom'
-import { Button, burgerBtn } from '../Forms'
+import { Button } from '../Forms'
 import { Collapse } from '../Grid'
 
 export default function navBar() {
@@ -14,7 +14,7 @@ export default function navBar() {
     return (
         <nav className={'navbar navbar-expand-lg navbar-light bg-light'}>
             <Link to='/' className={'navbar-brand'}><em>my</em>ERH</Link>
-            <button onClick={toggleNav} className={'navbar-toggler'} type="button" data-toggle="collapse" data-target="#target-collapse" aria-controls="target-collapse" aria-expanded="false" aria-label="Toggle navigation">
+            <button onClick={toggleNav} className={'navbar-toggler'} type="button" data-toggle="collapse" data-target="#target-collapse" >
             <span className="navbar-toggler-icon"></span>
             </button>
                 
@@ -27,18 +27,18 @@ export default function navBar() {
                     </Link>    
                 </li>
                 <li className={pathname === "/profiles" ? "nav-item active" : "nav-item"}>
-                    <Link to="/portfolio" className={'nav-link'}>
-                        Portfolio
+                    <Link to="/profiles" className={'nav-link'}>
+                        profiles
                     </Link>    
                 </li>
                 <li className={pathname === "/medications" ? "nav-item active" : "nav-item"}>
-                    <Link to="/about" className={'nav-link'}>
-                        About
+                    <Link to="/medications" className={'nav-link'}>
+                        medications
                     </Link>    
                 </li>
                 <li className={pathname === "/contacts" ? "nav-item active" : "nav-item"}>
-                    <Link to="/contact" className={'nav-link'}>
-                        Contact
+                    <Link to="/contacts" className={'nav-link'}>
+                        contacts
                     </Link>    
                 </li>
               </ul>
