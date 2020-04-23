@@ -16,6 +16,6 @@ export function TextArea(props) {
 
 export function Button(props) {
     return (
-        <button className="btn btn-primary btn-lg" onSubmit={props.submitEmail} {...props} />
+        <button className={props.classes} {...props} />
     );
   }
