@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import Landing from "./pages/Landing";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import UserInfo from "./pages/UserInfo";
@@ -14,7 +15,8 @@ function App() {
     <Router>
       <div>
         <NavBar />
-        <Route exact path="/"> <SignIn /> </Route>
+        <Route exact path="/"> <Landing /> </Route>
+        <Route exact path="/signIn"> <SignIn /> </Route>
         <Route exact path="/signUp"> <SignUp /> </Route>
         <Route exact path="/profiles"> <Profiles /> </Route>
         <Route exact path="/userInfo"> <UserInfo /> </Route>

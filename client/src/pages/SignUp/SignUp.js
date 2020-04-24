@@ -49,7 +49,7 @@ export default function SignUp() {
                     </Row>
                     <Row classes={'justify-content-center'}>
                         <p> Already have an account? 
-                        <Link to="/" > Log In.</Link>
+                        <Link to="/SignIn" > Log In.</Link>
                         </p>
                     </Row>
                 </Col>

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Container, Row, Col } from '../../components/Grid';
 import { Button, Input } from '../../components/Forms';
 
-export default function UserInfo() {
+export default function Profile() {
 
     return (
         <Container>
@@ -13,6 +13,10 @@ export default function UserInfo() {
                 <button type="button" class="btn btn-info btn-lg btn-block">Profile 3</button>
                 <button type="button" class="btn btn-info btn-lg btn-block">Profile 4</button>
                 <button type="button" class="btn btn-info btn-lg btn-block">Profile 5</button>
+            </div>
+            <br></br>
+            <div>
+            <button type="button" class="btn" href='../UserInfo'>Add Profile</button>
             </div>
             
         </Container>

@@ -10,7 +10,11 @@ export default function UserInfo() {
             <form>
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                    <label for="">Name</label>
+                    <label for="">First Name</label>
+                    <input type="" class="form-control" placeholder=""/>
+                    </div>
+                    <div class="form-group col-md-6">
+                    <label for="">Last Name</label>
                     <input type="" class="form-control" placeholder=""/>
                     </div>
                 </div>
@@ -33,18 +37,25 @@ export default function UserInfo() {
                     </select>
                 </div>
                     <div class="form-group">
-                    <label for="">Allergies</label>
-                    <textarea type="text" class="form-control" id=""/>
+                        <label for="">Allergies</label>
+                        <textarea type="text" class="form-control" id=""/>
                     </div>
                     <div class="form-group">
-                    <label for="">Diagnoses</label>
-                    <textarea type="text" class="form-control" id=""/>
+                        <label for="">Diagnoses</label>
+                        <textarea type="text" class="form-control" id=""/>
                     </div>
                     <div class="form-group">
-                    <label for="">Family History</label>
-                    <textarea type="text" class="form-control" id=""/>
+                        <label for="">Family History</label>
+                        <textarea type="text" class="form-control" id=""/>
                     </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="" class="btn btn-primary">Delete</button>
+                        </div>
+                    </div>
             </form>
         </Container>
     )
