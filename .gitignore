@@ -6,3 +6,4 @@ node_modules/
 .env
 client/package-lock.json
 package-lock.json
+.client/build
