@@ -26,11 +26,11 @@ if (process.env.NODE_ENV === "production") {
 
 // Send every request to the React app
 // Define any API routes before this runs
-app.get("*", (req, res) => {
-    console.log("Test Route hit: root in server");
-    // res.send("Test Route hit: root in server")
-    res.sendFile(path.join(__dirname, "./client/build/index.html"));
-})
+// app.get("*", (req, res) => {
+//     console.log("Test Route hit: root in server");
+//     // res.send("Test Route hit: root in server")
+//     res.sendFile(path.join(__dirname, "./client/build/index.html"));
+// })
 
 // Connect to the Mongo DB
 mongoose.connect(
