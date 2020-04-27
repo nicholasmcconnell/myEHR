@@ -9,18 +9,19 @@
   font-size: 15px;
 }
 
-.navbar, .box-shadow {
+.navbar{
   box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
 }
 
-.sign:hover {
-  box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.16);
-}
-.sign::selection {
-  box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.16);
-}
-.sign {
+.box-shadow {
   box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16);
+}
+
+.sign {
   max-width: 400px;
   margin-top: 50px;
+}
+
+.box-shadow:hover, .box-shadow:focus {
+  box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.16);
 }

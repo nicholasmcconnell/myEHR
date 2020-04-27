@@ -20,7 +20,7 @@ export default function SignIn() {
     }
 
     return (
-        <Container classes={'sign'}>
+        <Container classes={'box-shadow sign'}>
             <Row>
               
                 <Col size={'md-12'} >

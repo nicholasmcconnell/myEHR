@@ -2,23 +2,42 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col } from '../../components/Grid';
 import { Button, Input } from '../../components/Forms';
+import Profiles from '../../components/ProfileList'; 
+import API from "../../utils/API";
 
 export default function Profile() {
 
+    const getUser = () => {
+       try { 
+        API.fetchUser()
+            .then( res =>{ 
+                console.log(res.data)
+                API.fetchAccount()
+            })
+             .then( res => {
+                console.log(res.data);
+             })
+        }
+        catch(err){ console.log(err)}
+    } 
+
+
     return (
         <Container>
-            <div class="col-lg-6" id="profileButtons">
-                <button type="button" class="btn btn-info btn-lg btn-block">Profile 1</button>
-                <button type="button" class="btn btn-info btn-lg btn-block">Profile 2</button>
-                <button type="button" class="btn btn-info btn-lg btn-block">Profile 3</button>
-                <button type="button" class="btn btn-info btn-lg btn-block">Profile 4</button>
-                <button type="button" class="btn btn-info btn-lg btn-block">Profile 5</button>
-            </div>
+            <Row>
+                <Col size={'md-2'}></Col>
+                    <Col size={'md-8'}>
+                        <Profiles name={"User's Name"} />
+                        <Profiles name={"First Care Recipient"} />
+                        <Profiles name={"Second Care Recipient"} />
+                    </Col>
+                <Col size={'md-2'}></Col>
+           </Row>
+        
             <br></br>
             <div>
-            <button type="button" class="btn" href='../UserInfo'>Add Profile</button>
+            <button type="button" className="btn" href='../UserInfo'>+ Add Profile</button>
             </div>
-            
         </Container>
     )
 }
