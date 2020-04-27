@@ -34,13 +34,15 @@ export default function SignIn() {
                     </Row>
                     <Row >
                     <form onSubmit={handleSubmit} className={'card-body'}>
-                        <div className={'form-group'}>
+                        <div className={'form-group usr-inpt'}>
                             <label>Email:</label>
+                            <span className="fa fa-user"/>
                             <Input  onChange={onInputChange}
-                            name="email" type="email" placeholder="E-mail address"/>
+                            name="email" type="email" placeholder="E-mail address"/>                     
                         </div>
-                        <div className={'form-group'}>
+                        <div className={'form-group usr-inpt'}>
                             <label>Password:</label>
+                            <span className="fa fa-lock"/>
                             <Input  onChange={onInputChange}
                             name="password" type="password" placeholder="Password"/>
                         </div>
