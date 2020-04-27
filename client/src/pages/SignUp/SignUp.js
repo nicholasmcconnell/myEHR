@@ -20,10 +20,9 @@ export default function SignUp() {
     }
 
     return (
-        <Container>
+        <Container classes={'sign'}>
             <Row>
-                <Col size={'md-4'} ></Col>
-                <Col size={'md-4'} >
+                <Col size={'md-12'} >
                     <Row>
                         <div className={'mt-5'}>
                         <h5 style={text}>
@@ -55,7 +54,6 @@ export default function SignUp() {
                         </p>
                     </Row>
                 </Col>
-                <Col size={'md-4'} ></Col>
             </Row>
         </Container>
     )
