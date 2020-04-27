@@ -43,8 +43,18 @@ export default function navBar() {
                 </li>
               </ul>
                 <div>
-                <Button classes={'btn btn-outline-primary m-2'} href='../../pages/SignIn' type='button'>Log In</Button>
-                <Button classes={'btn btn-outline-primary m-2'}  href='../../pages/SignUp' type='button'>Sign Up</Button>     
+                    <Link to='/signin' >
+                        <Button classes={'btn btn-outline-primary m-2'} type='button'>
+                            Log In
+                         </Button>
+                    </Link>
+                    <Link to='/signup' >
+                        <Button classes={'btn btn-outline-primary m-2'} type='button'>
+                            Sign Up
+                         </Button>
+                    </Link>
+
+               
                 </div>
             </Collapse>
         </nav>

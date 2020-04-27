@@ -20,10 +20,10 @@ export default function SignIn() {
     }
 
     return (
-        <Container>
+        <Container classes={'box-shadow sign'}>
             <Row>
-                <Col size={'md-4'} ></Col>
-                <Col size={'md-4'} >
+              
+                <Col size={'md-12'} >
                     <Row>
                         <div className={'mt-5'}>
                         <h5 style={text}>
@@ -34,13 +34,15 @@ export default function SignIn() {
                     </Row>
                     <Row >
                     <form onSubmit={handleSubmit} className={'card-body'}>
-                        <div className={'form-group'}>
+                        <div className={'form-group usr-inpt'}>
                             <label>Email:</label>
+                            <span className="fa fa-user"/>
                             <Input  onChange={onInputChange}
-                            name="email" type="email" placeholder="E-mail address"/>
+                            name="email" type="email" placeholder="E-mail address"/>                     
                         </div>
-                        <div className={'form-group'}>
+                        <div className={'form-group usr-inpt'}>
                             <label>Password:</label>
+                            <span className="fa fa-lock"/>
                             <Input  onChange={onInputChange}
                             name="password" type="password" placeholder="Password"/>
                         </div>
@@ -53,7 +55,7 @@ export default function SignIn() {
                         </p>
                     </Row>
                 </Col>
-                <Col size={'md-4'} ></Col>
+               
             </Row>
         </Container>
     )
