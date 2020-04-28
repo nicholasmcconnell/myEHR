@@ -11,7 +11,12 @@ export default {
     getDrugInfo: function () {
         return axios.get(`https://www.dictionaryapi.com/api/v3/references/medical/json/cetirizine?key=${apiKey}`);
     },
-    getUsers: function () {
+     
+    fetchUser: function () {
+        return {email: 'example@example.com', _id:'123456789'}
+    },
+
+    fetchAccount: function () {
         return {
             id: "67",
             firstName: "Eddie",

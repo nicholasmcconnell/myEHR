@@ -10,7 +10,6 @@ export default function Profiles({name}) {
             <div className="card-body text-center">
                 <h2 className="card-title">{name}</h2>
                 <p className="card-text"> Access First_Name's information here</p>
-                
             </div>
             </div>
         </Link>
