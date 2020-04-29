@@ -4,9 +4,29 @@ import { ContactInfo } from '../../components/ContactInfo';
 
 export default function UserInfo() {
 
-    const [generalInfo, setGeneralInfo] = useState([]),
-        [editGenState, setGenState ]= useState(false);
+    const [generalInfo, setGeneralInfo] = useState({
+        first_name: 'Anne',
+        last_name: 'Frank',
+        nickname: 'Mrs. Quack',
+        address_one: '555 Somewhere',
+        address_two: 'Apt 7',
+        city: 'Frankfurt',
+        state: 'Darmstadt',
+        zip: '12345',
+        country: 'Germany',
+        phone: '(264) 224-1234',
+        email: 'quacky123@gmail.com'
+    }),
+        [editGenState, setGenState ]= useState(false),
     
+
+
+    onGenInfoInputChange = e => {
+        const { name, value } = e.target;
+        setGeneralInfo({...generalInfo, [name]: value })
+    }
+
+
     return (
         <Container classes={'mt-5'}>
             <Row>
@@ -14,6 +34,8 @@ export default function UserInfo() {
                     <ContactInfo 
                         toggleState={() => setGenState(!editGenState)} 
                         editState={editGenState} 
+                        data={generalInfo}
+                        target={onGenInfoInputChange}
                         />
                 </Col>
            </Row>
