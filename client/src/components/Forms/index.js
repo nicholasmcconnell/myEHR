@@ -15,6 +15,8 @@ export function TextArea(props) {
 
 export function Button(props) {
     return (
-        <button {...props} />
+        <button {...props} >
+          {props.children}
+        </button>
     );
   }

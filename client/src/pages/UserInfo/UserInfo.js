@@ -4,12 +4,17 @@ import { ContactInfo } from '../../components/ContactInfo';
 
 export default function UserInfo() {
 
+    const [generalInfo, setGeneralInfo] = useState([]),
+        [editGenState, setGenState ]= useState(false);
     
     return (
-        <Container>
+        <Container classes={'mt-5'}>
             <Row>
                 <Col size={'md-8'} classes={'offset-md-2'}>
-                    <ContactInfo />
+                    <ContactInfo 
+                        toggleState={() => setGenState(!editGenState)} 
+                        editState={editGenState} 
+                        />
                 </Col>
            </Row>
         </Container>

@@ -1,60 +1,64 @@
 import React from 'react'
 import { Container, Row, Col } from '../Grid';
-import {Input } from '../Forms';
+import { Input, Button } from '../Forms';
 
 
 export function ContactInfo(props) {
 
 if (props.editState) {
     return (
-      <Container>
+      <Container classes={'mt-5'}>
+          <Col size={'md-12'}>
+                <i className="fas fa-times-circle fa-3x" style={cancelBtn} 
+                onClick={props.toggleState} />
+            </Col>
             <form>
                 <div className={"form-row"}>
                     <Col size={'md-4'} classes={'form-group'}>
-                        <label for="">First Name</label>
+                        <label>First Name</label>
                         <Input type="text" name="first_name"/>
                     </Col>
                     <Col size={'md-4'} classes={'form-group'}>
-                        <label for="">Last Name</label>
+                        <label>Last Name</label>
                         <Input type="text" name="last_name"/>
                     </Col>
                     <Col size={'md-4'} classes={'form-group'}>
-                        <label for="">Nickname</label>
+                        <label>Nickname</label>
                         <Input type="text" name="nickname" 
                         placeholder={"e.g. \'Mom\'"} />
                     </Col>
                 </div>
                 <div className="form-row">
                     <Col size={'md-6'} classes={'form-group'}>
-                        <label for="">Address line 1</label>
+                        <label>Address Line 1</label>
                         <Input type="text" name="address_one" />
                     </Col>
                     <Col size={'md-6'} classes={'form-group'}>
-                        <label for="">Address line 2</label>
+                        <label>Address Line 2</label>
                         <Input type="text" name="address_two" />
                     </Col>
                 </div>
                 <div className="form-row">
                     <Col size={'md-3'} classes={'form-group'}>
-                        <label for="">City</label>
+                        <label>City</label>
                         <Input type="text" name="city" />
                     </Col>
                     <Col size={'md-3'} classes={'form-group'}>
-                        <label for="">State/Providence</label>
+                        <label>State/Providence</label>
                         <Input type="text" name="state" />
                     </Col>
                     <Col size={'md-3'} classes={'form-group'}>
-                        <label for="">Zip/Postal Code</label>
+                        <label>Zip/Postal Code</label>
                         <Input type="text" name="zip" />
                     </Col>
                     <Col size={'md-3'} classes={'form-group'}>
-                        <label for="">Country</label>
+                        <label>Country</label>
                         <Input type="text" name="country" />
                     </Col>
                 </div>
                     <div className="form-row">
                     <Col size={'md-4'} classes={'form-group'}>
-                        <label for="">Phone Number</label>
+                        <label>Phone Number</label>
                         <Input type="text" name="phone" />
                     </Col>
                     </div>
@@ -63,53 +67,57 @@ if (props.editState) {
     )
     } else {
         return (
-            <Container>
+            <Container classes={'mt-5'}>
+                <Col size={'md-12'}>
+                <i className="fa fa-edit fa-3x" style={editBtn} 
+                    onClick={props.toggleState} />
+                </Col>
             <form>
                 <div className={"form-row"}>
                     <Col size={'md-4'} classes={'form-group'}>
-                        <label for="">First Name</label>
+                        <label>First Name:</label>
                         <div style={fieldText}>Anne</div>
                     </Col>
                     <Col size={'md-4'} classes={'form-group'}>
-                        <label for="">Last Name</label>
+                        <label>Last Name:</label>
                         <div style={fieldText}>Frank</div>
                     </Col>
                     <Col size={'md-4'} classes={'form-group'}>
-                        <label for="">Nickname</label>
+                        <label>Nickname:</label>
                         <div style={fieldText}>Mrs. Quack</div>
                     </Col>
                 </div>
                 <div className="form-row">
                     <Col size={'md-6'} classes={'form-group'}>
-                        <label for="">Address line 1</label>
+                        <label>Address line 1:</label>
                         <div style={fieldText}>555 Somewhere</div>
                     </Col>
                     <Col size={'md-6'} classes={'form-group'}>
-                        <label for="">Address line 2</label>
+                        <label>Address line 2:</label>
                         <div style={fieldText}></div>
                     </Col>
                 </div>
                 <div className="form-row">
                     <Col size={'md-3'} classes={'form-group'}>
-                        <label for="">City</label>
-                        <div style={fieldText}>Frankfurt</div>
+                        <label>City:</label>
+                        <div style={fieldText}>Frankfurt:</div>
                     </Col>
                     <Col size={'md-3'} classes={'form-group'}>
-                        <label for="">State/Providence</label>
+                        <label>State/Providence:</label>
                         <div style={fieldText}>Bergen-Belsen</div>
                     </Col>
                     <Col size={'md-3'} classes={'form-group'}>
-                        <label for="">Zip/Postal Code</label>
+                        <label>Zip/Postal Code:</label>
                         <div style={fieldText}>12345</div>
                     </Col>
                     <Col size={'md-3'} classes={'form-group'}>
-                        <label for="">Country</label>
+                        <label>Country:</label>
                         <div style={fieldText}>Germany</div>
                     </Col>
                 </div>
                     <div className="form-row">
                     <Col size={'md-4'} classes={'form-group'}>
-                        <label for="">Phone Number</label>
+                        <label>Phone Number:</label>
                         <div style={fieldText}>(264)224-1234</div>
                     </Col>
                     </div>
@@ -122,6 +130,17 @@ if (props.editState) {
 const fieldText = {
     fontStyle: 'italic',
     fontWeight: '1000',
-    fontSize: '120%',
-    padding: '10px'
+    fontSize: '100%',
+    padding: '10px',
+    paddingLeft: '0'
+},
+editBtn = {
+    float: 'right',
+    marginBottom: '0',
+    color: 'green'
+},
+cancelBtn = {
+    float: 'right',
+    marginBottom: '0',
+    color: 'red'
 }
