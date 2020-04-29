@@ -9,58 +9,65 @@ if (props.editState) {
     return (
       <Container classes={'mt-5'}>
           <Col size={'md-12'}>
-                <i className="fas fa-times-circle fa-3x" style={cancelBtn} 
+                <i className="fas fa-backspace fa-3x" style={cancelBtn} 
                 onClick={props.toggleState} />
             </Col>
             <form>
                 <div className={"form-row"}>
                     <Col size={'md-4'} classes={'form-group'}>
                         <label>First Name</label>
-                        <Input type="text" name="first_name"/>
+                        <Input value="Anne" name="first_name"/>
                     </Col>
                     <Col size={'md-4'} classes={'form-group'}>
                         <label>Last Name</label>
-                        <Input type="text" name="last_name"/>
+                        <Input value="Frank" name="last_name"/>
                     </Col>
                     <Col size={'md-4'} classes={'form-group'}>
                         <label>Nickname</label>
-                        <Input type="text" name="nickname" 
+                        <Input value="Mrs. Quack" name="nickname" 
                         placeholder={"e.g. \'Mom\'"} />
                     </Col>
                 </div>
                 <div className="form-row">
                     <Col size={'md-6'} classes={'form-group'}>
                         <label>Address Line 1</label>
-                        <Input type="text" name="address_one" />
+                        <Input value="555 Somewhere" name="address_one" />
                     </Col>
                     <Col size={'md-6'} classes={'form-group'}>
                         <label>Address Line 2</label>
-                        <Input type="text" name="address_two" />
+                        <Input value="Apt-7" name="address_two" />
                     </Col>
                 </div>
                 <div className="form-row">
                     <Col size={'md-3'} classes={'form-group'}>
                         <label>City</label>
-                        <Input type="text" name="city" />
+                        <Input value="Frankfurt" name="city" />
                     </Col>
                     <Col size={'md-3'} classes={'form-group'}>
                         <label>State/Providence</label>
-                        <Input type="text" name="state" />
+                        <Input value="Bergen-Belsen" name="state" />
                     </Col>
                     <Col size={'md-3'} classes={'form-group'}>
                         <label>Zip/Postal Code</label>
-                        <Input type="text" name="zip" />
+                        <Input value="12345" name="zip" />
                     </Col>
                     <Col size={'md-3'} classes={'form-group'}>
                         <label>Country</label>
-                        <Input type="text" name="country" />
+                        <Input value="Germany" name="country" />
                     </Col>
                 </div>
                     <div className="form-row">
                     <Col size={'md-4'} classes={'form-group'}>
                         <label>Phone Number</label>
-                        <Input type="text" name="phone" />
+                        <Input value="(264)224-1234" name="phone" />
                     </Col>
+                <Col size={'md-12'}>
+                <Button className="btn btn-success" style={updtBtn} 
+                    onClick={props.toggleState} >
+                        <i class="fas fa-sync-alt fa-2x"/> {' '}  
+                        update 
+                    </Button>
+                </Col>
                     </div>
             </form>
         </Container>
@@ -69,7 +76,7 @@ if (props.editState) {
         return (
             <Container classes={'mt-5'}>
                 <Col size={'md-12'}>
-                <i className="fa fa-edit fa-3x" style={editBtn} 
+                <i className="fa fa-user-edit fa-3x" style={editBtn} 
                     onClick={props.toggleState} />
                 </Col>
             <form>
@@ -142,5 +149,10 @@ editBtn = {
 cancelBtn = {
     float: 'right',
     marginBottom: '0',
-    color: 'red'
+    color: 'tomato'
+},
+updtBtn = {
+    float: 'right',
+    marginBottom: '0',
+    backgroundColor: '#214c91'
 }
