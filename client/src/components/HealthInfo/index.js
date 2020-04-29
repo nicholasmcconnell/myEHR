@@ -38,13 +38,14 @@ if (!editState) {
                     <Col size={'md-4'} classes={'form-group'}>
                         <label>Age</label>
                         <div style={fieldText}>
-                            {getAge(data.dob)}
-                            </div>
+                            {getAge('06/12/1929')}
+                        </div>
                     </Col>
                     <Col size={'md-4'} classes={'form-group'}>
                         <label>Blood Type</label>
                         <select id="" class="form-control">
-                            <BloodTypes bloodType={'A-negative'} />
+                            <BloodTypes bloodType={'A-negative'} 
+                            />
                         </select>
                     </Col>
                 </div>
@@ -54,7 +55,8 @@ if (!editState) {
                         <Input value={data.address_one} name="address_one"
                         style={input}
                         onChange={target} 
-                        />                    </Col>
+                        />                    
+                    </Col>
                     <Col size={'md-6'} classes={'form-group'}>
                         <label>Address Line 2</label>
                         <Input value={data.address_two} name="address_two"
