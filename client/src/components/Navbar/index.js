@@ -44,12 +44,12 @@ export default function navBar() {
               </ul>
                 <div>
                     <Link to='/signin' >
-                        <Button classes={'btn btn-outline-primary m-2'} type='button'>
+                        <Button className={'btn btn-outline-primary m-2'} type='button'>
                             Log In
                          </Button>
                     </Link>
                     <Link to='/signup' >
-                        <Button classes={'btn btn-outline-primary m-2'} type='button'>
+                        <Button className={'btn btn-outline-primary m-2'} type='button'>
                             Sign Up
                          </Button>
                     </Link>
