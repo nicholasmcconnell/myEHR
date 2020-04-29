@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Container, Row, Col } from '../../components/Grid';
 import { ContactInfo } from '../../components/ContactInfo';
+import API from '../../utils/API';
 
-export default function UserInfo() {
+export default function UserInfo({ usrId }) {
 
     const [generalInfo, setGeneralInfo] = useState({
         first_name: 'Anne',
@@ -24,7 +25,18 @@ export default function UserInfo() {
     onGenInfoInputChange = e => {
         const { name, value } = e.target;
         setGeneralInfo({...generalInfo, [name]: value })
-    }
+    }, 
+    updateGenInfo = e => {
+        e.preventDefault()
+          API.updatePatientInfo(usrId, generalInfo)
+          .then( data => {
+              if (data.status === 'success') {
+                console.log('Updated record!', 'green')
+             } else  {
+                console.log('Fail to update record.', 'red')
+             }  
+          })
+    };
 
 
     return (
@@ -36,6 +48,7 @@ export default function UserInfo() {
                         editState={editGenState} 
                         data={generalInfo}
                         target={onGenInfoInputChange}
+                        formSubmit={updateGenInfo}
                         />
                 </Col>
            </Row>

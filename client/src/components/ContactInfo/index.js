@@ -1,18 +1,18 @@
 import React from 'react'
-import { Container, Col } from '../Grid';
+import { Col } from '../Grid';
 import { Input, Button } from '../Forms';
 
 
-export function ContactInfo({ data, target, editState, toggleState }) {
+export function ContactInfo({ data, target, editState, toggleState, formSubmit }) {
 
 if (editState) {
     return (
-      <Container classes={'mt-5'}>
+        <div className={'mt-5'}>
           <Col size={'md-12'}>
-                <i className="fas fa-backspace fa-3x" style={cancelBtn} 
+                <Button className="fas fa-backspace fa-3x" style={cancelBtn} 
                 onClick={toggleState} />
             </Col>
-            <form>
+            <form onSubmit={formSubmit} >
                 <div className={"form-row"}>
                     <Col size={'md-4'} classes={'form-group'}>
                         <label>First Name</label>
@@ -99,20 +99,19 @@ if (editState) {
                     </Col>
                     </div>
                 <Col size={'md-12'}>
-                <Button className="btn btn-success" style={updtBtn} 
-                    onClick={toggleState} >
-                        <i class="fas fa-sync-alt fa-2x"/> {' '}  
-                        update 
+                <Button className="btn" style={updtBtn} 
+                    type="submit" > <i className="fas fa-sync-alt fa-2x"/> {' '}  
+                        {' '} update 
                     </Button>
                 </Col>
             </form>
-        </Container>
+        </div>
     )
     } else {
         return (
-            <Container classes={'mt-5'}>
+            <div className={'mt-5'}>
                 <Col size={'md-12'}>
-                <i className="fa fa-user-edit fa-3x" style={editBtn} 
+                <Button className="fa fa-user-edit fa-3x" style={editBtn} 
                     onClick={toggleState} />
                 </Col>
             <form>
@@ -158,7 +157,7 @@ if (editState) {
                         <div style={fieldText}>{data.country}</div>
                     </Col>
                 </div>
-                    <div className="form-row">
+                <div className="form-row">
                     <Col size={'md-4'} classes={'form-group'}>
                         <label>Phone Number:</label>
                         <div style={fieldText}>{data.phone}</div>
@@ -167,9 +166,9 @@ if (editState) {
                         <label>Email:</label>
                         <div style={fieldText}>{data.email}</div>
                     </Col>
-                    </div>
+                </div>
             </form>
-        </Container>
+         </div>
         )
     }
 }
@@ -184,18 +183,23 @@ const fieldText = {
 },
 editBtn = {
     float: 'right',
-    marginBottom: '0',
-    color: 'green'
+    border: 'none',
+    margin: '0',
+    color: 'green',
+    backgroundColor: 'white'
 },
 cancelBtn = {
     float: 'right',
-    marginBottom: '0',
-    color: 'tomato'
+    border: 'none',
+    margin: '0',
+    color: 'tomato',
+    backgroundColor: 'white'
 },
 updtBtn = {
     float: 'right',
-    marginBottom: '0',
-    backgroundColor: '#214c91'
+    margin: '0',
+    backgroundColor: '#214c91',
+    color: 'white'
 },
 input = {
     borderBottom: '1px solid rgba(0, 0, 0, .2)',

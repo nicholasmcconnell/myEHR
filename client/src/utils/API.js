@@ -12,6 +12,13 @@ export default {
         return axios.get(`https://www.dictionaryapi.com/api/v3/references/medical/json/cetirizine?key=${apiKey}`);
     },
      
+    updatePatientInfo: function (id, data) {
+        
+        return new Promise((resolve, reject) => {
+            resolve({ status: 'success' })
+        });
+        //return axios.post(`/api/:${id}`, data)
+    },
     fetchUser: function () {
         return {email: 'example@example.com', _id:'123456789'}
     },
