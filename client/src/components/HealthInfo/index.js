@@ -19,7 +19,7 @@ export function HealthInfo({ data, target, editState, toggleState, formSubmit })
         return age;
     }
     
-if (editState) {
+if (!editState) {
     return (
         <div className={'mt-5'}>
           <Col size={'md-12'}>
@@ -43,11 +43,9 @@ if (editState) {
                     </Col>
                     <Col size={'md-4'} classes={'form-group'}>
                         <label>Blood Type</label>
-                        <Input value={data.blood_type} name="nickname"
-                        style={input}
-                        placeholder={"e.g. 'Mom'"} 
-                        onChange={target} 
-                        />
+                        <select id="" class="form-control">
+                            <BloodTypes bloodType={'A-negative'} />
+                        </select>
                     </Col>
                 </div>
                 <div className="form-row">
@@ -123,18 +121,43 @@ if (editState) {
     }
 }
 
-function boodTypes() {
-  return (
-    <select id="" class="form-control">
-        <option selected>Choose...</option>
-        <option>A-positive</option>
-        <option>A-negative</option>
-        <option>B-positive</option>
-        <option>B-negative</option>
-        <option>AB-positive</option>
-        <option>AB-negative</option>
-        <option>O-positive</option>
-        <option>O-negative</option>
-    </select>
-  )
+const BloodTypes = ({ bloodType }) => {
+    
+    const types = ['Unknown', 'A-positive', 'A-negative', 'B-positive', 'B-negative', 'AB-positive', 'AB-negative', 'O-positive', 'O-negative']
+
+return types.map( type => type === bloodType ? <option selected>{bloodType}</option> : <option>{type}</option>)
  }
+
+
+const fieldText = {
+    fontStyle: 'italic',
+    fontWeight: '1000',
+    fontSize: '100%',
+    padding: '10px',
+    paddingLeft: '0',
+    color: 'black'
+},
+editBtn = {
+    float: 'right',
+    border: 'none',
+    margin: '0',
+    color: 'green',
+    backgroundColor: 'white'
+},
+cancelBtn = {
+    float: 'right',
+    border: 'none',
+    margin: '0',
+    color: 'tomato',
+    backgroundColor: 'white'
+},
+updtBtn = {
+    float: 'right',
+    margin: '0',
+    backgroundColor: '#214c91',
+    color: 'white'
+},
+input = {
+    borderBottom: '1px solid rgba(0, 0, 0, .2)',
+    transition: 'all 0.30s ease-in-out'
+}

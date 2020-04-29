@@ -51,7 +51,9 @@ export default function UserInfo({ usrId }) {
                         target={onGenInfoInputChange}
                         formSubmit={updateGenInfo}
                         />
-                    {/* <HealthInfo /> */}
+                    <HealthInfo 
+                    data={generalInfo}
+                    />
                 </Col>
            </Row>
         </Container>
