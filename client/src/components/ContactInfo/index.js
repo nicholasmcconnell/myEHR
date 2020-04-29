@@ -9,7 +9,7 @@ if (editState) {
     return (
         <div className={'mt-5'}>
           <Col size={'md-12'}>
-                <Button className="fas fa-backspace fa-3x" style={cancelBtn} 
+                <Button className="fas fa-backspace fa-2x" style={cancelBtn} 
                 onClick={toggleState} />
             </Col>
             <form onSubmit={formSubmit} >
@@ -111,7 +111,7 @@ if (editState) {
         return (
             <div className={'mt-5'}>
                 <Col size={'md-12'}>
-                <Button className="fa fa-user-edit fa-3x" style={editBtn} 
+                <Button className="fas fa-user-edit fa-2x" style={editBtn} 
                     onClick={toggleState} />
                 </Col>
             <form>

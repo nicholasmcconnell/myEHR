@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Row, Col } from '../../components/Grid';
 import { ContactInfo } from '../../components/ContactInfo';
+import { HealthInfo } from '../../components/HealthInfo';
 import API from '../../utils/API';
 
 export default function UserInfo({ usrId }) {
@@ -40,8 +41,8 @@ export default function UserInfo({ usrId }) {
 
 
     return (
-        <Container classes={'mt-5'}>
-            <Row>
+        <Container>
+            <Row classes={'my-5'}>
                 <Col size={'md-8'} classes={'offset-md-2'}>
                     <ContactInfo 
                         toggleState={() => setGenState(!editGenState)} 
@@ -50,6 +51,7 @@ export default function UserInfo({ usrId }) {
                         target={onGenInfoInputChange}
                         formSubmit={updateGenInfo}
                         />
+                    {/* <HealthInfo /> */}
                 </Col>
            </Row>
         </Container>
