@@ -29,3 +29,13 @@
 button:focus {
   outline: none;
 }
+
+/* Used to show the edit buttons on form hover */
+
+.gen-info:hover .fa-user-edit {
+  color: green !important;
+}
+
+.health-info:hover .fa-user-edit {
+  color: green !important;
+}

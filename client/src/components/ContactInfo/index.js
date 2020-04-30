@@ -1,5 +1,5 @@
 import React from 'react'
-import { Col } from '../Grid';
+import { Col, Row } from '../Grid';
 import { Input, Button } from '../Forms';
 
 
@@ -100,7 +100,7 @@ if (editState) {
                     </div>
                 <Col size={'md-12'}>
                 <Button className="btn" style={updtBtn} 
-                    type="submit" > <i className="fas fa-sync-alt fa-2x"/> {' '}  
+                    type="submit" > <i className="fas fa-sync-alt fa-2x mr-2"/> {' '}  
                         {' '} update 
                     </Button>
                 </Col>
@@ -109,10 +109,11 @@ if (editState) {
     )
     } else {
         return (
-            <div className={'mt-5'}>
-                <Col size={'md-12'}>
-                <Button className="fas fa-user-edit fa-2x" style={editBtn} 
-                    onClick={toggleState} />
+            <div className={'mt-5 gen-info'}>
+                <Col size={'md-12'} classes={'gen-edit'}>
+                    <Button className="fas fa-user-edit fa-2x" style={editBtn} 
+                        onClick={toggleState} 
+                    />   
                 </Col>
             <form>
                 <div className={"form-row"}>
@@ -185,7 +186,7 @@ editBtn = {
     float: 'right',
     border: 'none',
     margin: '0',
-    color: 'green',
+    color: 'white',
     backgroundColor: 'white'
 },
 cancelBtn = {
