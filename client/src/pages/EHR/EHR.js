@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Row, Col } from '../../components/Grid';
-import { input, Input } from '../../components/Forms';
+import { Input } from '../../components/Forms';
 import { ContactCard } from '../../components/ContactCard';
 import { HealthCard } from '../../components/HealthCard';
+import { Conditions } from '../../components/Conditions';
 import API from '../../utils/API';
 
 export default function EHR({ usrId }) {
@@ -33,6 +34,7 @@ export default function EHR({ usrId }) {
     }),
         [ editGenState, setGenState ]= useState(false),
         [ editHealthState, setHealthState ]= useState(false),
+        [ editConditState, setConditState ]= useState(false),
         [ conditions, setConditions ]= useState({}),
         [ conditionSearch, setConditionSearch ]= useState('');
     
@@ -102,7 +104,13 @@ export default function EHR({ usrId }) {
            </Row>
            <Row classes={'my-5'}>
                 <Col size={'md-8'} classes={'offset-md-2'}>
-                <Input onChange={onConditionSearchChange} name="conditionSearch" />
+                    <Conditions
+                        toggleState={() => setConditState(!editConditState)}
+                        editState={editConditState} 
+                        target={onConditionSearchChange}
+                        formSubmit={updateDB}
+                      />
+                {/* <Input onChange={onConditionSearchChange} name="conditionSearch" /> */}
                 </Col>
            </Row>
         </Container>

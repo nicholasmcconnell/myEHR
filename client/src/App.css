@@ -39,3 +39,7 @@ button:focus {
 .health-info:hover .fa-user-edit {
   color: green !important;
 }
+
+.condition-info:hover .fa-user-edit {
+  color: green !important;
+}

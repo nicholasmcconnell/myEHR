@@ -13,7 +13,8 @@ export default {
     },
 
     getCondition: function ({ conditionSearch }) {
-        return axios.get(`https://clinicaltables.nlm.nih.gov/api/conditions/v3/search?terms=${conditionSearch}&sf=consumer_name&df=consumer_name`);
+        return axios.get(`https://clinicaltables.nlm.nih.gov/api/conditions/v3/search?terms=${conditionSearch}&sf=primary_name,consumer_name&df=primary_name,consumer_name,info_link_data`)
+        .catch( err => console.log(err))
     },
      
     updateEHR: function (id, data) {
