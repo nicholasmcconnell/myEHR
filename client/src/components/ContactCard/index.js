@@ -3,7 +3,7 @@ import { Col, Row } from '../Grid';
 import { Input, Button } from '../Forms';
 
 
-export function ContactInfo({ data, target, editState, toggleState, formSubmit }) {
+export function ContactCard({ data, target, editState, toggleState, formSubmit }) {
 
 if (editState) {
     return (

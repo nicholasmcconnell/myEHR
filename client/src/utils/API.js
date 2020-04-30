@@ -11,8 +11,12 @@ export default {
     getDrugInfo: function () {
         return axios.get(`https://www.dictionaryapi.com/api/v3/references/medical/json/cetirizine?key=${apiKey}`);
     },
+
+    getCondition: function ({ conditionSearch }) {
+        return axios.get(`https://clinicaltables.nlm.nih.gov/api/conditions/v3/search?terms=${conditionSearch}&sf=consumer_name&df=consumer_name`);
+    },
      
-    updatePatientInfo: function (id, data) {
+    updateEHR: function (id, data) {
         
         return new Promise((resolve, reject) => {
             resolve({ status: 'success' })

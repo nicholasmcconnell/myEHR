@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Row, Col } from '../../components/Grid';
-import { ContactInfo } from '../../components/ContactInfo';
-import { HealthInfo } from '../../components/HealthInfo';
+import { input, Input } from '../../components/Forms';
+import { ContactCard } from '../../components/ContactCard';
+import { HealthCard } from '../../components/HealthCard';
 import API from '../../utils/API';
 
-export default function UserInfo({ usrId }) {
+export default function EHR({ usrId }) {
 
-    const [generalInfo, setGeneralInfo] = useState({
+    const [ generalInfo, setGeneralInfo ] = useState({
         first_name: 'Anne',
         last_name: 'Frank',
         nickname: 'Mrs. Quack',
@@ -19,7 +20,7 @@ export default function UserInfo({ usrId }) {
         phone: '(264) 224-1234',
         email: 'quacky123@gmail.com'
     }),
-     [healthInfo, setHealthInfo] = useState({
+     [ healthInfo, setHealthInfo ] = useState({
         dob: '06/12/1929',
         bloodType: 'A-Negative',
         insurance: 'Keystone POS Flex',
@@ -30,12 +31,16 @@ export default function UserInfo({ usrId }) {
         immunizations: 'HPV on 5/16/2018',
         notes: 'Breast Cancer!!  Patient likes talk a lot.',
     }),
-        [editGenState, setGenState ]= useState(false),
-        [editHealthState, setHealthState ]= useState(false),
+        [ editGenState, setGenState ]= useState(false),
+        [ editHealthState, setHealthState ]= useState(false),
+        [ conditions, setConditions ]= useState({}),
+        [ conditionSearch, setConditionSearch ]= useState('');
     
+    useEffect(() => {
+        searchCondition()
+    }, [conditionSearch])
 
-
-    onGenInfoInputChange = e => {
+    const onGenInfoInputChange = e => {
         const { name, value } = e.target;
         setGeneralInfo({...generalInfo, [name]: value })
     }, 
@@ -44,9 +49,15 @@ export default function UserInfo({ usrId }) {
         const { name, value } = e.target;
         setHealthInfo({...healthInfo, [name]: value })
     }, 
+
+    onConditionSearchChange = e => {
+        const { name, value } = e.target;
+        setConditionSearch({...conditionSearch, [name]: value })
+    }, 
+
     updateDB = e => {
         e.preventDefault()
-          API.updatePatientInfo(usrId, generalInfo)
+          API.updateEHR(usrId, generalInfo)
           .then( data => {
               if (data.status === 'success') {
                 console.log('Updated record!', 'green')
@@ -54,6 +65,14 @@ export default function UserInfo({ usrId }) {
                 console.log('Fail to update record.', 'red')
              }  
           })
+    },
+
+    searchCondition = async() => {
+        
+        const { data } = await API.getCondition(conditionSearch),
+           
+         results = data[3].map( x => x[0] );
+            console.log(results);
     };
 
 
@@ -61,7 +80,7 @@ export default function UserInfo({ usrId }) {
         <Container>
             <Row classes={'my-5'}>
                 <Col size={'md-8'} classes={'offset-md-2'}>
-                    <ContactInfo 
+                    <ContactCard
                         toggleState={() => setGenState(!editGenState)} 
                         editState={editGenState} 
                         data={generalInfo}
@@ -72,7 +91,7 @@ export default function UserInfo({ usrId }) {
            </Row>
             <Row classes={'my-5'}>
                 <Col size={'md-8'} classes={'offset-md-2'}>
-                    <HealthInfo 
+                    <HealthCard 
                         toggleState={() => setHealthState(!editHealthState)}
                         editState={editHealthState} 
                         data={healthInfo}
@@ -81,62 +100,12 @@ export default function UserInfo({ usrId }) {
                     />
                 </Col>
            </Row>
+           <Row classes={'my-5'}>
+                <Col size={'md-8'} classes={'offset-md-2'}>
+                <Input onChange={onConditionSearchChange} name="conditionSearch" />
+                </Col>
+           </Row>
         </Container>
     )
-
-    // return (
-    //     <Container>
-    //         <form>
-    //             <div class="form-row">
-    //                 <div class="form-group col-md-6">
-    //                 <label for="">First Name</label>
-    //                 <input type="" class="form-control" placeholder=""/>
-    //                 </div>
-    //                 <div class="form-group col-md-6">
-    //                 <label for="">Last Name</label>
-    //                 <input type="" class="form-control" placeholder=""/>
-    //                 </div>
-    //             </div>
-    //             <div class="form-group">
-    //                 <label for="inputAddress">Birthdate</label>
-    //                 <input type="text" class="form-control"  placeholder="mm/dd/yyyy"/>
-    //             </div>
-    //             <div class="form-group">
-    //                 <label for="">Blood Type</label>
-    //                 <select id="" class="form-control">
-    //                     <option selected>Choose...</option>
-    //                     <option>A-positive</option>
-    //                     <option>A-negative</option>
-    //                     <option>B-positive</option>
-    //                     <option>B-negative</option>
-    //                     <option>AB-positive</option>
-    //                     <option>AB-negative</option>
-    //                     <option>O-positive</option>
-    //                     <option>O-negative</option>
-    //                 </select>
-    //             </div>
-    //                 <div class="form-group">
-    //                     <label for="">Allergies</label>
-    //                     <textarea type="text" class="form-control" id=""/>
-    //                 </div>
-    //                 <div class="form-group">
-    //                     <label for="">Diagnoses</label>
-    //                     <textarea type="text" class="form-control" id=""/>
-    //                 </div>
-    //                 <div class="form-group">
-    //                     <label for="">Family History</label>
-    //                     <textarea type="text" class="form-control" id=""/>
-    //                 </div>
-    //                 <div class="form-group row">
-    //                     <div class="col-md-6">
-    //                         <button type="submit" class="btn btn-primary">Save</button>
-    //                     </div>
-    //                     <div class="col-md-6">
-    //                         <button type="" class="btn btn-primary">Delete</button>
-    //                     </div>
-    //                 </div>
-    //         </form>
-    //     </Container>
-    // )
 }
 

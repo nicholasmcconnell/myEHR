@@ -3,7 +3,7 @@ import { Col } from '../Grid';
 import { Input, Button, TextArea } from '../Forms';
 
 
-export function HealthInfo({ data, target, editState, toggleState, formSubmit }) {
+export function HealthCard({ data, target, editState, toggleState, formSubmit }) {
 
     const getAge = DOB => {
 
