@@ -19,7 +19,18 @@ export default function UserInfo({ usrId }) {
         phone: '(264) 224-1234',
         email: 'quacky123@gmail.com'
     }),
+     [healthInfo, setHealthInfo] = useState({
+        dob: '06/12/1929',
+        bloodType: 'A-Negative',
+        insurance: 'Keystone POS Flex',
+        insNumber: 'QCG130515482-01',
+        rxBin: '123456',
+        rxPcn: '060503900',
+        allergies: 'Peanuts, Shellfish, People',
+        immunizations: 'HPV on 5/16/2018',
+    }),
         [editGenState, setGenState ]= useState(false),
+        [editHealthState, setHealthState ]= useState(false),
     
 
 
@@ -27,7 +38,12 @@ export default function UserInfo({ usrId }) {
         const { name, value } = e.target;
         setGeneralInfo({...generalInfo, [name]: value })
     }, 
-    updateGenInfo = e => {
+
+    onHealthInfoInputChange = e => {
+        const { name, value } = e.target;
+        setHealthInfo({...healthInfo, [name]: value })
+    }, 
+    updateDB = e => {
         e.preventDefault()
           API.updatePatientInfo(usrId, generalInfo)
           .then( data => {
@@ -49,10 +65,18 @@ export default function UserInfo({ usrId }) {
                         editState={editGenState} 
                         data={generalInfo}
                         target={onGenInfoInputChange}
-                        formSubmit={updateGenInfo}
+                        formSubmit={updateDB}
                         />
+                </Col>
+           </Row>
+            <Row classes={'my-5'}>
+                <Col size={'md-8'} classes={'offset-md-2'}>
                     <HealthInfo 
-                    data={generalInfo}
+                        toggleState={() => setHealthState(!editHealthState)}
+                        editState={editHealthState} 
+                        data={healthInfo}
+                        target={onHealthInfoInputChange}
+                        formSubmit={updateDB}
                     />
                 </Col>
            </Row>
