@@ -24,5 +24,23 @@ export default {
                 date: "hey I got new meds today they are groovy - Pull new date"
             }]
         }
+    },
+
+    register: function(credentials) {
+        console.log("in API.register");
+        console.log(credentials);
+        const { email, password } = credentials
+        return axios.post('/api/authenticate/register', { email, password })
+    },
+
+    login: function(credentials) {
+        const { email, password } = credentials;
+        return axios.post('/api/authenticate/login', { email, password })
     }
+
+    // const foobar = await this.$axios.$post(endpoint, { data: { paramaters}, query: { token: 'JWT' } })
+    // localStorage.getItem('JWT')
+
+    //
+
 };

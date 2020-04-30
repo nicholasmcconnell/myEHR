@@ -40,8 +40,8 @@ mongoose.connect(
 
     }, { useUnifiedTopology: true });
 
-const userRouter = require('./routes/User');
-app.use('/user', userRouter)
+// const userRouter = require('./routes/User');
+app.use(routes)
 
 app.listen(PORT, function () {
     console.log(`🌎 ==> API server now on port ${PORT}!`);
