@@ -1,4 +1,4 @@
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css');
 
 .usr-inpt { position: relative; }
 .usr-inpt input { text-indent: 30px;}
@@ -24,4 +24,22 @@
 
 .box-shadow:hover, .box-shadow:focus {
   box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.16);
+}
+
+button:focus {
+  outline: none;
+}
+
+/* Used to show the edit buttons on form hover */
+
+.gen-info:hover .fa-user-edit {
+  color: green !important;
+}
+
+.health-info:hover .fa-user-edit {
+  color: green !important;
+}
+
+.condition-info:hover .fa-user-edit {
+  color: green !important;
 }

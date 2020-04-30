@@ -31,9 +31,9 @@ export default function navBar() {
                         profiles
                     </Link>    
                 </li>
-                <li className={pathname === "/medications" ? "nav-item active" : "nav-item"}>
-                    <Link to="/medications" className={'nav-link'}>
-                        medications
+                <li className={pathname === "/ehr" ? "nav-item active" : "nav-item"}>
+                    <Link to="/ehr" className={'nav-link'}>
+                        health record
                     </Link>    
                 </li>
                 <li className={pathname === "/contacts" ? "nav-item active" : "nav-item"}>
@@ -44,12 +44,12 @@ export default function navBar() {
               </ul>
                 <div>
                     <Link to='/signin' >
-                        <Button classes={'btn btn-outline-primary m-2'} type='button'>
+                        <Button className={'btn btn-outline-primary m-2'} type='button'>
                             Log In
                          </Button>
                     </Link>
                     <Link to='/signup' >
-                        <Button classes={'btn btn-outline-primary m-2'} type='button'>
+                        <Button className={'btn btn-outline-primary m-2'} type='button'>
                             Sign Up
                          </Button>
                     </Link>

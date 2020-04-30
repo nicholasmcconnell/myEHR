@@ -11,7 +11,24 @@ export default {
     getDrugInfo: function () {
         return axios.get(`https://www.dictionaryapi.com/api/v3/references/medical/json/cetirizine?key=${apiKey}`);
     },
-    getUsers: function () {
+
+    getCondition: function ({ conditionSearch }) {
+        return axios.get(`https://clinicaltables.nlm.nih.gov/api/conditions/v3/search?terms=${conditionSearch}&sf=primary_name,consumer_name&df=primary_name,consumer_name,info_link_data`)
+        .catch( err => console.log(err))
+    },
+     
+    updateEHR: function (id, data) {
+        
+        return new Promise((resolve, reject) => {
+            resolve({ status: 'success' })
+        });
+        //return axios.post(`/api/:${id}`, data)
+    },
+    fetchUser: function () {
+        return {email: 'example@example.com', _id:'123456789'}
+    },
+
+    fetchAccount: function () {
         return {
             id: "67",
             firstName: "Eddie",
@@ -37,10 +54,4 @@ export default {
         const { email, password } = credentials;
         return axios.post('/api/authenticate/login', { email, password })
     }
-
-    // const foobar = await this.$axios.$post(endpoint, { data: { paramaters}, query: { token: 'JWT' } })
-    // localStorage.getItem('JWT')
-
-    //
-
 };
