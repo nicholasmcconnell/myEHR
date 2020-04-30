@@ -31,9 +31,9 @@ export default function navBar() {
                         profiles
                     </Link>    
                 </li>
-                <li className={pathname === "/medications" ? "nav-item active" : "nav-item"}>
-                    <Link to="/medications" className={'nav-link'}>
-                        medications
+                <li className={pathname === "/ehr" ? "nav-item active" : "nav-item"}>
+                    <Link to="/ehr" className={'nav-link'}>
+                        health record
                     </Link>    
                 </li>
                 <li className={pathname === "/contacts" ? "nav-item active" : "nav-item"}>

@@ -28,6 +28,7 @@ export default function UserInfo({ usrId }) {
         rxPcn: '060503900',
         allergies: 'Peanuts, Shellfish, People',
         immunizations: 'HPV on 5/16/2018',
+        notes: 'Breast Cancer!!  Patient likes talk a lot.',
     }),
         [editGenState, setGenState ]= useState(false),
         [editHealthState, setHealthState ]= useState(false),

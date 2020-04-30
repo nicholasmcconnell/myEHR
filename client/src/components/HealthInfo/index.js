@@ -98,6 +98,15 @@ if (editState) {
                         />
                     </Col>
                 </div>
+                <div className="form-row">
+                    <Col size={'md-6'} classes={'form-group'}>
+                        <label>Family History & Other Notes</label>
+                        <TextArea value={data.notes} name="notes"
+                        style={input}
+                        onChange={target} 
+                        />
+                    </Col>
+                </div>
                 <Col size={'md-12'}>
                 <Button className="btn" style={updtBtn} 
                     type="submit" > <i className="fas fa-sync-alt fa-2x mr-2"/> {' '}  
@@ -159,6 +168,12 @@ if (editState) {
                     <Col size={'md-6'} classes={'form-group'}>
                         <label>Immunizations (include dates received):</label>
                         <div style={fieldText}>{data.immunizations}</div>
+                    </Col>
+                </div>
+                <div className="form-row">
+                    <Col size={'md-6'} classes={'form-group'}>
+                        <label>Family History & Other Notes:</label>
+                        <div style={fieldText}>{data.notes}</div>
                     </Col>
                 </div>
             </form>
