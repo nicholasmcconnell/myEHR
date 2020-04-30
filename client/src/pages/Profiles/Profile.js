@@ -16,7 +16,7 @@ export default function Profile() {
             </div>
             <br></br>
             <div>
-            <button type="button" class="btn" href='../UserInfo'>Add Profile</button>
+                <a class="btn btn-default" href="../UserInfo">Add Profile</a>
             </div>
             
         </Container>
