@@ -54,10 +54,4 @@ export default {
         const { email, password } = credentials;
         return axios.post('/api/authenticate/login', { email, password })
     }
-
-    // const foobar = await this.$axios.$post(endpoint, { data: { paramaters}, query: { token: 'JWT' } })
-    // localStorage.getItem('JWT')
-
-    //
-
 };
