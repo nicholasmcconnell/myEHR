@@ -2,20 +2,15 @@ const express = require("express");
 const router = express.Router();
 const Profile = require("../../models/Profile");
 
-
-// router.get("/profiles", (req, res) => {
-//     res.send("hit")
-// });
-
-//gets all the profiles
-// router.get('/', async(req, res) => {
-//     try {
-//         const profiles = await Profile.find();
-//         res.json(profiles);
-//     } catch (err) {
-//         res.json({ message: err });
-//     }
-// });
+// gets all the profiles
+router.get('/', async(req, res) => {
+    try {
+        const profiles = await Profile.find();
+        res.json(profiles);
+    } catch (err) {
+        res.json({ message: err });
+    }
+});
 
 // router.post("/", (req, res) => {
 //     const profile = new Profile({
