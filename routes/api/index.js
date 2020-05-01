@@ -1,15 +1,8 @@
 const router = require("express").Router();
-const medicationRoutes = require("./medications");
 const authenticateRoutes = require('./authenticate')
+const profileRoutes = require("./profiles");
 
-console.log("in routes/index/")
-
-router.use("/medications", medicationRoutes);
 router.use("/authenticate", authenticateRoutes);
-
-// router.use((req, res) => {
-//     console.log("route hit: root in routes/api/index")
-//     res.send("hello root route in routes/api/index")
-// })
+router.use("/profiles", profileRoutes);
 
 module.exports = router;

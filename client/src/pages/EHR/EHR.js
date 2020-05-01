@@ -9,28 +9,28 @@ import API from '../../utils/API';
 export default function EHR({ usrId }) {
 
     const [ generalInfo, setGeneralInfo ] = useState({
-        first_name: 'Anne',
-        last_name: 'Frank',
-        nickname: 'Mrs. Quack',
-        address_one: '555 Somewhere',
-        address_two: 'Apt 7',
-        city: 'Frankfurt',
-        state: 'Darmstadt',
-        zip: '12345',
-        country: 'Germany',
-        phone: '(264) 224-1234',
-        email: 'quacky123@gmail.com'
+        // first_name: 'Anne',
+        // last_name: 'Frank',
+        // nickname: 'Mrs. Quack',
+        // address_one: '555 Somewhere',
+        // address_two: 'Apt 7',
+        // city: 'Frankfurt',
+        // state: 'Darmstadt',
+        // zip: '12345',
+        // country: 'Germany',
+        // phone: '(264) 224-1234',
+        // email: 'quacky123@gmail.com'
     }),
      [ healthInfo, setHealthInfo ] = useState({
-        dob: '06/12/1929',
-        bloodType: 'A-Negative',
-        insurance: 'Keystone POS Flex',
-        insNumber: 'QCG130515482-01',
-        rxBin: '123456',
-        rxPcn: '060503900',
-        allergies: 'Peanuts, Shellfish, People',
-        immunizations: 'HPV on 5/16/2018',
-        notes: 'Breast Cancer!!  Patient likes talk a lot.',
+        // dob: '06/12/1929',
+        // bloodType: 'A-Negative',
+        // insurance: 'Keystone POS Flex',
+        // insNumber: 'QCG130515482-01',
+        // rxBin: '123456',
+        // rxPcn: '060503900',
+        // allergies: 'Peanuts, Shellfish, People',
+        // immunizations: 'HPV on 5/16/2018',
+        // notes: 'Breast Cancer!!  Patient likes talk a lot.',
     }),
         [ editGenState, setGenState ]= useState(false),
         [ editHealthState, setHealthState ]= useState(false),
@@ -45,6 +45,7 @@ export default function EHR({ usrId }) {
     const onGenInfoInputChange = e => {
         const { name, value } = e.target;
         setGeneralInfo({...generalInfo, [name]: value })
+        loadProfiles();
     }, 
 
     onHealthInfoInputChange = e => {
@@ -77,6 +78,18 @@ export default function EHR({ usrId }) {
             console.log(results);
     };
 
+    useEffect(() => {
+        loadProfiles()
+    }, []);
+
+    function loadProfiles() {
+        API.fetchProfile()
+          .then(res => 
+            // setGeneralInfo(res.data)
+            console.log(res.data)
+          )
+          .catch(err => console.log(err));
+      };
 
     return (
         <Container>

@@ -1,33 +1,18 @@
 const express = require("express");
 const router = express.Router();
 const Profile = require("../../models/Profile");
+const userId = require("./authenticate");
 
 // gets all the profiles
-router.get('/', async(req, res) => {
+router.get('/load', async(req, res) => {
     try {
         const profiles = await Profile.find();
         res.json(profiles);
+        // console.log(userId._id);
     } catch (err) {
         res.json({ message: err });
     }
 });
-
-// router.post("/", (req, res) => {
-//     const profile = new Profile({
-//         firstName: req.body.firstName,
-//         lastName: req.body.lastName,
-//         birthday: req.body.birthday
-//     });
-//     //promise
-//     profile.save()
-//         .then(data => {
-//             res.json(data);
-//         })
-//         .catch(err => {
-//             res.json({ message: err });
-//         });
-// });
-
 
 //create new profile
 router.post("/add", async(req, res) => {
