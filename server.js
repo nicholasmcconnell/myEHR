@@ -18,15 +18,15 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // Connect to the Mongo DB
-mongoose.connect(
-    process.env.MONGODB_URI || "mongodb://user:password1@ds235378.mlab.com:35378/heroku_qnfh7s5r", { useNewUrlParser: true }, () => {}, { useUnifiedTopology: true });
+// mongoose.connect(
+//     process.env.MONGODB_URI || "mongodb://user:password1@ds235378.mlab.com:35378/heroku_qnfh7s5r", { useNewUrlParser: true }, () => {}, { useUnifiedTopology: true });
 
-// app.use(routes);
-const profileRoutes = require("./routes/api/profiles");
-app.use("/", profileRoutes);
+// // app.use(routes);
+// const profileRoutes = require("./routes/api/profiles");
+// app.use("/", profileRoutes);
 
-const authRoutes = require("./routes/api/authenticate");
-app.use("/", authRoutes);
+// const authRoutes = require("./routes/api/authenticate");
+// app.use("/", authRoutes);
 
 app.listen(PORT, function() {
     console.log(`🌎 ==> API server now on port ${PORT}!`);
