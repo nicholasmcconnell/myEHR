@@ -25,7 +25,7 @@ export default function Profile() {
 
     const getPatients = async () => {
         
-        const { data } = await API.fetchAccount()
+        // const { data } = await API.fetchAccount()
 
             /* code here depends on schema but something like... */
             // const clients = data.patients;
