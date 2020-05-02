@@ -60,18 +60,17 @@ export function Conditions({ data, target, editState, toggleState, formSubmit, r
                         />
                 </label>
                 <form>
-                    <TextArea value={condition.description} name="desc"
+                    <textarea value={condition.description} name="desc"
                     rows={getRowHeight(condition.description)}
-                    style={input} 
+                    className={'form-control'}
+                    style={textarea} 
                     />
-                    </form>
+                </form>
             </Col>
          )
         )
      }
-     const getRowHeight = (text) =>  text.length > 250 ? text.length/100 : 3;
-     
-    
+     const getRowHeight = text =>  text.length > 250 ? text.length/80 : 3;
 
     if ((editState || data.length === 0) && !editDescState) {
         return (
@@ -173,10 +172,10 @@ const fieldText = {
 },
 
 textarea = {
-    height: '5px',
+
     resize: 'none',
-    overflow: 'hidden',
-    minHeight: '50px',
+
+    
     borderBottom: '1px solid rgba(0, 0, 0, .2)',
     transition: 'all 0.30s ease-in-out'
 },
