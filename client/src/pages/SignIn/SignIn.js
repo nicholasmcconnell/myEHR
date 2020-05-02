@@ -56,7 +56,7 @@ export default function SignIn() {
                                 <Input onChange={onInputChange}
                                     name="password" type="password" placeholder="Password" />
                             </div>
-                            <Button classes={'btn btn-primary btn-lg btn-block'} type="submit">Log In</Button>
+                            <Button className={'btn btn-primary btn-lg btn-block'} type="submit">Log In</Button>
                         </form>
                     </Row>
                     <Row classes={'justify-content-center'}>

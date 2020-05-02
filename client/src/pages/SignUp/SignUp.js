@@ -63,7 +63,7 @@ export default function SignUp() {
                                     name="passwordConfirm" type="passwordConfirm" placeholder="Confirm Password" />
                             </div> */}
                             <Button
-                                classes={'btn btn-primary btn-lg btn-block'}
+                                className={'btn btn-primary btn-lg btn-block'}
                                 type="submit"
                                >Sign Up</Button>
                         </form>

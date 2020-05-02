@@ -1,6 +1,7 @@
 import axios from "axios";
 require('dotenv').config();
 const apiKey = process.env.REACT_APP_API_KEY;
+// webstersKey = '6bbfacfd-a9a0-44da-a339-83be451e5de0'
 
 export default {
     getDrugs: function() {
@@ -11,8 +12,13 @@ export default {
         return axios.get(`https://www.dictionaryapi.com/api/v3/references/medical/json/cetirizine?key=${apiKey}`);
     },
 
-    getCondition: function({ conditionSearch }) {
+    getConditionNames: function(conditionSearch) {
         return axios.get(`https://clinicaltables.nlm.nih.gov/api/conditions/v3/search?terms=${conditionSearch}&sf=primary_name,consumer_name&df=primary_name,consumer_name,info_link_data`)
+            .catch(err => console.log(err))
+    },
+
+    getCondition: function() {
+        return axios.get(`https://www.dictionaryapi.com/api/v3/references/medical/json/hepatitis?key=${apiKey}`)
             .catch(err => console.log(err))
     },
 

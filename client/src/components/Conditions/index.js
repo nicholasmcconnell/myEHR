@@ -2,7 +2,7 @@ import React from 'react'
 import { Col } from '../Grid';
 import { Input, Button } from '../Forms';
 
-export function Conditions({ data, target, editState, toggleState, formSubmit }) {
+export function Conditions({ data, target, editState, toggleState, formSubmit, renderSuggestions, text }) {
 
     if (editState) {
         return (
@@ -15,10 +15,14 @@ export function Conditions({ data, target, editState, toggleState, formSubmit })
                  <div className="form-row" style={{background:'white'}}>
                     <Col size={'md-6'} classes={'form-group'}>
                         <label>Add New Condition</label>
-                        <Input name="conditionSearch"
-                        style={input}
-                        onChange={target} 
-                        />
+                        <div>
+                            <Input type="text"
+                            style={input}
+                            value={text}
+                            onChange={target} 
+                            />
+                            {renderSuggestions()}
+                        </div>
                     </Col>
                         <Col size={'md-3'}>
                         <Button className="btn" style={addBtn}

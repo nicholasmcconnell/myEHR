@@ -35,6 +35,7 @@ export default function EHR({ usrId }) {
         [ editGenState, setGenState ]= useState(false),
         [ editHealthState, setHealthState ]= useState(false),
         [ editConditState, setConditState ]= useState(false),
+        [ conditSuggestions, setConditSuggestions ]= useState([]),
         [ conditions, setConditions ]= useState({}),
         [ conditionSearch, setConditionSearch ]= useState('');
     
@@ -47,6 +48,41 @@ export default function EHR({ usrId }) {
         setGeneralInfo({...generalInfo, [name]: value })
         loadProfiles();
     }, 
+    
+    onConditInputChange = async e => {
+
+      const { value } = e.target,
+       items = await getConditionNames(value);
+      let suggestions = [];
+       
+      if (value.length > 0) {
+          const regex = new RegExp(`^${value}`, 'i');
+          suggestions = items.sort().filter( x => regex.test(x));
+        } 
+        setConditSuggestions({ suggestions, text: value })
+     },
+
+     getConditionNames = async(search) => {
+        const { data } = await API.getConditionNames(search);
+        return  data[3].map( x => x[0] );
+    },
+
+    selectSuggestedCondit = value => {
+        setConditSuggestions({ suggestions: [], text: value })
+    },
+
+    renderConditSuggestions = () => {
+        const { suggestions } = conditSuggestions;
+        
+        if (!suggestions || suggestions.length === 0) {
+            return;
+        }
+        return (
+            <ul>
+                {suggestions.map( (suggestion, i) => <li onClick={() => selectSuggestedCondit(suggestion)} key={i}>{suggestion}</li>)}
+            </ul>
+        )
+    },
 
     onHealthInfoInputChange = e => {
         const { name, value } = e.target;
@@ -70,13 +106,10 @@ export default function EHR({ usrId }) {
           })
     },
 
-    searchCondition = async() => {
-        
-        const { data } = await API.getCondition(conditionSearch),
-           
-         results = data[3].map( x => x[0] );
-            console.log(results);
-    };
+    searchCondition = async () =>  {
+        const items = await API.getCondition();
+    }
+
 
     useEffect(() => {
         loadProfiles()
@@ -120,7 +153,9 @@ export default function EHR({ usrId }) {
                     <Conditions
                         toggleState={() => setConditState(!editConditState)}
                         editState={editConditState} 
-                        target={onConditionSearchChange}
+                        target={onConditInputChange}
+                        renderSuggestions={renderConditSuggestions}
+                        text={conditSuggestions.text}
                         formSubmit={updateDB}
                       />
                 {/* <Input onChange={onConditionSearchChange} name="conditionSearch" /> */}
