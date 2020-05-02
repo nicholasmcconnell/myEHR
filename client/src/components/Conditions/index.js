@@ -1,10 +1,79 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Col } from '../Grid';
-import { Input, Button } from '../Forms';
+import { Input, Button, TextArea } from '../Forms';
 
-export function Conditions({ data, target, editState, toggleState, formSubmit, renderSuggestions, text }) {
 
-    if (editState) {
+
+export function Conditions({ data, target, editState, toggleState, formSubmit, renderSuggestions, text, toggleDescState, editDescState }) {
+
+    const renderConditions = conditions => {
+      return (
+          conditions.map( (condition, i) => 
+            <Col key={i} size={'md-12'} classes={'form-group'}>
+                <label style={fieldText}>
+                    {condition.name} 
+                    {' '}
+                    </label>
+                <div>
+                    {condition.description}
+                    </div>
+            </Col>
+         )
+        )
+     },
+
+    renderAddConditions = conditions => {
+      return (
+          conditions.map( (condition, i) => 
+            <Col key={i} size={'md-12'} classes={'form-group'}>
+                <label style={fieldText}>
+                    {condition.name} {' '}
+                    <Button className="fas fa-pen" style={{border:'none'}}
+                        onClick={toggleDescState}
+                        />
+                    <Button className="fas fa-times" style={removeBtn}
+                        onClick={toggleState}  
+                        />
+                    </label>
+                <div>
+                    {condition.description}
+                    </div>
+            </Col>
+         )
+        )
+     };
+    function renderEditConditions(conditions) {
+        console.log(conditions)
+      return (
+          conditions.map( (condition, i) => 
+            <Col key={i} size={'md-12'} classes={'form-group'}>
+                <label style={fieldText}>
+                    {condition.name} {' '}
+                    <Button className="fas fa-pen" style={{border:'none'}}
+                        onClick={toggleDescState.bind(this,i)} 
+                        />
+                    <Button className="fas fa-times" style={removeBtn}
+                        onClick={toggleState}  
+                        />
+                    <Button className="fas fa-sync-alt" style={littleEditBtn}
+                        onClick={toggleState}  
+                        />
+                </label>
+                <form>
+                    <TextArea value={condition.description} name="desc"
+                    rows={getRowHeight(condition.description)}
+                    style={input} 
+                    />
+                    </form>
+            </Col>
+         )
+        )
+     }
+     const getRowHeight = (text) =>  text.length > 250 ? text.length/100 : 3;
+     
+    
+
+    if ((editState || data.length === 0) && !editDescState) {
         return (
             <div className={'mt-5'}>
                 <Col size={'md-12'}>
@@ -32,23 +101,49 @@ export function Conditions({ data, target, editState, toggleState, formSubmit, r
                     </Col>
                 </div>
                 <div className={"form-row"}>
-                    <Col size={'md-12'} classes={'form-group'}>
-                        <label style={fieldText}>Heart Murmer:</label>
-                        <div >Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen book. It usually begins with:</div>
-                    </Col>
-                    <Col size={'md-12'} classes={'form-group'}>
-                        <label style={fieldText}>Diabetes:</label>
-                        <div> Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
-                    </Col>
-                    <Col size={'md-12'} classes={'form-group'}>
-                        <label style={fieldText}>The Giggles:</label>
-                        <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
-                    </Col>
+
+                    {renderAddConditions(data)}
+                    
                 </div>
             </form>
             </div>
         )
-        } else {
+        } else if (editDescState) {
+        return (
+            <div className={'mt-5'}>
+            <Col size={'md-12'}>
+                    <Button className="fas fa-backspace fa-2x" style={cancelBtn} 
+                    onClick={toggleState} />
+            </Col>
+            <form onSubmit={formSubmit} >
+                <div className="form-row" style={{background:'white'}}>
+                    <Col size={'md-6'} classes={'form-group'}>
+                        <label>Add New Condition</label>
+                        <div>
+                            <Input type="text"
+                            style={input}
+                            value={text}
+                            onChange={target} 
+                            />
+                            {renderSuggestions()}
+                        </div>
+                    </Col>
+                        <Col size={'md-3'}>
+                        <Button className="btn" style={addBtn}
+                        type="submit" > <i className="fa fa-plus fa-2x mr-2"/> 
+                            {' '} Add 
+                        </Button>
+                    </Col>
+            </div>
+                <div className={"form-row"}>
+                   
+                {renderEditConditions(data)}
+
+                </div>
+            </form>
+        </div>
+        )
+    } else {
         return (
         <div className={'mt-5 condition-info'}>
             <Col size={'md-12'} classes={'condition-edit'}>
@@ -58,18 +153,9 @@ export function Conditions({ data, target, editState, toggleState, formSubmit, r
             </Col>
             <form>
                 <div className={"form-row"}>
-                    <Col size={'md-12'} classes={'form-group'}>
-                        <label style={fieldText}>Heart Murmer:</label>
-                        <div >Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen book. It usually begins with:</div>
-                    </Col>
-                    <Col size={'md-12'} classes={'form-group'}>
-                        <label style={fieldText}>Diabetes:</label>
-                        <div> Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
-                    </Col>
-                    <Col size={'md-12'} classes={'form-group'}>
-                        <label style={fieldText}>The Giggles:</label>
-                        <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
-                    </Col>
+                   
+                {renderConditions(data)}
+
                 </div>
             </form>
         </div>
@@ -85,6 +171,21 @@ const fieldText = {
     paddingLeft: '0',
     color: 'black'
 },
+
+textarea = {
+    height: '5px',
+    resize: 'none',
+    overflow: 'hidden',
+    minHeight: '50px',
+    borderBottom: '1px solid rgba(0, 0, 0, .2)',
+    transition: 'all 0.30s ease-in-out'
+},
+
+input = {
+    borderBottom: '1px solid rgba(0, 0, 0, .2)',
+    transition: 'all 0.30s ease-in-out'
+},
+
 editBtn = {
     float: 'right',
     border: 'none',
@@ -102,9 +203,14 @@ cancelBtn = {
 addBtn = {
     marginTop: '30px',
     color: '#214c91',
+    focus: 'none',
     size: '10em'
 },
-input = {
-    borderBottom: '1px solid rgba(0, 0, 0, .2)',
-    transition: 'all 0.30s ease-in-out'
+littleEditBtn = {
+    border: 'none',
+    color: '#214c91'
+},
+removeBtn = {
+    border: 'none',
+    color: 'red'
 }

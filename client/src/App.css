@@ -43,3 +43,12 @@ button:focus {
 .condition-info:hover .fa-user-edit {
   color: green !important;
 }
+
+textarea.desc {
+	width:100%;
+	box-sizing:border-box;
+	direction:rtl;
+	display:block;
+	max-width:100%;
+
+}

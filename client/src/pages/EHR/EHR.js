@@ -32,16 +32,16 @@ export default function EHR({ usrId }) {
         // immunizations: 'HPV on 5/16/2018',
         // notes: 'Breast Cancer!!  Patient likes talk a lot.',
     }),
+        [ conditions, setConditions ] = useState([
+
+        ]),
         [ editGenState, setGenState ]= useState(false),
         [ editHealthState, setHealthState ]= useState(false),
         [ editConditState, setConditState ]= useState(false),
+        [ descEditState, setDescEditState ]= useState(false),
         [ conditSuggestions, setConditSuggestions ]= useState([]),
-        [ conditions, setConditions ]= useState({}),
         [ conditionSearch, setConditionSearch ]= useState('');
     
-    useEffect(() => {
-        searchCondition()
-    }, [conditionSearch])
 
     const onGenInfoInputChange = e => {
         const { name, value } = e.target;
@@ -106,12 +106,25 @@ export default function EHR({ usrId }) {
           })
     },
 
-    searchCondition = async () =>  {
-        const items = await API.getCondition();
+    addCondition = async e =>  {
+        e.preventDefault();
+        setConditSuggestions([]);
+        e.target.reset();
+
+        const { text } = conditSuggestions;
+            if (!text) {
+              return;
+            }
+        const [ search ] = text.split('-'),
+                { data } = await API.fetchCondition(search),
+
+           description = data[0].shortdef ? data[0].shortdef.join('\n') : '';
+
+        setConditions([...conditions, {name: text, description}])
     }
 
 
-    useEffect(() => {
+    useEffect(() => {   
         loadProfiles()
     }, []);
 
@@ -153,12 +166,14 @@ export default function EHR({ usrId }) {
                     <Conditions
                         toggleState={() => setConditState(!editConditState)}
                         editState={editConditState} 
+                        toggleDescState={() => setDescEditState(!descEditState)}
+                        editDescState={descEditState} 
+                        data={conditions}
                         target={onConditInputChange}
                         renderSuggestions={renderConditSuggestions}
                         text={conditSuggestions.text}
-                        formSubmit={updateDB}
+                        formSubmit={addCondition}
                       />
-                {/* <Input onChange={onConditionSearchChange} name="conditionSearch" /> */}
                 </Col>
            </Row>
         </Container>

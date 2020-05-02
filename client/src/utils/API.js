@@ -12,13 +12,13 @@ export default {
         return axios.get(`https://www.dictionaryapi.com/api/v3/references/medical/json/cetirizine?key=${apiKey}`);
     },
 
-    getConditionNames: function(conditionSearch) {
-        return axios.get(`https://clinicaltables.nlm.nih.gov/api/conditions/v3/search?terms=${conditionSearch}&sf=primary_name,consumer_name&df=primary_name,consumer_name,info_link_data`)
+    getConditionNames: function(search) {
+        return axios.get(`https://clinicaltables.nlm.nih.gov/api/conditions/v3/search?terms=${search}&sf=primary_name,consumer_name&df=primary_name,consumer_name,info_link_data`)
             .catch(err => console.log(err))
     },
 
-    getCondition: function() {
-        return axios.get(`https://www.dictionaryapi.com/api/v3/references/medical/json/hepatitis?key=${apiKey}`)
+    fetchCondition: function(search) {
+        return axios.get(`https://www.dictionaryapi.com/api/v3/references/medical/json/${search}?key=${apiKey}`)
             .catch(err => console.log(err))
     },
 
