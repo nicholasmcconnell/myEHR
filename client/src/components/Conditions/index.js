@@ -20,37 +20,20 @@ export function Conditions({ data, target, editState, toggleState, formSubmit, r
             </Col>
          )
         )
-     },
-
-    renderAddConditions = conditions => {
-      return (
-          conditions.map( (condition, i) => 
-            <Col key={i} size={'md-12'} classes={'form-group'}>
-                <label style={fieldText}>
-                    {condition.name} {' '}
-                    <Button className="fas fa-pen" style={{border:'none'}}
-                        onClick={toggleDescState}
-                        />
-                    <Button className="fas fa-times" style={removeBtn}
-                        onClick={toggleState}  
-                        />
-                    </label>
-                <div>
-                    {condition.description}
-                    </div>
-            </Col>
-         )
-        )
      };
+
+    
     function renderEditConditions(conditions) {
-        console.log(conditions)
       return (
-          conditions.map( (condition, i) => 
+          conditions.map( (condition, i) => {
+            if (condition.edit) {
+
+              return (
             <Col key={i} size={'md-12'} classes={'form-group'}>
                 <label style={fieldText}>
                     {condition.name} {' '}
                     <Button className="fas fa-pen" style={{border:'none'}}
-                        onClick={toggleDescState.bind(this,i)} 
+                        onClick={toggleDescState.bind(this, i)} 
                         />
                     <Button className="fas fa-times" style={removeBtn}
                         onClick={toggleState}  
@@ -60,16 +43,37 @@ export function Conditions({ data, target, editState, toggleState, formSubmit, r
                         />
                 </label>
                 <form>
-                    <textarea value={condition.description} name="desc"
+                    <TextArea value={condition.description} name="desc"
                     rows={getRowHeight(condition.description)}
-                    className={'form-control'}
                     style={textarea} 
                     />
                 </form>
+            </Col> 
+              )
+            }   else {
+                return (
+        
+            <Col key={i} size={'md-12'} classes={'form-group'}>
+                <label style={fieldText}>
+                    {condition.name} {' '}
+                    <Button className="fas fa-pen" style={{border:'none'}}
+                        onClick={toggleDescState.bind(this, i)}
+                        />
+                    <Button className="fas fa-times" style={removeBtn}
+                        onClick={toggleState}  
+                        />
+                    </label>
+                <div>
+                    {condition.description}
+                    </div>
             </Col>
-         )
-        )
+                )
+                }
+            }))
+         
+        
      }
+     
      const getRowHeight = text =>  text.length > 250 ? text.length/80 : 3;
 
     if ((editState || data.length === 0) && !editDescState) {
@@ -101,7 +105,7 @@ export function Conditions({ data, target, editState, toggleState, formSubmit, r
                 </div>
                 <div className={"form-row"}>
 
-                    {renderAddConditions(data)}
+                    {renderEditConditions(data)}
                     
                 </div>
             </form>
@@ -160,8 +164,7 @@ export function Conditions({ data, target, editState, toggleState, formSubmit, r
         </div>
         )
     }
-
-    }
+}
 const fieldText = {
     fontStyle: 'italic',
     fontWeight: '1000',

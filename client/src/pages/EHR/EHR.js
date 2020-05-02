@@ -122,10 +122,19 @@ export default function EHR({ usrId }) {
 
                 description = data[0].shortdef ? data[0].shortdef.join('\n') : '';
 
-            setConditions([...conditions, { name: text, description }])
-        }
+            setConditions([...conditions, { name: text, edit: false, description }])
+        },
        
+        toggleDescriptionEdit = index => {
+            const arr = [];
 
+            conditions.forEach( (item, i) => {
+               
+                item.edit = i === index ? !item.edit : false;
+                arr.push(item)
+            })
+            setConditions(arr)
+        }
 
     useEffect(() => {   
         loadProfiles()
@@ -169,7 +178,7 @@ export default function EHR({ usrId }) {
                     <Conditions
                         toggleState={() => setConditState(!editConditState)}
                         editState={editConditState}
-                        toggleDescState={() => setDescEditState(!descEditState)}
+                        toggleDescState={toggleDescriptionEdit}
                         editDescState={descEditState}
                         data={conditions}
                         target={onConditInputChange}
