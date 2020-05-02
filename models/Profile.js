@@ -84,8 +84,8 @@ const ProfileSchema = new Schema({
         default: ''
     },
     conditions: {
-        type: Array,
-        default: []
+        type: String,
+        default: ''
     }
 })
 

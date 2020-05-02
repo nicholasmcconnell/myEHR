@@ -32,21 +32,57 @@ export default function EHR({ usrId }) {
         // immunizations: 'HPV on 5/16/2018',
         // notes: 'Breast Cancer!!  Patient likes talk a lot.',
     }),
+        [ conditions, setConditions ] = useState([
+
+        ]),
         [ editGenState, setGenState ]= useState(false),
         [ editHealthState, setHealthState ]= useState(false),
         [ editConditState, setConditState ]= useState(false),
-        [ conditions, setConditions ]= useState({}),
+        [ descEditState, setDescEditState ]= useState(false),
+        [ conditSuggestions, setConditSuggestions ]= useState([]),
         [ conditionSearch, setConditionSearch ]= useState('');
     
-    useEffect(() => {
-        searchCondition()
-    }, [conditionSearch])
 
     const onGenInfoInputChange = e => {
         const { name, value } = e.target;
         setGeneralInfo({...generalInfo, [name]: value })
         loadProfiles();
     }, 
+    
+    onConditInputChange = async e => {
+
+      const { value } = e.target,
+       items = await getConditionNames(value);
+      let suggestions = [];
+       
+      if (value.length > 0) {
+          const regex = new RegExp(`^${value}`, 'i');
+          suggestions = items.sort().filter( x => regex.test(x));
+        } 
+        setConditSuggestions({ suggestions, text: value })
+     },
+
+     getConditionNames = async(search) => {
+        const { data } = await API.getConditionNames(search);
+        return  data[3].map( x => x[0] );
+    },
+
+    selectSuggestedCondit = value => {
+        setConditSuggestions({ suggestions: [], text: value })
+    },
+
+    renderConditSuggestions = () => {
+        const { suggestions } = conditSuggestions;
+        
+        if (!suggestions || suggestions.length === 0) {
+            return;
+        }
+        return (
+            <ul>
+                {suggestions.map( (suggestion, i) => <li onClick={() => selectSuggestedCondit(suggestion)} key={i}>{suggestion}</li>)}
+            </ul>
+        )
+    },
 
     onHealthInfoInputChange = e => {
         const { name, value } = e.target;
@@ -70,15 +106,25 @@ export default function EHR({ usrId }) {
           })
     },
 
-    searchCondition = async() => {
-        
-        const { data } = await API.getCondition(conditionSearch),
-           
-         results = data[3].map( x => x[0] );
-            console.log(results);
-    };
+    addCondition = async e =>  {
+        e.preventDefault();
+        setConditSuggestions([]);
+        e.target.reset();
 
-    useEffect(() => {
+        const { text } = conditSuggestions;
+            if (!text) {
+              return;
+            }
+        const [ search ] = text.split('-'),
+                { data } = await API.fetchCondition(search),
+
+           description = data[0].shortdef ? data[0].shortdef.join('\n') : '';
+
+        setConditions([...conditions, {name: text, description}])
+    }
+
+
+    useEffect(() => {   
         loadProfiles()
     }, []);
 
@@ -120,10 +166,14 @@ export default function EHR({ usrId }) {
                     <Conditions
                         toggleState={() => setConditState(!editConditState)}
                         editState={editConditState} 
-                        target={onConditionSearchChange}
-                        formSubmit={updateDB}
+                        toggleDescState={() => setDescEditState(!descEditState)}
+                        editDescState={descEditState} 
+                        data={conditions}
+                        target={onConditInputChange}
+                        renderSuggestions={renderConditSuggestions}
+                        text={conditSuggestions.text}
+                        formSubmit={addCondition}
                       />
-                {/* <Input onChange={onConditionSearchChange} name="conditionSearch" /> */}
                 </Col>
            </Row>
         </Container>
