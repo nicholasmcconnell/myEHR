@@ -8,18 +8,18 @@ import API from '../../utils/API';
 
 export default function EHR({ usrId }) {
 
-    const [ generalInfo, setGeneralInfo ] = useState({
-        // first_name: 'Anne',
-        // last_name: 'Frank',
-        // nickname: 'Mrs. Quack',
-        // address_one: '555 Somewhere',
-        // address_two: 'Apt 7',
-        // city: 'Frankfurt',
-        // state: 'Darmstadt',
-        // zip: '12345',
-        // country: 'Germany',
-        // phone: '(264) 224-1234',
-        // email: 'quacky123@gmail.com'
+    const [generalInfo, setGeneralInfo] = useState({
+        first_name: 'Anne',
+        last_name: 'Frank',
+        nickname: 'Mrs. Quack',
+        address_one: '555 Somewhere',
+        address_two: 'Apt 7',
+        city: 'Frankfurt',
+        state: 'Darmstadt',
+        zip: '12345',
+        country: 'Germany',
+        phone: '(264) 224-1234',
+        email: 'quacky123@gmail.com'
     }),
      [ healthInfo, setHealthInfo ] = useState({
         // dob: '06/12/1929',
@@ -45,7 +45,7 @@ export default function EHR({ usrId }) {
 
     const onGenInfoInputChange = e => {
         const { name, value } = e.target;
-        setGeneralInfo({...generalInfo, [name]: value })
+        setGeneralInfo({ ...generalInfo, [name]: value })
         loadProfiles();
     }, 
     
@@ -84,27 +84,86 @@ export default function EHR({ usrId }) {
         )
     },
 
-    onHealthInfoInputChange = e => {
-        const { name, value } = e.target;
-        setHealthInfo({...healthInfo, [name]: value })
-    }, 
+        onConditInputChange = async e => {
 
-    onConditionSearchChange = e => {
-        const { name, value } = e.target;
-        setConditionSearch({...conditionSearch, [name]: value })
-    }, 
+            const { value } = e.target,
+                items = await getConditionNames(value);
+            let suggestions = [];
 
-    updateDB = e => {
-        e.preventDefault()
-          API.updateEHR(usrId, generalInfo)
-          .then( data => {
-              if (data.status === 'success') {
-                console.log('Updated record!', 'green')
-             } else  {
-                console.log('Fail to update record.', 'red')
-             }  
-          })
-    },
+            if (value.length > 0) {
+                const regex = new RegExp(`^${value}`, 'i');
+                suggestions = items.sort().filter(x => regex.test(x));
+            }
+            setConditSuggestions({ suggestions, text: value })
+        },
+
+        getConditionNames = async (search) => {
+            const { data } = await API.getConditionNames(search);
+            return data[3].map(x => x[0]);
+        },
+
+        selectSuggestedCondit = value => {
+            setConditSuggestions({ suggestions: [], text: value })
+        },
+
+        renderConditSuggestions = () => {
+            const { suggestions } = conditSuggestions;
+
+            if (!suggestions || suggestions.length === 0) {
+                return;
+            }
+            return (
+                <ul>
+                    {suggestions.map((suggestion, i) => <li onClick={() => selectSuggestedCondit(suggestion)} key={i}>{suggestion}</li>)}
+                </ul>
+            )
+        },
+
+        onHealthInfoInputChange = e => {
+            const { name, value } = e.target;
+            setHealthInfo({ ...healthInfo, [name]: value })
+        },
+
+        onConditionSearchChange = e => {
+            const { name, value } = e.target;
+            setConditionSearch({ ...conditionSearch, [name]: value })
+        },
+
+        updateDB = () => {
+            // e.preventDefault()
+            API.updateEHR()
+                .then((res) => {
+                    console.log(res);
+                    // if (data.status === 'success') {
+                    //     console.log('Updated record!', 'green')
+                    // } else {
+                    //     console.log('Fail to update record.', 'red')
+                    // }
+                })
+                .catch((err) => console.log(err))             
+        },
+
+        addCondition = async e => {
+            e.preventDefault();
+            setConditSuggestions([]);
+            e.target.reset();
+
+            const { text } = conditSuggestions;
+            if (!text) {
+                return;
+            }
+            const [search] = text.split('-'),
+                { data } = await API.fetchCondition(search),
+
+                description = data[0].shortdef ? data[0].shortdef.join('\n') : '';
+
+            setConditions([...conditions, { name: text, description }])
+        }
+
+        updateDB();
+
+  
+
 
     addCondition = async e =>  {
         e.preventDefault();
@@ -142,26 +201,26 @@ export default function EHR({ usrId }) {
             <Row classes={'my-5'}>
                 <Col size={'md-8'} classes={'offset-md-2'}>
                     <ContactCard
-                        toggleState={() => setGenState(!editGenState)} 
-                        editState={editGenState} 
+                        toggleState={() => setGenState(!editGenState)}
+                        editState={editGenState}
                         data={generalInfo}
                         target={onGenInfoInputChange}
                         formSubmit={updateDB}
-                        />
+                    />
                 </Col>
-           </Row>
+            </Row>
             <Row classes={'my-5'}>
                 <Col size={'md-8'} classes={'offset-md-2'}>
-                    <HealthCard 
+                    <HealthCard
                         toggleState={() => setHealthState(!editHealthState)}
-                        editState={editHealthState} 
+                        editState={editHealthState}
                         data={healthInfo}
                         target={onHealthInfoInputChange}
                         formSubmit={updateDB}
                     />
                 </Col>
-           </Row>
-           <Row classes={'my-5'}>
+            </Row>
+            <Row classes={'my-5'}>
                 <Col size={'md-8'} classes={'offset-md-2'}>
                     <Conditions
                         toggleState={() => setConditState(!editConditState)}
@@ -175,7 +234,7 @@ export default function EHR({ usrId }) {
                         formSubmit={addCondition}
                       />
                 </Col>
-           </Row>
+            </Row>
         </Container>
     )
 }

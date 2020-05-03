@@ -92,9 +92,13 @@ export default function SignIn(props) {
                                 <Input onChange={onInputChange}
                                     name="password" type="password" placeholder="Password" />
                             </div>
+<<<<<<< HEAD
                             <Button className={'btn btn-primary btn-lg btn-block'} 
                                 onClick={auth} 
                                 type="submit">Log In</Button>
+=======
+                            <Button className={'btn btn-primary btn-lg btn-block'} type="submit">Log In</Button>
+>>>>>>> 1a3934089bfa054591e7b2fb025a9ff4d81a64d8
                         </form>
                     </Row>
                     <Row classes={'justify-content-center'}>
