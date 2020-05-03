@@ -21,32 +21,67 @@ export default function EHR({ usrId }) {
         phone: '(264) 224-1234',
         email: 'quacky123@gmail.com'
     }),
-        [healthInfo, setHealthInfo] = useState({
-            dob: '06/12/1929',
-            bloodType: 'A-Negative',
-            insurance: 'Keystone POS Flex',
-            insNumber: 'QCG130515482-01',
-            rxBin: '123456',
-            rxPcn: '060503900',
-            allergies: 'Peanuts, Shellfish, People',
-            immunizations: 'HPV on 5/16/2018',
-            notes: 'Breast Cancer!!  Patient likes talk a lot.',
-        }),
-        [conditions, setConditions] = useState([
+     [ healthInfo, setHealthInfo ] = useState({
+        // dob: '06/12/1929',
+        // bloodType: 'A-Negative',
+        // insurance: 'Keystone POS Flex',
+        // insNumber: 'QCG130515482-01',
+        // rxBin: '123456',
+        // rxPcn: '060503900',
+        // allergies: 'Peanuts, Shellfish, People',
+        // immunizations: 'HPV on 5/16/2018',
+        // notes: 'Breast Cancer!!  Patient likes talk a lot.',
+    }),
+        [ conditions, setConditions ] = useState([
 
         ]),
-        [editGenState, setGenState] = useState(false),
-        [editHealthState, setHealthState] = useState(false),
-        [editConditState, setConditState] = useState(false),
-        [descEditState, setDescEditState] = useState(false),
-        [conditSuggestions, setConditSuggestions] = useState([]),
-        [conditionSearch, setConditionSearch] = useState('');
-
+        [ editGenState, setGenState ]= useState(false),
+        [ editHealthState, setHealthState ]= useState(false),
+        [ editConditState, setConditState ]= useState(false),
+        [ descEditState, setDescEditState ]= useState(false),
+        [ conditSuggestions, setConditSuggestions ]= useState([]),
+        [ conditionSearch, setConditionSearch ]= useState('');
+    
 
     const onGenInfoInputChange = e => {
         const { name, value } = e.target;
         setGeneralInfo({ ...generalInfo, [name]: value })
         loadProfiles();
+    }, 
+    
+    onConditInputChange = async e => {
+
+      const { value } = e.target,
+       items = await getConditionNames(value);
+      let suggestions = [];
+       
+      if (value.length > 0) {
+          const regex = new RegExp(`^${value}`, 'i');
+          suggestions = items.sort().filter( x => regex.test(x));
+        } 
+        setConditSuggestions({ suggestions, text: value })
+     },
+
+     getConditionNames = async(search) => {
+        const { data } = await API.getConditionNames(search);
+        return  data[3].map( x => x[0] );
+    },
+
+    selectSuggestedCondit = value => {
+        setConditSuggestions({ suggestions: [], text: value })
+    },
+
+    renderConditSuggestions = () => {
+        const { suggestions } = conditSuggestions;
+        
+        if (!suggestions || suggestions.length === 0) {
+            return;
+        }
+        return (
+            <ul>
+                {suggestions.map( (suggestion, i) => <li onClick={() => selectSuggestedCondit(suggestion)} key={i}>{suggestion}</li>)}
+            </ul>
+        )
     },
 
         onConditInputChange = async e => {
@@ -130,19 +165,36 @@ export default function EHR({ usrId }) {
   
 
 
+    addCondition = async e =>  {
+        e.preventDefault();
+        setConditSuggestions([]);
+        e.target.reset();
 
-    useEffect(() => {
+        const { text } = conditSuggestions;
+            if (!text) {
+              return;
+            }
+        const [ search ] = text.split('-'),
+                { data } = await API.fetchCondition(search),
+
+           description = data[0].shortdef ? data[0].shortdef.join('\n') : '';
+
+        setConditions([...conditions, {name: text, description}])
+    }
+
+
+    useEffect(() => {   
         loadProfiles()
     }, []);
 
     function loadProfiles() {
-        API.fetchProfile()
-            .then(res =>
-                // setGeneralInfo(res.data)
-                console.log(res.data)
-            )
-            .catch(err => console.log(err));
-    };
+        API.fetchPatients()
+          .then(res => 
+            // setGeneralInfo(res.data)
+            console.log(res.data)
+          )
+          .catch(err => console.log(err));
+      };
 
     return (
         <Container>
@@ -172,15 +224,15 @@ export default function EHR({ usrId }) {
                 <Col size={'md-8'} classes={'offset-md-2'}>
                     <Conditions
                         toggleState={() => setConditState(!editConditState)}
-                        editState={editConditState}
+                        editState={editConditState} 
                         toggleDescState={() => setDescEditState(!descEditState)}
-                        editDescState={descEditState}
+                        editDescState={descEditState} 
                         data={conditions}
                         target={onConditInputChange}
                         renderSuggestions={renderConditSuggestions}
                         text={conditSuggestions.text}
                         formSubmit={addCondition}
-                    />
+                      />
                 </Col>
             </Row>
         </Container>

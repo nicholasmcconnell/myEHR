@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import { Link, useLocation as location } from 'react-router-dom'
 import { Button } from '../Forms'
 import { Collapse } from '../Grid'
+import API from '../../utils/API'
 
 export default function navBar() {
 
@@ -10,6 +11,12 @@ export default function navBar() {
     const toggleNav = () => showNavLinks(navLinks = !navLinks)
 
     const { pathname } = location();
+
+    const logout = () => {
+        API.logout()
+          .then( res => console.log(res.data))
+       }
+  
 
     return (
         <nav className={'navbar navbar-expand-lg navbar-light bg-light'}>
@@ -37,7 +44,7 @@ export default function navBar() {
                     </Link>    
                 </li>
                 <li className={pathname === "/contacts" ? "nav-item active" : "nav-item"}>
-                    <Link to="/contacts" className={'nav-link'}>
+                    <Link to="/contacts" onClick={logout} className={'nav-link'}>
                         contacts
                     </Link>    
                 </li>

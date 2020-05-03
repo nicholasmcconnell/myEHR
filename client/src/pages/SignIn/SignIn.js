@@ -1,34 +1,70 @@
 import React, { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Container, Row, Col } from '../../components/Grid';
 import { Button, Input } from '../../components/Forms';
 import API from '../../utils/API';
 
-export default function SignIn() {
+export default function SignIn(props) {
 
-    const history = useHistory();
     const [credentials, setCredentials] = useState({}),
 
-        onInputChange = e => {
-            const { name, value } = e.target;
-            setCredentials({ ...credentials, [name]: value })
-        },
+    onInputChange = e => {
+        console.log(e.target.name)
+        const { name, value } = e.target;
+        setCredentials({...credentials, [name]: value })
+    },
 
-        handleSubmit = e => {
-            e.preventDefault();
-            e.target.reset();
-            API.login(credentials)
-                .then((res) => {
-                    // console.log(res.data)
-                    if (res.data.success) {
-                        localStorage.setItem('JWT', res.data.token);
-                        history.push('/')
-                    }
-                }
-                )
-                .catch((err) => err)
+    auth = async () => {
+        try {
+          const res = await API.authenticate(credentials)
+          const {data} = await API.getUser()
+          console.log("auth -> data", data)
+    
+          console.log(res.data.screen)
+          if (res.data.screen !== undefined) {
+            setScreen(res.data.screen);
+          }
+        } catch (e) {
+          console.log(e);
         }
+      };
 
+     const { screen, setScreen } = props;
+
+     const [data, setData] = useState()
+     
+     const removeCookie = async () => {
+      try {
+        await API.deleteCookie()
+        setScreen('auth');
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  console.log(props)
+     const getData = async () => {
+      try {
+        const { data } = await API.getCookie();
+        console.log(data)
+        setData(data);
+      } catch (e) {
+        console.log(e);
+      }
+    } 
+       
+    const handleSubmit = e => {
+        e.preventDefault();
+        e.target.reset();
+        API.login(credentials)
+            .then((res) => { console.log(res.data) }
+                // console.log(res.data)
+                // if (res.data.success) {
+                //     localStorage.setItem('JWT', res.data.token);
+                //     history.push('/')
+                // }}
+            )
+            .catch((err) => err)
+    }
     return (
         <Container classes={'box-shadow sign'}>
             <Row>
@@ -56,7 +92,13 @@ export default function SignIn() {
                                 <Input onChange={onInputChange}
                                     name="password" type="password" placeholder="Password" />
                             </div>
+<<<<<<< HEAD
+                            <Button className={'btn btn-primary btn-lg btn-block'} 
+                                onClick={auth} 
+                                type="submit">Log In</Button>
+=======
                             <Button className={'btn btn-primary btn-lg btn-block'} type="submit">Log In</Button>
+>>>>>>> 1a3934089bfa054591e7b2fb025a9ff4d81a64d8
                         </form>
                     </Row>
                     <Row classes={'justify-content-center'}>
@@ -70,12 +112,13 @@ export default function SignIn() {
         </Container>
     )
 }
+
 const logo = {
     width: "100px",
     height: "auto"
 },
 
-    text = {
-        color: "#a1deb6",
-        textShadow: "1px 1px #000"
-    }
+text = {
+    color: "#a1deb6",
+    textShadow: "1px 1px #000"
+}
