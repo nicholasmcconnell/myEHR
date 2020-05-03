@@ -33,7 +33,7 @@ export default {
         return { email: 'example@example.com', _id: '123456789' }
     },
 
-    fetchProfile: function() {
+    fetchPatients: function() {
         return axios.get("/load");
         // return {
         //     id: "67",
@@ -63,5 +63,16 @@ export default {
     login: function(credentials) {
         const { email, password } = credentials;
         return axios.post('/login', { email, password })
-    }
-};
+    },
+
+    getCookie: () => axios.get('api/users/get-data').then( data => data ),
+
+    deleteCookie: () => axios.get('api/users/clear-cookie').then( data => data),
+
+    readCookie: () => axios.get('api/users/read-cookie').then( data => data),
+
+    authenticate:  ({ username, password }) =>  axios.get('api/users//authenticate', { auth: { username, password } }),
+
+    logout: () => axios.post('api/users/logout').then( data => data ),
+
+}

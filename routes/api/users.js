@@ -61,4 +61,47 @@ router.post('/logout', (req, res) => {
     }
 })
 
+
+router.get('/authenticate', (req, res) => {
+    console.log(req.data)
+    const options = {
+      httpOnly: true,
+      signed: true,
+    };
+  
+    console.log(req);
+  
+    if (req.auth.user === 'admin') {
+      res.cookie('name', 'admin', options).send({ screen: 'admin' });
+    } else if (req.auth.user === 'user') {
+      res.cookie('name', 'user', options).send({ screen: 'user' });
+    }
+  });
+  
+  router.get('/read-cookie', (req, res) => {
+    console.log(req.signedCookies);
+    if (req.signedCookies.name === 'admin') {
+      res.send({ screen: 'admin' });
+    } else if (req.signedCookies.name === 'user') {
+      res.send({ screen: 'user' });
+    } else {
+      res.send({ screen: 'auth' });
+    }
+  });
+  
+  router.get('/clear-cookie', (req, res) => {
+    res.clearCookie('name').end();
+  });
+  
+  router.get('/get-data', (req, res) => {
+    if (req.signedCookies.name === 'admin') {
+      res.send('This is admin panel');
+    } else if (req.signedCookies.name === 'user') {
+      res.send('This is user data');
+    } else {
+      res.end();
+    }
+  });
+
+
 module.exports = router
