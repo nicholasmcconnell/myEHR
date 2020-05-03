@@ -49,11 +49,15 @@ export default {
         // }
     },
 
+    getUser: () => {
+        return axios.get('api/users').then( data => data )
+    },
+
     register: function(credentials) {
         // console.log("in API.register");
         // console.log(credentials);
         const { email, password } = credentials
-        return axios.post('/register', { email, password })
+        return axios.post('api/users/register', { email, password })
     },
 
     login: function(credentials) {

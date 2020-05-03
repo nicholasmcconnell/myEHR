@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col } from '../../components/Grid';
 import { Button, Input } from '../../components/Forms';
@@ -11,9 +11,17 @@ export default function SignUp() {
         onInputChange = e => {
             const { name, value } = e.target;
             setCredentials({ ...credentials, [name]: value })
-        },
+        };
 
-        handleSubmit = e => {
+        useEffect(() => {
+            fetchUser()
+        }, [])
+        const fetchUser = () => {
+            API.getUser()
+            .then( res => console.log(res.data))
+        }
+
+       const  handleSubmit = e => {
             e.preventDefault();
             console.log(credentials)
 
