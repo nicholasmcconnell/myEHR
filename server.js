@@ -1,9 +1,12 @@
 const express = require("express");
-const path = require("path");
+const session = require("express-session");
 const mongoose = require("mongoose");
-require('dotenv').config()
 const cookieParser = require('cookie-parser');
+const { passport } = require('./passport');
 const routes = require("./routes");
+require('dotenv').config();
+
+
 const PORT = process.env.PORT || 3001;
 const app = express();
 
@@ -11,38 +14,36 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
-// app.use(routes);
 
-// Serve up static assets (usually on heroku)
+// Passport & Session
+app.use(session({ secret: "Nincompoop", resave: true, saveUninitialized: true }));
+app.use(passport.initialize())
+app.use(passport.session()) 
 
+
+// Serve static assets
 if (process.env.NODE_ENV === "production") {
     app.use(express.static("client/build"));
 }
 
-//How to interact with front end on 3000 and 3001 on backend
-//axios.get('/api/items', {port: 3001}).then(...
-//proxy fill
-
-
-
-// Send every request to the React app
-// Define any API routes before this runs
-// app.get("*", (req, res) => {
-//     console.log("Test Route hit: root in server");
-//     // res.send("Test Route hit: root in server")
-//     res.sendFile(path.join(__dirname, "./client/build/index.html"));
-// })
-
 // Connect to the Mongo DB
+
 mongoose.connect(
-    process.env.MONGODB_URI || "mongodb://localhost/myEHR", { useNewUrlParser: true }, () => {
-        console.log('Sucessfully connected to Database!')
+    process.env.MONGODB_URI || "mongodb://localhost/myEHR")
+        .then(console.log("Connection to database established"));
 
-    }, { useUnifiedTopology: true });
+// Routes
+app.use(routes);
 
-// const userRouter = require('./routes/User');
-app.use(routes)
+mongoose.connect(
+    process.env.MONGODB_URI || "mongodb://localhost/myEHR")
+        .then(console.log("Connection to database established"));
 
-app.listen(PORT, function () {
+// Routes
+app.use(routes);
+
+
+// Start server
+app.listen(PORT, function() {
     console.log(`🌎 ==> API server now on port ${PORT}!`);
 });

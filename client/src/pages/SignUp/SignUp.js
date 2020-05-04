@@ -1,19 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col } from '../../components/Grid';
-import { Button, Input } from '../../components/Forms';
+import { LoggerBtn, Input } from '../../components/Forms';
 import API from '../../utils/API';
 
 export default function SignUp() {
 
     const [credentials, setCredentials] = useState({}),
+     
 
         onInputChange = e => {
             const { name, value } = e.target;
             setCredentials({ ...credentials, [name]: value })
-        },
+        };
 
-        handleSubmit = e => {
+        useEffect(() => {
+            fetchUser()
+        }, [])
+        const fetchUser = () => {
+            API.getUser()
+            .then( res => console.log(res.data))
+        }
+
+       const  handleSubmit = e => {
             e.preventDefault();
             console.log(credentials)
 
@@ -22,12 +31,6 @@ export default function SignUp() {
                     console.log(res)
                 )
                 .catch((err) => console.log(err))
-
-
-            // setCredentials(e.target.value);
-            // e.target.reset();
-            /* More Code
-                Here...    */
         }
 
     return (
@@ -56,16 +59,9 @@ export default function SignUp() {
                                 <Input onChange={onInputChange}
                                     name="password" type="password" placeholder="Password" />
                             </div>
-                            {/* <div className={'form-group usr-inpt'}>
-                                <label>Confirm Password:</label>
-                                <span className="fa fa-lock" />
-                                <Input onChange={onInputChange}
-                                    name="passwordConfirm" type="passwordConfirm" placeholder="Confirm Password" />
-                            </div> */}
-                            <Button
-                                classes={'btn btn-primary btn-lg btn-block'}
-                                type="submit"
-                               >Sign Up</Button>
+                    
+                            <LoggerBtn btnType={'Sign Up'} />
+
                         </form>
                     </Row>
                     <Row classes={'justify-content-center'}>

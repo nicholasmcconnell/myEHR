@@ -1,34 +1,42 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Container, Row, Col } from '../../components/Grid';
-import { Button, Input } from '../../components/Forms';
+import { LoggerBtn, Input } from '../../components/Forms';
 import API from '../../utils/API';
+import Auth from '../../Auth'
 
-export default function SignIn() {
+export default function SignIn(props) {
 
-    const history = useHistory();
+    let history = useHistory();
     const [credentials, setCredentials] = useState({}),
 
-        onInputChange = e => {
-            const { name, value } = e.target;
-            setCredentials({ ...credentials, [name]: value })
-        },
+    onInputChange = e => {
+        console.log(e.target.name)
+        const { name, value } = e.target;
+        setCredentials({...credentials, [name]: value })
+    },
 
-        handleSubmit = e => {
-            e.preventDefault();
-            e.target.reset();
-            API.login(credentials)
-                .then((res) => {
-                    // console.log(res.data)
-                    if (res.data.success) {
-                        localStorage.setItem('JWT', res.data.token);
-                        history.push('/')
-                    }
+     authorize = () => {
+        Auth.login(() => {
+          history.push("/profiles")
+        })
+      },
+       
+     handleSubmit = e => {
+        e.preventDefault();
+        e.target.reset();
+        
+        API.login(credentials)
+            .then(({ data }) => { 
+             
+              if(data.status === 'success') {
+                authorize()
+              } else {
+                console.log('Login failed.  Please try again.')
                 }
-                )
-                .catch((err) => err)
-        }
-
+          }).catch((err) => err)
+    }
+    
     return (
         <Container classes={'box-shadow sign'}>
             <Row>
@@ -56,8 +64,12 @@ export default function SignIn() {
                                 <Input onChange={onInputChange}
                                     name="password" type="password" placeholder="Password" />
                             </div>
-                            <Button classes={'btn btn-primary btn-lg btn-block'} type="submit">Log In</Button>
+
+
+                            <LoggerBtn btnType={'log in'} />
+
                         </form>
+
                     </Row>
                     <Row classes={'justify-content-center'}>
                         <p> New here?
@@ -70,12 +82,13 @@ export default function SignIn() {
         </Container>
     )
 }
+
 const logo = {
     width: "100px",
     height: "auto"
 },
 
-    text = {
-        color: "#a1deb6",
-        textShadow: "1px 1px #000"
-    }
+text = {
+    color: "#a1deb6",
+    textShadow: "1px 1px #000"
+}

@@ -16,14 +16,14 @@ if (editState) {
                 <div className={"form-row"}>
                     <Col size={'md-4'} classes={'form-group'}>
                         <label>First Name</label>
-                        <Input value={data.first_name} name="first_name"
+                        <Input value={data.firstName} name="firstName"
                         style={input}
                         onChange={target} 
                         />
                     </Col>
                     <Col size={'md-4'} classes={'form-group'}>
                         <label>Last Name</label>
-                        <Input value={data.last_name} name="last_name"
+                        <Input value={data.lastName} name="lastName"
                         style={input}
                         onChange={target} 
                         />
@@ -40,13 +40,13 @@ if (editState) {
                 <div className="form-row">
                     <Col size={'md-6'} classes={'form-group'}>
                         <label>Address Line 1</label>
-                        <Input value={data.address_one} name="address_one"
+                        <Input value={data.addressOne} name="addressOne"
                         style={input}
                         onChange={target} 
                         />                    </Col>
                     <Col size={'md-6'} classes={'form-group'}>
                         <label>Address Line 2</label>
-                        <Input value={data.address_two} name="address_two"
+                        <Input value={data.addressTwo} name="addressTwo"
                         style={input}
                         onChange={target} 
                         />                    
@@ -119,11 +119,11 @@ if (editState) {
                 <div className={"form-row"}>
                     <Col size={'md-4'} classes={'form-group'}>
                         <label>First Name:</label>
-                        <div style={fieldText}>{data.first_name}</div>
+                        <div style={fieldText}>{data.firstName}</div>
                     </Col>
                     <Col size={'md-4'} classes={'form-group'}>
                         <label>Last Name:</label>
-                        <div style={fieldText}>{data.last_name}</div>
+                        <div style={fieldText}>{data.lastName}</div>
                     </Col>
                     <Col size={'md-4'} classes={'form-group'}>
                         <label>Nickname:</label>
@@ -133,11 +133,11 @@ if (editState) {
                 <div className="form-row">
                     <Col size={'md-6'} classes={'form-group'}>
                         <label>Address line 1:</label>
-                        <div style={fieldText}>{data.address_one}</div>
+                        <div style={fieldText}>{data.addressOne}</div>
                     </Col>
                     <Col size={'md-6'} classes={'form-group'}>
                         <label>Address line 2:</label>
-                        <div style={fieldText}>{data.address_two}</div>
+                        <div style={fieldText}>{data.addressTwo}</div>
                     </Col>
                 </div>
                 <div className="form-row">
