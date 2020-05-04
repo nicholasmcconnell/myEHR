@@ -17,6 +17,7 @@ export default {
             .catch(err => console.log(err))
     },
 
+
     fetchCondition: function(search) {
         return axios.get(`https://www.dictionaryapi.com/api/v3/references/medical/json/${search}?key=${apiKey}`)
             .catch(err => console.log(err))
@@ -29,18 +30,7 @@ export default {
 
     fetchPatients: function() {
         return axios.get("/load");
-        // return {
-        //     id: "67",
-        //     firstName: "Eddie",
-        //     lastName: "Bravo",
-        //     birthday: "6/11/1983",
-        //     allergies: "peanuts. horseradish, bees",
-        //     medications: [{
-        //         name: "tylonal",
-        //         dosage: "the right amount",
-        //         date: "hey I got new meds today they are groovy - Pull new date"
-        //     }]
-        // }
+  
     },
 
     getUser: () => {
@@ -57,16 +47,6 @@ export default {
     login: function(credentials) {
         const { email, password } = credentials;
         return axios.post('/api/users/login', { email, password })
-    },
-
-    getCookie: () => axios.get('/api/users/get-data').then( data => data ),
-
-    deleteCookie: () => axios.delete('/api/users/clear-cookie').then( data => data),
-
-    readCookie: () => axios.get('/api/users/read-cookie').then( data => data),
-
-    authenticate:  ({ username, password }) =>  axios.post('/api/users/authenticate', { auth: { username, password } }),
-
-    logout: () => axios.post('/api/users/logout').then( data => data ),
+    }
 
 }

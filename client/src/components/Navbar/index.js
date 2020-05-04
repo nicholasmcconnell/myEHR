@@ -44,6 +44,12 @@ export default function navBar() {
      }
 
 
+    const logout = () => {
+        API.logout()
+          .then( res => console.log(res.data))
+       }
+  
+
     return (
         <nav className={'navbar navbar-expand-lg navbar-light bg-light'}>
             <Link to='/' className={'navbar-brand'}><em>my</em>ERH</Link>

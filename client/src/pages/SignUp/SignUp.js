@@ -31,12 +31,6 @@ export default function SignUp() {
                     console.log(res)
                 )
                 .catch((err) => console.log(err))
-
-
-            // setCredentials(e.target.value);
-            // e.target.reset();
-            /* More Code
-                Here...    */
         }
 
     return (
@@ -65,13 +59,9 @@ export default function SignUp() {
                                 <Input onChange={onInputChange}
                                     name="password" type="password" placeholder="Password" />
                             </div>
-                            {/* <div className={'form-group usr-inpt'}>
-                                <label>Confirm Password:</label>
-                                <span className="fa fa-lock" />
-                                <Input onChange={onInputChange}
-                                    name="passwordConfirm" type="passwordConfirm" placeholder="Confirm Password" />
-                            </div> */}
+                    
                             <LoggerBtn btnType={'Sign Up'} />
+
                         </form>
                     </Row>
                     <Row classes={'justify-content-center'}>

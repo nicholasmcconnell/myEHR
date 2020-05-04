@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Container, Row, Col } from '../../components/Grid';
 import { LoggerBtn, Input } from '../../components/Forms';
 import API from '../../utils/API';
@@ -36,7 +36,7 @@ export default function SignIn(props) {
                 }
           }).catch((err) => err)
     }
-
+    
     return (
         <Container classes={'box-shadow sign'}>
             <Row>
@@ -65,7 +65,9 @@ export default function SignIn(props) {
                                     name="password" type="password" placeholder="Password" />
                             </div>
 
+
                             <LoggerBtn btnType={'log in'} />
+
                         </form>
 
                     </Row>
