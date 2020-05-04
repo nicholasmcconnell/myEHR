@@ -5,7 +5,7 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import EHR from "./pages/EHR";
 import Medications from "./pages/Medications";
-import Profiles from "./pages/Profiles";
+import Patients from "./pages/Patients";
 import NavBar from './components/Navbar';
 import ProtectedRoute from './ProtectedRoute';
 import './assets/css/bootstrap.min.css'
@@ -21,7 +21,7 @@ function App() {
         <Route exact path="/"> <Landing /> </Route>
         <Route exact path="/signin"> <SignIn /> </Route>
         <Route exact path="/signup"> <SignUp /> </Route>
-        <ProtectedRoute exact path="/profiles" component={Profiles} />
+        <ProtectedRoute exact path="/profiles" component={Patients} />
         <ProtectedRoute exact path="/ehr" component={EHR} />
         <Route exact path="/medications"> <Medications /> </Route>
       </div>

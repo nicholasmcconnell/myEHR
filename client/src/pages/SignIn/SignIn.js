@@ -25,6 +25,7 @@ export default function SignIn(props) {
      handleSubmit = e => {
         e.preventDefault();
         e.target.reset();
+        
         API.login(credentials)
             .then(({ data }) => { 
              

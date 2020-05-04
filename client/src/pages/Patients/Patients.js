@@ -5,7 +5,7 @@ import Profiles from '../../components/ProfileList';
 import API from "../../utils/API";
 import Auth from '../../Auth'
 
-export default function Profile(props) {
+export default function Patients(props) {
     
     let history = useHistory();
 
@@ -37,12 +37,6 @@ export default function Profile(props) {
             // setPatients(clients)
     }
     
-    const deAuthorize = () => {
-        Auth.logout(() => {
-          history.push("/")
-        })
-      }
-
     return (
         <Container>
             <Row>
@@ -55,8 +49,7 @@ export default function Profile(props) {
         
             <br/>
             <div>
-            <button onClick={() => deAuthorize()}
-            type="button" class="btn" >+ patients</button>
+            <button  type="button" class="btn" >+ patients</button>
 
             </div>
         </Container>
