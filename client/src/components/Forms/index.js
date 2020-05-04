@@ -21,12 +21,12 @@ export function Button(props) {
         </button>
     );
   }
-  export function LoggerBtn() { 
+  export function LoggerBtn({ btnType }) { 
     
       return (
         <Button className={'btn btn-primary btn-lg btn-block'} 
         type="submit">
-          Log In
+          {btnType}
         </Button>
       )
   }

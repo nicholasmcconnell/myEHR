@@ -16,64 +16,24 @@ export default function SignIn(props) {
         setCredentials({...credentials, [name]: value })
     },
 
-    auth = async () => {
-        try {
-          const res = await API.authenticate(credentials)
-          const {data} = await API.getUser()
-          console.log("auth -> data", data)
-    
-          console.log(res.data.screen)
-          if (res.data.screen !== undefined) {
-            setScreen(res.data.screen);
-          }
-        } catch (e) {
-          console.log(e);
-        }
-      };
-
-     const { screen, setScreen } = props;
-
-     const [data, setData] = useState()
-     
-     const removeCookie = async () => {
-      try {
-        await API.deleteCookie()
-        setScreen('auth');
-      } catch (e) {
-        console.log(e);
-      }
-    }
-  console.log(props)
-     const getData = async () => {
-      try {
-        const { data } = await API.getCookie();
-        console.log(data)
-        setData(data);
-      } catch (e) {
-        console.log(e);
-      }
-    } 
-    const authorize = () => {
+     authorize = () => {
         Auth.login(() => {
           history.push("/profiles")
         })
-      }
+      },
        
-    const handleSubmit = e => {
+     handleSubmit = e => {
         e.preventDefault();
         e.target.reset();
-
         API.login(credentials)
             .then(({ data }) => { 
-              console.log(data)
+             
               if(data.status === 'success') {
                 authorize()
               } else {
                 console.log('Login failed.  Please try again.')
                 }
-            }
-            )
-            .catch((err) => err)
+          }).catch((err) => err)
     }
 
     return (
@@ -104,7 +64,7 @@ export default function SignIn(props) {
                                     name="password" type="password" placeholder="Password" />
                             </div>
 
-                            <LoggerBtn />
+                            <LoggerBtn btnType={'log in'} />
                         </form>
 
                     </Row>

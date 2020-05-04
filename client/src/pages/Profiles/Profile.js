@@ -29,7 +29,7 @@ export default function Profile(props) {
     }
 
     const getPatients = async () => {
-        
+        console.log(Auth.isAuthenticated())
         const { data } = await API.fetchPatients()
 
             /* code here depends on schema but something like... */

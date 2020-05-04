@@ -1,22 +1,22 @@
 import React, {useState} from 'react'
-import { Link, useLocation as location } from 'react-router-dom'
+import { Link, useLocation as location, useHistory } from 'react-router-dom'
 import { Button } from '../Forms'
 import { Collapse } from '../Grid'
 import API from '../../utils/API'
+import Auth from '../../Auth'
 
-export default function navBar() {
+export default function navBar(props) {
 
-    let [navLinks, showNavLinks] = useState(false)
+    let history = useHistory(),
+      [navLinks, showNavLinks] = useState(false)
 
     const toggleNav = () => showNavLinks(navLinks = !navLinks)
 
-    const { pathname } = location();
-
     const logout = () => {
-        API.logout()
-          .then( res => console.log(res.data))
-       }
-  
+        Auth.logout(() => {history.push("/")})
+    }
+    
+    const { pathname } = location();
 
     return (
         <nav className={'navbar navbar-expand-lg navbar-light bg-light'}>
@@ -60,8 +60,11 @@ export default function navBar() {
                             Sign Up
                          </Button>
                     </Link>
-
-               
+                  
+                        <Button className={'btn btn-outline-primary m-2'} type='button'
+                            onClick={logout} >
+                            Log Out
+                         </Button>
                 </div>
             </Collapse>
         </nav>
