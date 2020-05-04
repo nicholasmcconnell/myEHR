@@ -42,12 +42,6 @@ export default function navBar() {
                 )
             }
      }
-
-
-    const logout = () => {
-        API.logout()
-          .then( res => console.log(res.data))
-       }
   
 
     return (
