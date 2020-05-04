@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Container, Row, Col } from '../../components/Grid';
-import { Button, Input } from '../../components/Forms';
+import { LoggerBtn, Input } from '../../components/Forms';
 import API from '../../utils/API';
+import Auth from '../../Auth'
 
 export default function SignIn(props) {
 
+    let history = useHistory();
     const [credentials, setCredentials] = useState({}),
 
     onInputChange = e => {
@@ -14,57 +16,27 @@ export default function SignIn(props) {
         setCredentials({...credentials, [name]: value })
     },
 
-    auth = async () => {
-        try {
-          const res = await API.authenticate(credentials)
-          const {data} = await API.getUser()
-          console.log("auth -> data", data)
-    
-          console.log(res.data.screen)
-          if (res.data.screen !== undefined) {
-            setScreen(res.data.screen);
-          }
-        } catch (e) {
-          console.log(e);
-        }
-      };
-
-     const { screen, setScreen } = props;
-
-     const [data, setData] = useState()
-     
-     const removeCookie = async () => {
-      try {
-        await API.deleteCookie()
-        setScreen('auth');
-      } catch (e) {
-        console.log(e);
-      }
-    }
-  console.log(props)
-     const getData = async () => {
-      try {
-        const { data } = await API.getCookie();
-        console.log(data)
-        setData(data);
-      } catch (e) {
-        console.log(e);
-      }
-    } 
+     authorize = () => {
+        Auth.login(() => {
+          history.push("/profiles")
+        })
+      },
        
-    const handleSubmit = e => {
+     handleSubmit = e => {
         e.preventDefault();
         e.target.reset();
+        
         API.login(credentials)
-            .then((res) => { console.log(res.data) }
-                // console.log(res.data)
-                // if (res.data.success) {
-                //     localStorage.setItem('JWT', res.data.token);
-                //     history.push('/')
-                // }}
-            )
-            .catch((err) => err)
+            .then(({ data }) => { 
+             
+              if(data.status === 'success') {
+                authorize()
+              } else {
+                console.log('Login failed.  Please try again.')
+                }
+          }).catch((err) => err)
     }
+    
     return (
         <Container classes={'box-shadow sign'}>
             <Row>
@@ -92,14 +64,12 @@ export default function SignIn(props) {
                                 <Input onChange={onInputChange}
                                     name="password" type="password" placeholder="Password" />
                             </div>
-<<<<<<< HEAD
-                            <Button className={'btn btn-primary btn-lg btn-block'} 
-                                onClick={auth} 
-                                type="submit">Log In</Button>
-=======
-                            <Button className={'btn btn-primary btn-lg btn-block'} type="submit">Log In</Button>
->>>>>>> 1a3934089bfa054591e7b2fb025a9ff4d81a64d8
+
+
+                            <LoggerBtn btnType={'log in'} />
+
                         </form>
+
                     </Row>
                     <Row classes={'justify-content-center'}>
                         <p> New here?

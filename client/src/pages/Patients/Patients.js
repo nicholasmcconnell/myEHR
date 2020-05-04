@@ -1,12 +1,17 @@
+import { useHistory } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col } from '../../components/Grid';
 import Profiles from '../../components/ProfileList'; 
 import API from "../../utils/API";
+import Auth from '../../Auth'
 
-export default function Profile() {
+export default function Patients(props) {
+    
+    let history = useHistory();
 
     const [user, setUser] = useState();
     const [patients, setPatients] = useState();
+
 
     useEffect(() => {
         getUser()
@@ -19,21 +24,19 @@ export default function Profile() {
 
     const getUser = async () => {
         
-        const { user } = await API.fetchUser()
+        const { user } = await API.getUser()
         setUser(user)
     }
 
     const getPatients = async () => {
-        
+        console.log(Auth.isAuthenticated())
         const { data } = await API.fetchPatients()
 
             /* code here depends on schema but something like... */
             // const clients = data.patients;
             // setPatients(clients)
     }
-            
-
-
+    
     return (
         <Container>
             <Row>
@@ -44,9 +47,10 @@ export default function Profile() {
                 </Col>
            </Row>
         
-            <br></br>
+            <br/>
             <div>
-            <button type="button" class="btn" href='../UserInfo'>Add Profile</button>
+            <button  type="button" class="btn" >+ patients</button>
+
             </div>
         </Container>
     )
