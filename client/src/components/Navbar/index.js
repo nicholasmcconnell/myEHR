@@ -46,7 +46,7 @@ export default function navBar() {
 
     return (
         <nav className={'navbar navbar-expand-lg navbar-light bg-light'}>
-            <Link to='/' className={'navbar-brand'}><em>my</em>ERH</Link>
+            <Link to='/' className={'navbar-brand'}><em>my</em>EHR</Link>
             <button onClick={toggleNav} className={'navbar-toggler'} type="button" data-toggle="collapse" data-target="#target-collapse" >
             <span className="navbar-toggler-icon"></span>
             </button>
