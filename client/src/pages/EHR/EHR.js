@@ -122,10 +122,24 @@ export default function EHR({ usrId }) {
 
                 description = data[0].shortdef ? data[0].shortdef.join('\n') : '';
 
-            setConditions([...conditions, { name: text, description }])
+            setConditions([...conditions, { name: text, edit: false, description }])
+        },
+       
+        toggleDescriptionEdit = index => {
+            const arr = [];
+
+            conditions.forEach( (item, i) => {
+               
+                item.edit = i === index ? !item.edit : false;
+                arr.push(item)
+            })
+            setConditions(arr)
         }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5d185b580a493d42e33506067166644b48a58a15
     useEffect(() => {   
         loadProfiles()
     }, []);
@@ -167,9 +181,15 @@ export default function EHR({ usrId }) {
                 <Col size={'md-8'} classes={'offset-md-2'}>
                     <Conditions
                         toggleState={() => setConditState(!editConditState)}
+<<<<<<< HEAD
                         editState={editConditState} 
                         toggleDescState={() => setDescEditState(!descEditState)}
                         editDescState={descEditState} 
+=======
+                        editState={editConditState}
+                        toggleDescState={toggleDescriptionEdit}
+                        editDescState={descEditState}
+>>>>>>> 5d185b580a493d42e33506067166644b48a58a15
                         data={conditions}
                         target={onConditInputChange}
                         renderSuggestions={renderConditSuggestions}

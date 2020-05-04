@@ -27,14 +27,6 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // Connect to the Mongo DB
-
-mongoose.connect(
-    process.env.MONGODB_URI || "mongodb://localhost/myEHR")
-        .then(console.log("Connection to database established"));
-
-// Routes
-app.use(routes);
-
 mongoose.connect(
     process.env.MONGODB_URI || "mongodb://localhost/myEHR")
         .then(console.log("Connection to database established"));
