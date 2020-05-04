@@ -84,64 +84,29 @@ export default function EHR({ usrId }) {
         )
     },
 
-        onConditInputChange = async e => {
+    onHealthInfoInputChange = e => {
+        const { name, value } = e.target;
+        setHealthInfo({ ...healthInfo, [name]: value })
+    },
 
-            const { value } = e.target,
-                items = await getConditionNames(value);
-            let suggestions = [];
+    onConditionSearchChange = e => {
+        const { name, value } = e.target;
+        setConditionSearch({ ...conditionSearch, [name]: value })
+    },
 
-            if (value.length > 0) {
-                const regex = new RegExp(`^${value}`, 'i');
-                suggestions = items.sort().filter(x => regex.test(x));
-            }
-            setConditSuggestions({ suggestions, text: value })
-        },
-
-        getConditionNames = async (search) => {
-            const { data } = await API.getConditionNames(search);
-            return data[3].map(x => x[0]);
-        },
-
-        selectSuggestedCondit = value => {
-            setConditSuggestions({ suggestions: [], text: value })
-        },
-
-        renderConditSuggestions = () => {
-            const { suggestions } = conditSuggestions;
-
-            if (!suggestions || suggestions.length === 0) {
-                return;
-            }
-            return (
-                <ul>
-                    {suggestions.map((suggestion, i) => <li onClick={() => selectSuggestedCondit(suggestion)} key={i}>{suggestion}</li>)}
-                </ul>
-            )
-        },
-
-        onHealthInfoInputChange = e => {
-            const { name, value } = e.target;
-            setHealthInfo({ ...healthInfo, [name]: value })
-        },
-
-        onConditionSearchChange = e => {
-            const { name, value } = e.target;
-            setConditionSearch({ ...conditionSearch, [name]: value })
-        },
-
-        updateDB = () => {
-            // e.preventDefault()
-            API.updateEHR()
-                .then((res) => {
-                    console.log(res);
-                    // if (data.status === 'success') {
-                    //     console.log('Updated record!', 'green')
-                    // } else {
-                    //     console.log('Fail to update record.', 'red')
-                    // }
-                })
-                .catch((err) => console.log(err))             
-        },
+    updateDB = () => {
+        // e.preventDefault()
+        API.updateEHR()
+            .then((res) => {
+                console.log(res);
+                // if (data.status === 'success') {
+                //     console.log('Updated record!', 'green')
+                // } else {
+                //     console.log('Fail to update record.', 'red')
+                // }
+            })
+            .catch((err) => console.log(err))             
+    },
 
         addCondition = async e => {
             e.preventDefault();
@@ -159,28 +124,6 @@ export default function EHR({ usrId }) {
 
             setConditions([...conditions, { name: text, description }])
         }
-
-        updateDB();
-
-  
-
-
-    addCondition = async e =>  {
-        e.preventDefault();
-        setConditSuggestions([]);
-        e.target.reset();
-
-        const { text } = conditSuggestions;
-            if (!text) {
-              return;
-            }
-        const [ search ] = text.split('-'),
-                { data } = await API.fetchCondition(search),
-
-           description = data[0].shortdef ? data[0].shortdef.join('\n') : '';
-
-        setConditions([...conditions, {name: text, description}])
-    }
 
 
     useEffect(() => {   

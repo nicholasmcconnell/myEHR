@@ -7,6 +7,7 @@ import API from '../../utils/API';
 export default function SignUp() {
 
     const [credentials, setCredentials] = useState({}),
+     
 
         onInputChange = e => {
             const { name, value } = e.target;

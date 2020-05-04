@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route, useHistory } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Landing from "./pages/Landing";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
@@ -8,12 +8,13 @@ import Medications from "./pages/Medications";
 import Profiles from "./pages/Profiles";
 import NavBar from './components/Navbar';
 import API from './utils/API';
+import ProtectedRoute from './ProtectedRoute';
+import Auth from './Auth';
 import './assets/css/bootstrap.min.css'
 import "./App.css";
 
 
 function App() {
-  // const history = useHistory();
 
   const [screen, setScreen] = useState(),
 
@@ -34,17 +35,15 @@ function App() {
     readCookie();
   }, []);
 
-  
-  
 
   return (
     <Router>
       <div>
         <NavBar />
         <Route exact path="/"> <Landing /> </Route>
-        <Route exact path="/signIn" screen={screen} setScreen={setScreen}
-      > <SignIn /> </Route>
-        <Route exact path="/signUp"> <SignUp /> </Route>
+        <Route exact path="/signin" 
+      > <SignIn screen={screen} setScreen={setScreen} /> </Route>
+        <Route exact path="/signup"> <SignUp /> </Route>
         <Route exact path="/profiles"> <Profiles /> </Route>
         <Route exact path="/ehr"> <EHR /> </Route>
         <Route exact path="/medications"> <Medications /> </Route>

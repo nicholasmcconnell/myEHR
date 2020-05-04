@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Container, Row, Col } from '../../components/Grid';
-import { Button, Input } from '../../components/Forms';
+import { LoggerBtn, Input } from '../../components/Forms';
 import API from '../../utils/API';
+import Auth from '../../Auth'
 
 export default function SignIn(props) {
 
+    let history = useHistory();
     const [credentials, setCredentials] = useState({}),
 
     onInputChange = e => {
@@ -51,20 +53,29 @@ export default function SignIn(props) {
         console.log(e);
       }
     } 
+    const authorize = () => {
+        Auth.login(() => {
+          history.push("/profiles")
+        })
+      }
        
     const handleSubmit = e => {
         e.preventDefault();
         e.target.reset();
+
         API.login(credentials)
-            .then((res) => { console.log(res.data) }
-                // console.log(res.data)
-                // if (res.data.success) {
-                //     localStorage.setItem('JWT', res.data.token);
-                //     history.push('/')
-                // }}
+            .then(({ data }) => { 
+              console.log(data)
+              if(data.status === 'success') {
+                authorize()
+              } else {
+                console.log('Login failed.  Please try again.')
+                }
+            }
             )
             .catch((err) => err)
     }
+
     return (
         <Container classes={'box-shadow sign'}>
             <Row>
@@ -92,14 +103,10 @@ export default function SignIn(props) {
                                 <Input onChange={onInputChange}
                                     name="password" type="password" placeholder="Password" />
                             </div>
-<<<<<<< HEAD
-                            <Button className={'btn btn-primary btn-lg btn-block'} 
-                                onClick={auth} 
-                                type="submit">Log In</Button>
-=======
-                            <Button className={'btn btn-primary btn-lg btn-block'} type="submit">Log In</Button>
->>>>>>> 1a3934089bfa054591e7b2fb025a9ff4d81a64d8
+
+                            <LoggerBtn />
                         </form>
+
                     </Row>
                     <Row classes={'justify-content-center'}>
                         <p> New here?

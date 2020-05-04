@@ -34,12 +34,17 @@ router.post('/login', function(req, res, next) {
         next()
     },
     passport.authenticate('local'),
-    (req, res) => {
-        console.log(`logged in as, ${req.user}`);
+    (req, res, err) => {
+        console.log(`logged in as, ${err}`);
+        if(req.user._id) {
         const userInfo = {
+            status: 'success',
             email: req.user.email
-        };
+        }
         res.send(userInfo);
+      } else {
+        res.send({status: 'failure'})
+      }
     }
 )
 
