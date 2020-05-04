@@ -1,7 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const Patient = require("../../models");
-
+router.get('/test', (req,res) => {
+    res.json("hit");
+})
 // gets all patients
 router.get('/load', async(req, res) => {
     try {
