@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const Patient = require("../../models");
-const userId = require("./authenticate");
 
 // gets all patients
 router.get('/load', async(req, res) => {
