@@ -32,9 +32,7 @@ export default function EHR({ usrId }) {
         // immunizations: 'HPV on 5/16/2018',
         // notes: 'Breast Cancer!!  Patient likes talk a lot.',
     }),
-        [ conditions, setConditions ] = useState([
-
-        ]),
+        [ conditions, setConditions ] = useState([]),
         [ editGenState, setGenState ]= useState(false),
         [ editHealthState, setHealthState ]= useState(false),
         [ editConditState, setConditState ]= useState(false),
@@ -133,8 +131,8 @@ export default function EHR({ usrId }) {
     function loadProfiles() {
         API.fetchPatients()
           .then(res => 
-            // setGeneralInfo(res.data)
-            console.log(res.data)
+            setGeneralInfo(res.data[0])
+            // console.log(res.data)
           )
           .catch(err => console.log(err));
       };
