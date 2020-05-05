@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Patient = require("../../models");
+const { Patient } = require("../../models");
 
 // gets all patients
 router.get('/load', async(req, res) => {
@@ -14,7 +14,7 @@ router.get('/load', async(req, res) => {
 });
 
 //create new profile
-router.post("/add", async(req, res) => {
+router.post('/add', async(req, res) => {
     const patient = new Patient({
         patientId: req.body.patientId,
         firstName: req.body.firstName,
