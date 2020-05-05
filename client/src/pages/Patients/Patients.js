@@ -31,17 +31,25 @@ export default function Patients(props) {
     const getPatients = async () => {
         console.log(Auth.isAuthenticated())
         const { data } = await API.fetchPatients()
-
+        // console.log(data);
+        const { firstName, lastName, email } = data[0];
+        const name = firstName + " " +lastName;
+        // console.log(name);
+        setPatients(name);
             /* code here depends on schema but something like... */
             // const clients = data.patients;
             // setPatients(clients)
+
+            //for loop to create Profiles component for each ... in the DB 
+            //if statement to compare the login email and the email used for that patient?? 
     }
     
+
     return (
         <Container>
             <Row>
                 <Col size={'md-8'} classes={'offset-md-2'}>
-                    <Profiles props={patients} name={"User's Name"} />
+                    <Profiles props={patients} name={patients} />
                     <Profiles name={"First Care Recipient"} />
                     <Profiles name={"Second Care Recipient"} />
                 </Col>
