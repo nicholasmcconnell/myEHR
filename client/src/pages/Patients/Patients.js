@@ -8,9 +8,8 @@ import Auth from '../../Auth'
 export default function Patients(props) {
     
     let history = useHistory();
-
     const [user, setUser] = useState();
-    const [patients, setPatients] = useState();
+    const [patients, setPatients] = useState([]);
 
 
     useEffect(() => {
@@ -21,9 +20,7 @@ export default function Patients(props) {
         getPatients()
     }, [user])
 
-
     const getUser = async () => {
-        
         const { user } = await API.getUser()
         setUser(user)
     }
@@ -31,27 +28,28 @@ export default function Patients(props) {
     const getPatients = async () => {
         console.log(Auth.isAuthenticated())
         const { data } = await API.fetchPatients()
-        // console.log(data);
-        const { firstName, lastName, email } = data[0];
-        const name = firstName + " " +lastName;
-        // console.log(name);
-        setPatients(name);
+        // const { firstName, lastName, email } = data;
+
+        for (let i = 0; i < data.length; i++){
+  //if statement to compare the login email and the email used for that patient?? 
+            setPatients(patients => patients.concat(data[i]))
+        }
+
             /* code here depends on schema but something like... */
             // const clients = data.patients;
             // setPatients(clients)
-
-            //for loop to create Profiles component for each ... in the DB 
-            //if statement to compare the login email and the email used for that patient?? 
     }
-    
 
     return (
         <Container>
             <Row>
                 <Col size={'md-8'} classes={'offset-md-2'}>
-                    <Profiles props={patients} name={patients} />
-                    <Profiles name={"First Care Recipient"} />
-                    <Profiles name={"Second Care Recipient"} />
+                    {/* <Profiles props={patients} name={patients} />
+                    <Profiles name={patients} />
+                    <Profiles name={patients} /> */}
+                    {
+                        patients.map(patient => <Profiles key={patient.id} name={patient.firstName} props={patient}/>)
+                    }
                 </Col>
            </Row>
         
