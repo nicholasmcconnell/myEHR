@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const ProfileSchema = new Schema({
+const PatientSchema = new Schema({
     profileId: { type: String, required: true },
     firstName: {
         type: String,
@@ -89,6 +89,6 @@ const ProfileSchema = new Schema({
     }
 })
 
-const Profile = mongoose.model("Profile", ProfileSchema);
+const Patient = mongoose.model("Patient", PatientSchema);
 
-module.exports = Profile;
+module.exports = Patient;
