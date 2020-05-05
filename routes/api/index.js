@@ -1,8 +1,8 @@
 const router = require("express").Router();
-const authenticateRoutes = require('./authenticate')
-const profileRoutes = require("./profiles");
+const userRoutes = require('./users')
+const patientRoutes = require("./patients");
 
-router.use("/authenticate", authenticateRoutes);
-router.use("/profiles", profileRoutes);
+router.use("/users", userRoutes);
+router.use("/patients", patientRoutes);
 
 module.exports = router;

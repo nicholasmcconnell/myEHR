@@ -14,6 +14,24 @@ export default {
 
     getConditionNames: function(search) {
         return axios.get(`https://clinicaltables.nlm.nih.gov/api/conditions/v3/search?terms=${search}&sf=primary_name,consumer_name&df=primary_name,consumer_name,info_link_data`)
+<<<<<<< HEAD
+            .catch(err => console.log(err))
+    },
+
+    fetchCondition: function(search) {
+        return axios.get(`https://www.dictionaryapi.com/api/v3/references/medical/json/${search}?key=${apiKey}`)
+=======
+>>>>>>> 6aa663846b2d621f76816bcfc54dc8e77d8600d7
+            .catch(err => console.log(err))
+    },
+
+    fetchMeds: function(search) {
+        return axios.get(`https://rxnav.nlm.nih.gov/REST/drugs.json?name=${search}`)
+            .catch(err => console.log(err))
+    },
+
+    getMedNames: function() {
+        return axios.get('https://rxnav.nlm.nih.gov/REST/displaynames')
             .catch(err => console.log(err))
     },
 
@@ -22,42 +40,28 @@ export default {
             .catch(err => console.log(err))
     },
 
-    updateEHR: function(id, data) {
-
-        return new Promise((resolve, reject) => {
-            resolve({ status: 'success' })
-        });
-        //return axios.post(`/api/:${id}`, data)
-    },
-    fetchUser: function() {
-        return { email: 'example@example.com', _id: '123456789' }
+    fetchPatients: function() {
+        return axios.get("/api/patients/load");
     },
 
-    fetchProfile: function() {
-        return axios.get("/load");
-        // return {
-        //     id: "67",
-        //     firstName: "Eddie",
-        //     lastName: "Bravo",
-        //     birthday: "6/11/1983",
-        //     allergies: "peanuts. horseradish, bees",
-        //     medications: [{
-        //         name: "tylonal",
-        //         dosage: "the right amount",
-        //         date: "hey I got new meds today they are groovy - Pull new date"
-        //     }]
-        // }
+    addPatient: function(data) {
+        return axios.get("/api/patients/add", data);
+    },
+
+    getUser: function() {
+        return axios.get('/api/users').then(data => data)
     },
 
     register: function(credentials) {
         // console.log("in API.register");
         // console.log(credentials);
         const { email, password } = credentials
-        return axios.post('/register', { email, password })
+        return axios.post('api/users/register', { email, password })
     },
 
     login: function(credentials) {
         const { email, password } = credentials;
-        return axios.post('/login', { email, password })
+        return axios.post('/api/users/login', { email, password })
     }
-};
+
+}
