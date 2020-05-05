@@ -36,6 +36,7 @@ export default function EHR({ usrId }) {
         [ editGenState, setGenState ]= useState(false),
         [ editHealthState, setHealthState ]= useState(false),
         [ editConditState, setConditState ]= useState(false),
+        [ conditionText, setConditText ]= useState(''),
         [ descEditState, setDescEditState ]= useState(false),
         [ conditSuggestions, setConditSuggestions ]= useState([]),
         [ conditionSearch, setConditionSearch ]= useState('');
@@ -45,6 +46,25 @@ export default function EHR({ usrId }) {
         const { name, value } = e.target;
         setGeneralInfo({ ...generalInfo, [name]: value })
         loadProfiles();
+    }, 
+
+    onConditDescChange = index => e => {
+
+        console.log('index', index)
+        // let description = conditions[index].description;
+        const { value } = e.target;
+         console.log(conditions[index].description, value)
+        const clone = conditions;
+        setConditText(value)
+
+         const newDescription = {
+            name: conditions[index].name,
+            edit: conditions[index].edit,
+            description: value
+        }
+        clone.splice(index, 1, newDescription)
+        console.log(clone)
+        setConditions(clone)
     }, 
     
     onConditInputChange = async e => {
@@ -62,7 +82,7 @@ export default function EHR({ usrId }) {
 
      getConditionNames = async(search) => {
         const { data } = await API.getConditionNames(search);
-        return  data[3].map( x => x[0] );
+        return  data[3].map( x => x[0]);
     },
 
     selectSuggestedCondit = value => {
@@ -135,9 +155,9 @@ export default function EHR({ usrId }) {
         },
 
         removeCondition = index => {
-            const clone = conditions
-                clone.splice(index, 1)
-            console.log(index, clone)
+            const clone = conditions;
+
+            clone.splice(index, 1)
             setConditions(clone)
         }
 
@@ -188,6 +208,8 @@ export default function EHR({ usrId }) {
                         toggleDescState={toggleDescriptionEdit}
                         editDescState={descEditState}
                         remove={removeCondition}
+                        areaTarget={onConditDescChange}
+                        areaText={conditionText}
                         data={conditions}
                         target={onConditInputChange}
                         renderSuggestions={renderConditSuggestions}
