@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Container, Row, Col } from '../../components/Grid';
 import { LoggerBtn, Input } from '../../components/Forms';
 import API from '../../utils/API';
+import Auth from '../../Auth'
 
 export default function SignUp() {
 
+    let history = useHistory();
     const [credentials, setCredentials] = useState({}),
      
 
@@ -20,17 +22,29 @@ export default function SignUp() {
         const fetchUser = () => {
             API.getUser()
             .then( res => console.log(res.data))
-        }
+        },
 
-       const  handleSubmit = e => {
+        authorize = () => {
+            Auth.login(() => {
+              history.push("/profiles")
+            })
+          }
+
+         const handleSubmit = e => {
             e.preventDefault();
-            console.log(credentials)
+            e.target.reset();
 
             API.register(credentials)
-                .then((res) =>
-                    console.log(res)
-                )
-                .catch((err) => console.log(err))
+            .then(({ data }) => { 
+       
+              if(data.email) {
+
+                authorize()
+
+              } else {
+                console.log(data)
+                }
+          }).catch((err) => err)
         }
 
     return (

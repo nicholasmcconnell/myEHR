@@ -1,49 +1,60 @@
 import React from 'react'
-import { Col } from '../Grid';
+import { Col, Row } from '../Grid';
 import { Input, Button, TextArea } from '../Forms';
 
 
 
-export function Conditions({ data, target, areaTarget, editState, toggleState, formSubmit, renderSuggestions, remove, text, toggleDescState, editDescState }) {
+export function Medications ({ data, target, areaTarget, editState, toggleState, formSubmit, renderSuggestions, remove, text, toggleMedState, editDescState, doseChoices, addDoses }) {
 
-    const renderConditions = conditions => {
+    const populateDoses = doses => {
+        if(!doses) {
+            return
+        } else {
+         return doses.map( dose => dose === data.dose ? <option name='dosage' selected>{data.dose}</option> : <option name='dosage'>{dose}</option>)
+        }
+     },
+
+     renderMeds  = meds => {
       return (
-          conditions.map( (condition, i) => 
-            <Col key={i} size={'md-12'} classes={'form-group'}>
-                <label style={fieldText}>
-                    {condition.name} 
-                    {' '}
-                    </label>
-                <div>
-                    {condition.description}
-                    </div>
-            </Col>
+          meds.map( (med, i) => 
+          <Col key={i} size={'md-12'} classes={'form-group'}>
+          <label style={fieldText}>
+          <Button className="fas fa-times" style={removeBtn}
+            onClick={remove.bind(this, i)}  
+          />
+              {med.medication} 
+              {' '}
+              </label>
+          <div>
+              {med.dosage}
+              </div>
+      </Col>
          )
         )
      };
 
     
-    function renderEditConditions(conditions) {
+    function renderEditMeds(meds) {
       return (
-          conditions.map( (condition, i) => {
-            if (condition.edit) {
+          meds.map( (med , i) => {
+            if (med.edit) {
 
               return (
             <Col key={i} size={'md-12'} classes={'form-group'}>
               <form>
                 <label style={fieldText}>
-                    {condition.name} {' '}
+                    {med.medication} {' '}
                     <Button className="fas fa-pen" style={{border:'none'}}
-                        onClick={toggleDescState.bind(this, i)} 
+                        onClick={toggleMedState.bind(this, i)} 
                         />
                     <Button className="fas fa-sync-alt" style={littleEditBtn}
-                        onClick={toggleDescState.bind(this, i)} 
+                        onClick={toggleMedState.bind(this, i)} 
                         />
                 </label>
                 
                     <TextArea 
-                        value={condition.description} 
-                        rows={getRowHeight(condition.description)}
+                        value={med.dosage} 
+                        rows={getRowHeight(med.dosage)}
                         onChange={areaTarget(i)}
                         style={textarea} 
                      />
@@ -54,16 +65,16 @@ export function Conditions({ data, target, areaTarget, editState, toggleState, f
                 return (
                 <Col key={i} size={'md-12'} classes={'form-group'}>
                     <label style={fieldText}>
-                        {condition.name} {' '}
+                        {med.medication} {' '}
                         <Button className="fas fa-pen" style={{border:'none'}}
-                            onClick={toggleDescState.bind(this, i)}
+                            onClick={toggleMedState.bind(this, i)}
                             />
                         <Button className="fas fa-times" style={removeBtn}
                             onClick={remove.bind(this, i)}  
                             />
                         </label>
                     <div>
-                        {condition.description}
+                        {med.dosage}
                         </div>
                  </Col>
                 )
@@ -76,17 +87,21 @@ export function Conditions({ data, target, areaTarget, editState, toggleState, f
 
     if ((editState || data.length === 0) && !editDescState) {
         return (
-            <div className={'mt-5'}>
+            <div className={'my-5'}>
                 <Col size={'md-12'}>
                         <Button className="fas fa-backspace fa-2x" style={cancelBtn} 
                         onClick={toggleState} />
                 </Col>
             <form onSubmit={formSubmit} >
                  <div className="form-row" style={{background:'white'}}>
-                    <Col size={'md-6'} classes={'form-group'}>
-                        <label>Add New Condition</label>
+                    <Col size={'md-4'} classes={'form-group'}>
+                        <label>Add New Medication</label>
+                        <Button className="fas fa-hand-point-right"
+                            style={littlePointBtn}
+                            onClick={addDoses}
+                            ></Button>
                         <div>
-                            <Input type="text"
+                            <Input name="medication" type='text'
                             style={input}
                             value={text}
                             onChange={target} 
@@ -94,16 +109,24 @@ export function Conditions({ data, target, areaTarget, editState, toggleState, f
                             {renderSuggestions()}
                         </div>
                     </Col>
-                        <Col size={'md-3'}>
+                    <Col size={'md-4'} classes={'form-group'}>
+                        <label>Select Dosage</label>
+                        <div>
+                            <select onChange={target} style={input} name="dosage" class="form-control">
+                                {populateDoses(doseChoices)}
+                            </select>
+                        </div>
+                    </Col>
+                        <Col size={'md-2'}>
                         <Button className="btn" style={addBtn}
-                         type="submit" > <i className="fa fa-plus fa-2x mr-2"/> 
+                         type="submit"  > <i className="fa fa-plus fa-2x mr-2"/> 
                             {' '} Add 
                         </Button>
                     </Col>
                 </div>
                 <div className={"form-row"}>
 
-                    {renderEditConditions(data)}
+                    {renderMeds(data)}
                     
                 </div>
             </form>
@@ -111,7 +134,7 @@ export function Conditions({ data, target, areaTarget, editState, toggleState, f
         )
         } else if (editDescState) {
         return (
-            <div className={'mt-5'}>
+            <div className={'my-5'}>
             <Col size={'md-12'}>
                     <Button className="fas fa-backspace fa-2x" style={cancelBtn} 
                     onClick={toggleState} />
@@ -119,7 +142,7 @@ export function Conditions({ data, target, areaTarget, editState, toggleState, f
             <form onSubmit={formSubmit} >
                 <div className="form-row" style={{background:'white'}}>
                     <Col size={'md-6'} classes={'form-group'}>
-                        <label>Add New Condition</label>
+                        <label>Add New Medication</label>
                         <div>
                             <Input type="text"
                             style={input}
@@ -138,7 +161,7 @@ export function Conditions({ data, target, areaTarget, editState, toggleState, f
             </div>
                 <div className={"form-row"}>
                    
-                {renderEditConditions(data)}
+                {renderEditMeds(data)}
 
                 </div>
             </form>
@@ -146,8 +169,8 @@ export function Conditions({ data, target, areaTarget, editState, toggleState, f
         )
     } else {
         return (
-        <div className={'mt-5 condition-info'}>
-            <Col size={'md-12'} classes={'condition-edit'}>
+        <div className={'my-5 med-info'}>
+            <Col size={'md-12'} classes={'med-edit'}>
                 <Button className="fas fa-user-edit fa-2x" style={editBtn} 
                     onClick={toggleState} 
                 />   
@@ -155,7 +178,7 @@ export function Conditions({ data, target, areaTarget, editState, toggleState, f
             <form>
                 <div className={"form-row"}>
                    
-                {renderConditions(data)}
+                {renderMeds(data)}
 
                 </div>
             </form>
@@ -209,6 +232,11 @@ addBtn = {
 littleEditBtn = {
     border: 'none',
     color: '#214c91'
+},
+littlePointBtn = {
+    border: 'none',
+    color: 'green',
+    float: 'right'
 },
 removeBtn = {
     border: 'none',
