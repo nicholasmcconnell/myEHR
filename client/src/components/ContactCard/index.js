@@ -7,7 +7,7 @@ export function ContactCard({ data, target, editState, toggleState, formSubmit }
 
 if (editState) {
     return (
-        <div className={'mt-5'}>
+        <div className={'my-5'}>
           <Col size={'md-12'}>
                 <Button className="fas fa-backspace fa-2x" style={cancelBtn} 
                 onClick={toggleState} />
@@ -109,7 +109,7 @@ if (editState) {
     )
     } else {
         return (
-            <div className={'mt-5 gen-info'}>
+            <div className={'my-5 gen-info'}>
                 <Col size={'md-12'} classes={'gen-edit'}>
                     <Button className="fas fa-user-edit fa-2x" style={editBtn} 
                         onClick={toggleState} 

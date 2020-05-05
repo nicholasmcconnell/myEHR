@@ -5,7 +5,7 @@ import { LoggerBtn, Input } from '../../components/Forms';
 import API from '../../utils/API';
 import Auth from '../../Auth'
 
-export default function SignIn(props) {
+export default function SignIn() {
 
     let history = useHistory();
     const [credentials, setCredentials] = useState({}),
