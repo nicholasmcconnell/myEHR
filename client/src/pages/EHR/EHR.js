@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Row, Col } from '../../components/Grid';
-import { Input } from '../../components/Forms';
 import { ContactCard } from '../../components/ContactCard';
 import { HealthCard } from '../../components/HealthCard';
 import { Conditions } from '../../components/Conditions';
 import { Medications } from '../../components/Medications';
+import Contacts from '../../components/Contacts';
 import API from '../../utils/API';
 
 export default function EHR({ usrId }) {
@@ -33,12 +33,14 @@ export default function EHR({ usrId }) {
         // immunizations: 'HPV on 5/16/2018',
         // notes: 'Breast Cancer!!  Patient likes talk a lot.',
     }),
+        [ contactInfo, setContactInfo ] = useState([]),
         [ conditions, setConditions ] = useState([]),
         [ meds, setMeds ] = useState([]),
         [ medInput, setMedInput ] = useState(''),
         [ editGenState, setGenState ]= useState(false),
         [ editHealthState, setHealthState ]= useState(false),
         [ editConditState, setConditState ]= useState(false),
+        [ editContState, setContState ]= useState(false),
         [ editMedsState, setMedsState ]= useState(false),
         [ conditionText, setConditText ]= useState(''),
         [ medText, setMedText ]= useState(''),
@@ -54,6 +56,12 @@ export default function EHR({ usrId }) {
     const onGenInfoInputChange = e => {
         const { name, value } = e.target;
         setGeneralInfo({ ...generalInfo, [name]: value })
+        loadProfiles();
+    }, 
+
+    onContInfoInputChange = e => {
+        const { name, value } = e.target;
+        setContactInfo({ ...contactInfo, [name]: value })
         loadProfiles();
     }, 
 
@@ -345,6 +353,15 @@ export default function EHR({ usrId }) {
                       />
                 </Col>
             </Row>
+            <Col size={'md-8'} classes={'offset-md-2'}>
+                    <Contacts
+                        toggleState={() => setContState(!editContState)}
+                        editState={editContState}
+                        data={contactInfo}
+                        target={onContInfoInputChange}
+                        formSubmit={updateDB}
+                    />
+                </Col>
         </Container>
     )
 }

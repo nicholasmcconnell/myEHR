@@ -19,6 +19,9 @@ export function Medications ({ data, target, areaTarget, editState, toggleState,
           meds.map( (med, i) => 
           <Col key={i} size={'md-12'} classes={'form-group'}>
           <label style={fieldText}>
+          <Button className="fas fa-times" style={removeBtn}
+            onClick={remove.bind(this, i)}  
+          />
               {med.medication} 
               {' '}
               </label>
@@ -84,7 +87,7 @@ export function Medications ({ data, target, areaTarget, editState, toggleState,
 
     if ((editState || data.length === 0) && !editDescState) {
         return (
-            <div className={'mt-5'}>
+            <div className={'my-5'}>
                 <Col size={'md-12'}>
                         <Button className="fas fa-backspace fa-2x" style={cancelBtn} 
                         onClick={toggleState} />
@@ -131,7 +134,7 @@ export function Medications ({ data, target, areaTarget, editState, toggleState,
         )
         } else if (editDescState) {
         return (
-            <div className={'mt-5'}>
+            <div className={'my-5'}>
             <Col size={'md-12'}>
                     <Button className="fas fa-backspace fa-2x" style={cancelBtn} 
                     onClick={toggleState} />
@@ -166,7 +169,7 @@ export function Medications ({ data, target, areaTarget, editState, toggleState,
         )
     } else {
         return (
-        <div className={'mt-5 med-info'}>
+        <div className={'my-5 med-info'}>
             <Col size={'md-12'} classes={'med-edit'}>
                 <Button className="fas fa-user-edit fa-2x" style={editBtn} 
                     onClick={toggleState} 
