@@ -1,33 +1,50 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import { Container, Row, Col } from '../../components/Grid';
-import { Button, Input } from '../../components/Forms';
+import { LoggerBtn, Input } from '../../components/Forms';
 import API from '../../utils/API';
+import Auth from '../../Auth'
 
 export default function SignUp() {
 
+    let history = useHistory();
     const [credentials, setCredentials] = useState({}),
+     
 
         onInputChange = e => {
             const { name, value } = e.target;
             setCredentials({ ...credentials, [name]: value })
+        };
+
+        useEffect(() => {
+            fetchUser()
+        }, [])
+        const fetchUser = () => {
+            API.getUser()
+            .then( res => console.log(res.data))
         },
 
-        handleSubmit = e => {
+        authorize = () => {
+            Auth.login(() => {
+              history.push("/profiles")
+            })
+          }
+
+         const handleSubmit = e => {
             e.preventDefault();
-            console.log(credentials)
+            e.target.reset();
 
             API.register(credentials)
-                .then((res) =>
-                    console.log(res)
-                )
-                .catch((err) => console.log(err))
+            .then(({ data }) => { 
+       
+              if(data.email) {
 
+                authorize()
 
-            // setCredentials(e.target.value);
-            // e.target.reset();
-            /* More Code
-                Here...    */
+              } else {
+                console.log(data)
+                }
+          }).catch((err) => err)
         }
 
     return (
@@ -56,16 +73,9 @@ export default function SignUp() {
                                 <Input onChange={onInputChange}
                                     name="password" type="password" placeholder="Password" />
                             </div>
-                            {/* <div className={'form-group usr-inpt'}>
-                                <label>Confirm Password:</label>
-                                <span className="fa fa-lock" />
-                                <Input onChange={onInputChange}
-                                    name="passwordConfirm" type="passwordConfirm" placeholder="Confirm Password" />
-                            </div> */}
-                            <Button
-                                className={'btn btn-primary btn-lg btn-block'}
-                                type="submit"
-                               >Sign Up</Button>
+                    
+                            <LoggerBtn btnType={'Sign Up'} />
+
                         </form>
                     </Row>
                     <Row classes={'justify-content-center'}>

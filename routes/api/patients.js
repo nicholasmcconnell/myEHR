@@ -1,13 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const Profile = require("../../models/Profile");
-const userId = require("./authenticate");
+const Patient = require("../../models");
 
-// gets all the profiles
+// gets all patients
 router.get('/load', async(req, res) => {
     try {
-        const profiles = await Profile.find();
-        res.json(profiles);
+        const patients = await Profile.find();
+        res.json(patients);
         // console.log(userId._id);
     } catch (err) {
         res.json({ message: err });
@@ -16,8 +15,8 @@ router.get('/load', async(req, res) => {
 
 //create new profile
 router.post("/add", async(req, res) => {
-    const profile = new Profile({
-        profileId: req.body.profileId,
+    const patient = new Patient({
+        patientId: req.body.patientId,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         addressOne: req.body.addressOne,
@@ -42,44 +41,44 @@ router.post("/add", async(req, res) => {
 
     //promise
     try {
-        const savedProfile = await profile.save();
-        res.json(savedProfile);
+        const savedPatient = await patient.save();
+        res.json(savedPatient);
     } catch (err) {
         res.json({ message: err });
     }
 });
 
 //get by id
-router.get("/:profileId", async(req, res) => {
+router.get("/:patientId", async(req, res) => {
     try {
-        const profile = await Profile.findById(req.params.profileId);
-        res.json(profile);
+        const patient = await Patient.findById(req.params.patientId);
+        res.json(patient);
     } catch (err) {
         res.json({ message: err });
     }
 });
 
 //delete
-router.delete("/:profileId", async(req, res) => {
+router.delete("/:patientId", async(req, res) => {
     try {
-        const removedProfile = await Profile.remove({
-            _id: req.params.profileId
+        const removedPatient = await Patient.remove({
+            _id: req.params.patientId
         });
-        res.json(removedProfile);
+        res.json(removedPatient);
     } catch (err) {
         res.json({ message: err });
     }
 });
 
 //update 
-router.patch("/:profileId", async(req, res) => {
+router.patch("/:patientId", async(req, res) => {
     try {
-        const updatedProfile = await Profile.updateOne({
-            _id: req.params.profileId
+        const updatedPatient = await Patient.updateOne({
+            _id: req.params.patientId
         }, {
             $set: { birthday: req.body.birthday }
         });
-        res.json(updatedProfile);
+        res.json(updatedPatient);
     } catch (err) {
         res.json({ message: err });
     }

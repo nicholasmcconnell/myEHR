@@ -4,7 +4,7 @@ import { Input, Button, TextArea } from '../Forms';
 
 
 
-export function Conditions({ data, target, editState, toggleState, formSubmit, renderSuggestions, text, toggleDescState, editDescState }) {
+export function Conditions({ data, target, editState, toggleState, formSubmit, renderSuggestions, remove, text, toggleDescState, editDescState }) {
 
     const renderConditions = conditions => {
       return (
@@ -36,7 +36,7 @@ export function Conditions({ data, target, editState, toggleState, formSubmit, r
                         onClick={toggleDescState.bind(this, i)} 
                         />
                     <Button className="fas fa-times" style={removeBtn}
-                        onClick={toggleState}  
+                        onClick={remove.bind(this, i)}  
                         />
                     <Button className="fas fa-sync-alt" style={littleEditBtn}
                         onClick={toggleState}  

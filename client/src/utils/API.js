@@ -12,8 +12,14 @@ export default {
         return axios.get(`https://www.dictionaryapi.com/api/v3/references/medical/json/cetirizine?key=${apiKey}`);
     },
 
-    getConditionNames: function (search) {
+    getConditionNames: function(search) {
         return axios.get(`https://clinicaltables.nlm.nih.gov/api/conditions/v3/search?terms=${search}&sf=primary_name,consumer_name&df=primary_name,consumer_name,info_link_data`)
+            .catch(err => console.log(err))
+    },
+
+
+    fetchCondition: function(search) {
+        return axios.get(`https://www.dictionaryapi.com/api/v3/references/medical/json/${search}?key=${apiKey}`)
             .catch(err => console.log(err))
     },
 
@@ -22,48 +28,25 @@ export default {
             .catch(err => console.log(err))
     },
 
-    updateEHR: function () {
-        let data = {
-            name: "nick",
-            email: "nick@nick.com"
-        }
+    fetchPatients: function() {
+        return axios.get("/load");
+  
+    },
 
-        return new Promise(() => data)
+    getUser: () => {
+        return axios.get('/api/users').then( data => data )
+    },
 
-    // return new Promise((resolve, reject) => {
-    //     resolve({ status: 'success' })
-    // });
-    // return axios.post(`/api/:${id}`, data)
-},
-fetchUser: function() {
-    return { email: 'example@example.com', _id: '123456789' }
-},
+    register: function(credentials) {
+        // console.log("in API.register");
+        // console.log(credentials);
+        const { email, password } = credentials
+        return axios.post('api/users/register', { email, password })
+    },
 
-fetchProfile: function() {
-    return axios.get("/load");
-    // return {
-    //     id: "67",
-    //     firstName: "Eddie",
-    //     lastName: "Bravo",
-    //     birthday: "6/11/1983",
-    //     allergies: "peanuts. horseradish, bees",
-    //     medications: [{
-    //         name: "tylonal",
-    //         dosage: "the right amount",
-    //         date: "hey I got new meds today they are groovy - Pull new date"
-    //     }]
-    // }
-},
+    login: function(credentials) {
+        const { email, password } = credentials;
+        return axios.post('/api/users/login', { email, password })
+    }
 
-register: function(credentials) {
-    // console.log("in API.register");
-    // console.log(credentials);
-    const { email, password } = credentials
-    return axios.post('/register', { email, password })
-},
-
-login: function(credentials) {
-    const { email, password } = credentials;
-    return axios.post('/login', { email, password })
 }
-};
