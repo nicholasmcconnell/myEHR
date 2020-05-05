@@ -289,8 +289,8 @@ export default function EHR({ usrId }) {
     function loadProfiles() {
         API.fetchPatients()
           .then(res => 
-            // setGeneralInfo(res.data)
-            console.log(res.data)
+            setGeneralInfo(res.data[0])
+            // console.log(res.data)
           )
           .catch(err => console.log(err));
       };
