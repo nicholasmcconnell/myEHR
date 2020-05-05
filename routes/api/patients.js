@@ -1,13 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const Patient = require("../../models");
-router.get('/test', (req,res) => {
-    res.json("hit");
-})
+
 // gets all patients
 router.get('/load', async(req, res) => {
     try {
-        const patients = await Profile.find();
+        const patients = await Patient.find();
         res.json(patients);
         // console.log(userId._id);
     } catch (err) {
