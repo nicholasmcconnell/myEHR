@@ -17,13 +17,18 @@ export default {
             .catch(err => console.log(err))
     },
 
+    // getMedNames: function(search) {
+    //     return axios.get(`https://rxnav.nlm.nih.gov/REST/drugs.json?name=${search}`)
+    //         .catch(err => console.log(err))
+    // },
 
-    fetchCondition: function(search) {
-        return axios.get(`https://www.dictionaryapi.com/api/v3/references/medical/json/${search}?key=${apiKey}`)
+    getMedNames: function() {
+        return axios.get('https://rxnav.nlm.nih.gov/REST/displaynames')
             .catch(err => console.log(err))
     },
 
-    fetchCondition: function (search) {
+
+    fetchCondition: function(search) {
         return axios.get(`https://www.dictionaryapi.com/api/v3/references/medical/json/${search}?key=${apiKey}`)
             .catch(err => console.log(err))
     },

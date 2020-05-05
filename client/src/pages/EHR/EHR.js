@@ -4,6 +4,7 @@ import { Input } from '../../components/Forms';
 import { ContactCard } from '../../components/ContactCard';
 import { HealthCard } from '../../components/HealthCard';
 import { Conditions } from '../../components/Conditions';
+import { Medications } from '../../components/Medications';
 import API from '../../utils/API';
 
 export default function EHR({ usrId }) {
@@ -33,13 +34,19 @@ export default function EHR({ usrId }) {
         // notes: 'Breast Cancer!!  Patient likes talk a lot.',
     }),
         [ conditions, setConditions ] = useState([]),
+        [ meds, setMeds ] = useState([]),
         [ editGenState, setGenState ]= useState(false),
         [ editHealthState, setHealthState ]= useState(false),
         [ editConditState, setConditState ]= useState(false),
+        [ editMedsState, setMedsState ]= useState(false),
         [ conditionText, setConditText ]= useState(''),
+        [ medText, setMedText ]= useState(''),
         [ descEditState, setDescEditState ]= useState(false),
+        [ medEditState, setMedEditState ]= useState(false),
         [ conditSuggestions, setConditSuggestions ]= useState([]),
-        [ conditionSearch, setConditionSearch ]= useState('');
+        [ medSuggestions, setMedSuggestions ]= useState([]),
+        [ conditionSearch, setConditionSearch ]= useState(''),
+        [ medSearch, setMedSearch ]= useState('');
     
 
     const onGenInfoInputChange = e => {
@@ -50,11 +57,9 @@ export default function EHR({ usrId }) {
 
     onConditDescChange = index => e => {
 
-        console.log('index', index)
-        // let description = conditions[index].description;
-        const { value } = e.target;
-         console.log(conditions[index].description, value)
-        const clone = conditions;
+        const { value } = e.target,
+          clone = conditions;
+
         setConditText(value)
 
          const newDescription = {
@@ -62,9 +67,26 @@ export default function EHR({ usrId }) {
             edit: conditions[index].edit,
             description: value
         }
+
         clone.splice(index, 1, newDescription)
-        console.log(clone)
         setConditions(clone)
+    }, 
+
+    onMedDescChange = index => e => {
+
+        const { value } = e.target,
+          clone = meds;
+
+        setConditText(value)
+
+         const newMed = {
+            name: meds[index].name,
+            edit: meds[index].edit,
+            description: value
+        }
+
+        clone.splice(index, 1, newMed)
+        setMeds(clone)
     }, 
     
     onConditInputChange = async e => {
@@ -80,13 +102,36 @@ export default function EHR({ usrId }) {
         setConditSuggestions({ suggestions, text: value })
      },
 
-     getConditionNames = async(search) => {
+    onMedInputChange = async e => {
+
+      const { value } = e.target,
+       items = await getMedNames(value)
+      let suggestions = [];
+      
+       
+      if (value.length > 0) {
+          const regex = new RegExp(`^${value}`, 'i');
+          suggestions = items.sort().filter( x => regex.test(x)).slice(0, 8)
+        } 
+        setMedSuggestions({ suggestions, text: value })
+     },
+
+    getConditionNames = async(search) => {
         const { data } = await API.getConditionNames(search);
         return  data[3].map( x => x[0]);
     },
 
+     getMedNames = async(search) => {
+        const { data }  = await API.getMedNames(search);
+        return data.displayTermsList.term       
+    },
+
     selectSuggestedCondit = value => {
         setConditSuggestions({ suggestions: [], text: value })
+    },
+    
+    selectSuggestedMed = value => {
+        setMedSuggestions({ suggestions: [], text: value })
     },
 
     renderConditSuggestions = () => {
@@ -98,6 +143,19 @@ export default function EHR({ usrId }) {
         return (
             <ul>
                 {suggestions.map( (suggestion, i) => <li onClick={() => selectSuggestedCondit(suggestion)} key={i}>{suggestion}</li>)}
+            </ul>
+        )
+    },
+
+    renderMedSuggestions = () => {
+        const { suggestions } = medSuggestions;
+        
+        if (!suggestions || suggestions.length === 0) {
+            return;
+        }
+        return (
+            <ul>
+                {suggestions.map( (suggestion, i) => <li onClick={() => selectSuggestedMed(suggestion)} key={i}>{suggestion}</li>)}
             </ul>
         )
     },
@@ -143,6 +201,23 @@ export default function EHR({ usrId }) {
             setConditions([...conditions, { name: text, edit: false, description }])
         },
        
+        // addMed = async e => {
+        //     e.preventDefault();
+        //     setConditSuggestions([]);
+        //     e.target.reset();
+
+        //     const { text } = medSuggestions;
+        //     if (!text) {
+        //         return;
+        //     }
+        //     const [search] = text.split('-'),
+        //         { data } = await API.fetchCondition(search),
+
+        //         description = data[0].shortdef ? data[0].shortdef.join('\n') : '';
+
+        //     setConditions([...conditions, { name: text, edit: false, description }])
+        // },
+       
         toggleDescriptionEdit = index => {
             const arr = [];
 
@@ -152,6 +227,17 @@ export default function EHR({ usrId }) {
                 arr.push(item)
             })
             setConditions(arr)
+        },
+       
+        toggleMedEdit = index => {
+            const arr = [];
+
+            conditions.forEach( (item, i) => {
+               
+                item.edit = i === index ? !item.edit : false;
+                arr.push(item)
+            })
+            setMeds(arr)
         },
 
         removeCondition = index => {
@@ -206,15 +292,29 @@ export default function EHR({ usrId }) {
                         toggleState={() => setConditState(!editConditState)}
                         editState={editConditState}
                         toggleDescState={toggleDescriptionEdit}
-                        editDescState={descEditState}
                         remove={removeCondition}
                         areaTarget={onConditDescChange}
-                        areaText={conditionText}
                         data={conditions}
                         target={onConditInputChange}
                         renderSuggestions={renderConditSuggestions}
                         text={conditSuggestions.text}
                         formSubmit={addCondition}
+                      />
+                </Col>
+            </Row>
+            <Row classes={'my-5'}>
+                <Col size={'md-8'} classes={'offset-md-2'}>
+                    <Medications
+                        toggleState={() => setMedsState(!editMedsState)}
+                        editState={editMedsState}
+                        toggleMedState={toggleMedEdit}
+                        areaTarget={onMedDescChange}
+                        data={meds}
+                        target={onMedInputChange}
+                        renderSuggestions={renderMedSuggestions}
+                        text={medSuggestions.text}
+                        // remove={removeMed}
+                        // formSubmit={addMed}
                       />
                 </Col>
             </Row>

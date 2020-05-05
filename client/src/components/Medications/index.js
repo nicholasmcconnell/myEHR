@@ -4,18 +4,18 @@ import { Input, Button, TextArea } from '../Forms';
 
 
 
-export function Conditions({ data, target, areaTarget, editState, toggleState, formSubmit, renderSuggestions, remove, text, toggleDescState, editDescState }) {
+export function Medications ({ data, target, areaTarget, editState, toggleState, formSubmit, renderSuggestions, remove, text, toggleDescState, editDescState }) {
 
-    const renderConditions = conditions => {
+    const renderMeds  = meds => {
       return (
-          conditions.map( (condition, i) => 
+          meds.map( (med, i) => 
             <Col key={i} size={'md-12'} classes={'form-group'}>
                 <label style={fieldText}>
-                    {condition.name} 
+                    {med.name} 
                     {' '}
                     </label>
                 <div>
-                    {condition.description}
+                    {med.description}
                     </div>
             </Col>
          )
@@ -23,16 +23,16 @@ export function Conditions({ data, target, areaTarget, editState, toggleState, f
      };
 
     
-    function renderEditConditions(conditions) {
+    function renderEditMeds(meds) {
       return (
-          conditions.map( (condition, i) => {
-            if (condition.edit) {
+          meds.map( (med , i) => {
+            if (med.edit) {
 
               return (
             <Col key={i} size={'md-12'} classes={'form-group'}>
               <form>
                 <label style={fieldText}>
-                    {condition.name} {' '}
+                    {med.name} {' '}
                     <Button className="fas fa-pen" style={{border:'none'}}
                         onClick={toggleDescState.bind(this, i)} 
                         />
@@ -42,8 +42,8 @@ export function Conditions({ data, target, areaTarget, editState, toggleState, f
                 </label>
                 
                     <TextArea 
-                        value={condition.description} 
-                        rows={getRowHeight(condition.description)}
+                        value={med.description} 
+                        rows={getRowHeight(med.description)}
                         onChange={areaTarget(i)}
                         style={textarea} 
                      />
@@ -54,7 +54,7 @@ export function Conditions({ data, target, areaTarget, editState, toggleState, f
                 return (
                 <Col key={i} size={'md-12'} classes={'form-group'}>
                     <label style={fieldText}>
-                        {condition.name} {' '}
+                        {med.name} {' '}
                         <Button className="fas fa-pen" style={{border:'none'}}
                             onClick={toggleDescState.bind(this, i)}
                             />
@@ -63,7 +63,7 @@ export function Conditions({ data, target, areaTarget, editState, toggleState, f
                             />
                         </label>
                     <div>
-                        {condition.description}
+                        {med.description}
                         </div>
                  </Col>
                 )
@@ -84,7 +84,7 @@ export function Conditions({ data, target, areaTarget, editState, toggleState, f
             <form onSubmit={formSubmit} >
                  <div className="form-row" style={{background:'white'}}>
                     <Col size={'md-6'} classes={'form-group'}>
-                        <label>Add New Condition</label>
+                        <label>Add New Medication</label>
                         <div>
                             <Input type="text"
                             style={input}
@@ -103,7 +103,7 @@ export function Conditions({ data, target, areaTarget, editState, toggleState, f
                 </div>
                 <div className={"form-row"}>
 
-                    {renderEditConditions(data)}
+                    {renderEditMeds(data)}
                     
                 </div>
             </form>
@@ -119,7 +119,7 @@ export function Conditions({ data, target, areaTarget, editState, toggleState, f
             <form onSubmit={formSubmit} >
                 <div className="form-row" style={{background:'white'}}>
                     <Col size={'md-6'} classes={'form-group'}>
-                        <label>Add New Condition</label>
+                        <label>Add New Medication</label>
                         <div>
                             <Input type="text"
                             style={input}
@@ -138,7 +138,7 @@ export function Conditions({ data, target, areaTarget, editState, toggleState, f
             </div>
                 <div className={"form-row"}>
                    
-                {renderEditConditions(data)}
+                {renderEditMeds(data)}
 
                 </div>
             </form>
@@ -146,8 +146,8 @@ export function Conditions({ data, target, areaTarget, editState, toggleState, f
         )
     } else {
         return (
-        <div className={'mt-5 condition-info'}>
-            <Col size={'md-12'} classes={'condition-edit'}>
+        <div className={'mt-5 med-info'}>
+            <Col size={'md-12'} classes={'med-edit'}>
                 <Button className="fas fa-user-edit fa-2x" style={editBtn} 
                     onClick={toggleState} 
                 />   
@@ -155,7 +155,7 @@ export function Conditions({ data, target, areaTarget, editState, toggleState, f
             <form>
                 <div className={"form-row"}>
                    
-                {renderConditions(data)}
+                {renderMeds(data)}
 
                 </div>
             </form>
