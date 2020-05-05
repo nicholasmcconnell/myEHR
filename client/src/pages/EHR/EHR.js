@@ -136,7 +136,7 @@ export default function EHR({ usrId }) {
 
         removeCondition = index => {
             const clone = conditions
-                clone.splice(index, 0)
+                clone.splice(index, 1)
             console.log(index, clone)
             setConditions(clone)
         }

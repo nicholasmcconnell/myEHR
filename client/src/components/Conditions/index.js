@@ -35,9 +35,6 @@ export function Conditions({ data, target, editState, toggleState, formSubmit, r
                     <Button className="fas fa-pen" style={{border:'none'}}
                         onClick={toggleDescState.bind(this, i)} 
                         />
-                    <Button className="fas fa-times" style={removeBtn}
-                        onClick={remove.bind(this, i)}  
-                        />
                     <Button className="fas fa-sync-alt" style={littleEditBtn}
                         onClick={toggleState}  
                         />
@@ -60,7 +57,7 @@ export function Conditions({ data, target, editState, toggleState, formSubmit, r
                         onClick={toggleDescState.bind(this, i)}
                         />
                     <Button className="fas fa-times" style={removeBtn}
-                        onClick={toggleState}  
+                        onClick={remove.bind(this, i)}  
                         />
                     </label>
                 <div>
