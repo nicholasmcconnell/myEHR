@@ -1,23 +1,31 @@
 import React from 'react'
-import { Col } from '../Grid';
+import { Col, Row } from '../Grid';
 import { Input, Button, TextArea } from '../Forms';
 
 
 
-export function Medications ({ data, target, areaTarget, editState, toggleState, formSubmit, renderSuggestions, remove, text, toggleDescState, editDescState }) {
+export function Medications ({ data, target, areaTarget, editState, toggleState, formSubmit, renderSuggestions, remove, text, toggleMedState, editDescState, doseChoices, addDoses }) {
 
-    const renderMeds  = meds => {
+    const populateDoses = doses => {
+        if(!doses) {
+            return
+        } else {
+         return doses.map( dose => dose === data.dose ? <option name='dosage' selected>{data.dose}</option> : <option name='dosage'>{dose}</option>)
+        }
+     },
+
+     renderMeds  = meds => {
       return (
           meds.map( (med, i) => 
-            <Col key={i} size={'md-12'} classes={'form-group'}>
-                <label style={fieldText}>
-                    {med.name} 
-                    {' '}
-                    </label>
-                <div>
-                    {med.description}
-                    </div>
-            </Col>
+          <Col key={i} size={'md-12'} classes={'form-group'}>
+          <label style={fieldText}>
+              {med.medication} 
+              {' '}
+              </label>
+          <div>
+              {med.dosage}
+              </div>
+      </Col>
          )
         )
      };
@@ -32,18 +40,18 @@ export function Medications ({ data, target, areaTarget, editState, toggleState,
             <Col key={i} size={'md-12'} classes={'form-group'}>
               <form>
                 <label style={fieldText}>
-                    {med.name} {' '}
+                    {med.medication} {' '}
                     <Button className="fas fa-pen" style={{border:'none'}}
-                        onClick={toggleDescState.bind(this, i)} 
+                        onClick={toggleMedState.bind(this, i)} 
                         />
                     <Button className="fas fa-sync-alt" style={littleEditBtn}
-                        onClick={toggleDescState.bind(this, i)} 
+                        onClick={toggleMedState.bind(this, i)} 
                         />
                 </label>
                 
                     <TextArea 
-                        value={med.description} 
-                        rows={getRowHeight(med.description)}
+                        value={med.dosage} 
+                        rows={getRowHeight(med.dosage)}
                         onChange={areaTarget(i)}
                         style={textarea} 
                      />
@@ -54,16 +62,16 @@ export function Medications ({ data, target, areaTarget, editState, toggleState,
                 return (
                 <Col key={i} size={'md-12'} classes={'form-group'}>
                     <label style={fieldText}>
-                        {med.name} {' '}
+                        {med.medication} {' '}
                         <Button className="fas fa-pen" style={{border:'none'}}
-                            onClick={toggleDescState.bind(this, i)}
+                            onClick={toggleMedState.bind(this, i)}
                             />
                         <Button className="fas fa-times" style={removeBtn}
                             onClick={remove.bind(this, i)}  
                             />
                         </label>
                     <div>
-                        {med.description}
+                        {med.dosage}
                         </div>
                  </Col>
                 )
@@ -83,10 +91,14 @@ export function Medications ({ data, target, areaTarget, editState, toggleState,
                 </Col>
             <form onSubmit={formSubmit} >
                  <div className="form-row" style={{background:'white'}}>
-                    <Col size={'md-6'} classes={'form-group'}>
+                    <Col size={'md-4'} classes={'form-group'}>
                         <label>Add New Medication</label>
+                        <Button className="fas fa-hand-point-right"
+                            style={littlePointBtn}
+                            onClick={addDoses}
+                            ></Button>
                         <div>
-                            <Input type="text"
+                            <Input name="medication" type='text'
                             style={input}
                             value={text}
                             onChange={target} 
@@ -94,16 +106,24 @@ export function Medications ({ data, target, areaTarget, editState, toggleState,
                             {renderSuggestions()}
                         </div>
                     </Col>
-                        <Col size={'md-3'}>
+                    <Col size={'md-4'} classes={'form-group'}>
+                        <label>Select Dosage</label>
+                        <div>
+                            <select onChange={target} style={input} name="dosage" class="form-control">
+                                {populateDoses(doseChoices)}
+                            </select>
+                        </div>
+                    </Col>
+                        <Col size={'md-2'}>
                         <Button className="btn" style={addBtn}
-                         type="submit" > <i className="fa fa-plus fa-2x mr-2"/> 
+                         type="submit"  > <i className="fa fa-plus fa-2x mr-2"/> 
                             {' '} Add 
                         </Button>
                     </Col>
                 </div>
                 <div className={"form-row"}>
 
-                    {renderEditMeds(data)}
+                    {renderMeds(data)}
                     
                 </div>
             </form>
@@ -209,6 +229,11 @@ addBtn = {
 littleEditBtn = {
     border: 'none',
     color: '#214c91'
+},
+littlePointBtn = {
+    border: 'none',
+    color: 'green',
+    float: 'right'
 },
 removeBtn = {
     border: 'none',

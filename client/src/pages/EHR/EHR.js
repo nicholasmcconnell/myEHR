@@ -35,6 +35,7 @@ export default function EHR({ usrId }) {
     }),
         [ conditions, setConditions ] = useState([]),
         [ meds, setMeds ] = useState([]),
+        [ medInput, setMedInput ] = useState(''),
         [ editGenState, setGenState ]= useState(false),
         [ editHealthState, setHealthState ]= useState(false),
         [ editConditState, setConditState ]= useState(false),
@@ -46,7 +47,8 @@ export default function EHR({ usrId }) {
         [ conditSuggestions, setConditSuggestions ]= useState([]),
         [ medSuggestions, setMedSuggestions ]= useState([]),
         [ conditionSearch, setConditionSearch ]= useState(''),
-        [ medSearch, setMedSearch ]= useState('');
+        [ medSearch, setMedSearch ]= useState(''),
+        [ doses, setDoses ]= useState('');
     
 
     const onGenInfoInputChange = e => {
@@ -77,7 +79,7 @@ export default function EHR({ usrId }) {
         const { value } = e.target,
           clone = meds;
 
-        setConditText(value)
+        setMedText(value)
 
          const newMed = {
             name: meds[index].name,
@@ -93,6 +95,7 @@ export default function EHR({ usrId }) {
 
       const { value } = e.target,
        items = await getConditionNames(value);
+
       let suggestions = [];
        
       if (value.length > 0) {
@@ -104,8 +107,10 @@ export default function EHR({ usrId }) {
 
     onMedInputChange = async e => {
 
-      const { value } = e.target,
-       items = await getMedNames(value)
+      const { value, name } = e.target;
+      setMedInput({...medInput, [ name ] : value});
+
+      const items = await getMedNames(value)
       let suggestions = [];
       
        
@@ -193,30 +198,43 @@ export default function EHR({ usrId }) {
             if (!text) {
                 return;
             }
-            const [search] = text.split('-'),
+            const [ search ]  = text.split('-'),
                 { data } = await API.fetchCondition(search),
 
                 description = data[0].shortdef ? data[0].shortdef.join('\n') : '';
 
             setConditions([...conditions, { name: text, edit: false, description }])
         },
-       
-        // addMed = async e => {
-        //     e.preventDefault();
-        //     setConditSuggestions([]);
-        //     e.target.reset();
 
-        //     const { text } = medSuggestions;
-        //     if (!text) {
-        //         return;
-        //     }
-        //     const [search] = text.split('-'),
-        //         { data } = await API.fetchCondition(search),
+        addDoses = async e => {
+            e.preventDefault();
+            setMedSuggestions([]);
 
-        //         description = data[0].shortdef ? data[0].shortdef.join('\n') : '';
 
-        //     setConditions([...conditions, { name: text, edit: false, description }])
-        // },
+            const { text } = medSuggestions;
+            if (!text) {
+                return;
+            }
+            const [ search ]  = text.split('-'),
+                { data } = await API.fetchMeds(search);
+                const doses = data.drugGroup.conceptGroup[1].conceptProperties.map(x => x.synonym)
+           
+
+                setDoses(doses)            
+        },
+
+        addMeds = e => {
+            e.preventDefault();
+            e.target.reset()
+
+                const newMed = {
+                    medication: medInput.medication,
+                    dosage: medInput.dosage,
+                    edit : false
+                }
+
+            setMeds([...meds, newMed])
+        },
        
         toggleDescriptionEdit = index => {
             const arr = [];
@@ -245,6 +263,13 @@ export default function EHR({ usrId }) {
 
             clone.splice(index, 1)
             setConditions(clone)
+        },
+
+        removeMed = index => {
+            const clone = meds;
+
+            clone.splice(index, 1)
+            setMeds(clone)
         }
 
 
@@ -313,8 +338,10 @@ export default function EHR({ usrId }) {
                         target={onMedInputChange}
                         renderSuggestions={renderMedSuggestions}
                         text={medSuggestions.text}
-                        // remove={removeMed}
-                        // formSubmit={addMed}
+                        remove={removeMed}
+                        addDoses={addDoses}
+                        formSubmit={addMeds}
+                        doseChoices={doses}
                       />
                 </Col>
             </Row>
