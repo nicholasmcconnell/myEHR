@@ -24,14 +24,14 @@ export default function Patients() {
         console.log(email)
         const { data } = await API.getUser()
         console.log(data)
-        setUser(user)
+        // setUser(user)
     }
 
     const getPatients = async () => {
         console.log(Auth.isAuthenticated())
-        const { data } = await API.fetchPatients()
+        const { data } = await API.fetchPatients(user)
         const { firstName, lastName, nickname } = data
-            console.log(firstName, lastName, nickname)
+            console.log(data)
         for (let i = 0; i < data.length; i++){
   
             setPatients(patients => patients.concat(data[i]))

@@ -33,9 +33,9 @@ export default function SignIn() {
             .then(({ data }) => { 
               if(data.status === 'success') {
 
-                  setUser({  email: data.email });
-                    authorize()
-
+                setUser({  user: data.email });
+                authorize()
+                console.log(data)
               } else {
                 console.log('Login failed.  Please try again.')
                 }
@@ -46,7 +46,6 @@ export default function SignIn() {
         <UserContext.Provider value={user} >
         <Container classes={'box-shadow sign'}>
             <Row>
-
                 <Col size={'md-12'} >
                     <Row>
                         <div className={'mt-5'}>
