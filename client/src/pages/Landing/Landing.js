@@ -20,11 +20,3 @@ export default function Landing() {
         </div>
     )
 }
-
-// const backgroundImage = {
-//   backgroundPosition: "center center",
-//   backgroundRepeat: "no-repeat",
-//   backgroundAttachment: "fixed",
-//   objectFit: "cover",
-//   zIndex: 1
-// }

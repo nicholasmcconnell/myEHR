@@ -9,30 +9,8 @@ import API from '../../utils/API';
 
 export default function EHR({ usrId }) {
 
-    const [generalInfo, setGeneralInfo] = useState({
-        first_name: 'Anne',
-        last_name: 'Frank',
-        nickname: 'Mrs. Quack',
-        address_one: '555 Somewhere',
-        address_two: 'Apt 7',
-        city: 'Frankfurt',
-        state: 'Darmstadt',
-        zip: '12345',
-        country: 'Germany',
-        phone: '(264) 224-1234',
-        email: 'quacky123@gmail.com'
-    }),
-     [ healthInfo, setHealthInfo ] = useState({
-        // dob: '06/12/1929',
-        // bloodType: 'A-Negative',
-        // insurance: 'Keystone POS Flex',
-        // insNumber: 'QCG130515482-01',
-        // rxBin: '123456',
-        // rxPcn: '060503900',
-        // allergies: 'Peanuts, Shellfish, People',
-        // immunizations: 'HPV on 5/16/2018',
-        // notes: 'Breast Cancer!!  Patient likes talk a lot.',
-    }),
+    const [generalInfo, setGeneralInfo] = useState({}),
+     [ healthInfo, setHealthInfo ] = useState({}),
         [ contactInfo, setContactInfo ] = useState([]),
         [ conditions, setConditions ] = useState([]),
         [ meds, setMeds ] = useState([]),
@@ -66,7 +44,6 @@ export default function EHR({ usrId }) {
     }, 
 
     onConditDescChange = index => e => {
-
         const { value } = e.target,
           clone = conditions;
 
@@ -83,7 +60,6 @@ export default function EHR({ usrId }) {
     }, 
 
     onMedDescChange = index => e => {
-
         const { value } = e.target,
           clone = meds;
 
@@ -100,7 +76,6 @@ export default function EHR({ usrId }) {
     }, 
     
     onConditInputChange = async e => {
-
       const { value } = e.target,
        items = await getConditionNames(value);
 
@@ -114,7 +89,6 @@ export default function EHR({ usrId }) {
      },
 
     onMedInputChange = async e => {
-
       const { value, name } = e.target;
       setMedInput({...medInput, [ name ] : value});
 
@@ -183,8 +157,8 @@ export default function EHR({ usrId }) {
         setConditionSearch({ ...conditionSearch, [name]: value })
     },
 
-    updateDB = () => {
-        // e.preventDefault()
+    updateDB = e => {
+        e.preventDefault()
         API.updateEHR()
             .then((res) => {
                 console.log(res);
@@ -197,7 +171,7 @@ export default function EHR({ usrId }) {
             .catch((err) => console.log(err))             
     },
 
-        addCondition = async e => {
+    addCondition = async e => {
             e.preventDefault();
             setConditSuggestions([]);
             e.target.reset();
@@ -212,9 +186,9 @@ export default function EHR({ usrId }) {
                 description = data[0].shortdef ? data[0].shortdef.join('\n') : '';
 
             setConditions([...conditions, { name: text, edit: false, description }])
-        },
+    },
 
-        addDoses = async e => {
+    addDoses = async e => {
             e.preventDefault();
             setMedSuggestions([]);
 
@@ -229,9 +203,9 @@ export default function EHR({ usrId }) {
            
 
                 setDoses(doses)            
-        },
+    },
 
-        addMeds = e => {
+    addMeds = e => {
             e.preventDefault();
             e.target.reset()
 
@@ -242,9 +216,9 @@ export default function EHR({ usrId }) {
                 }
 
             setMeds([...meds, newMed])
-        },
+    },
        
-        toggleDescriptionEdit = index => {
+    toggleDescriptionEdit = index => {
             const arr = [];
 
             conditions.forEach( (item, i) => {
@@ -253,9 +227,9 @@ export default function EHR({ usrId }) {
                 arr.push(item)
             })
             setConditions(arr)
-        },
+    },
        
-        toggleMedEdit = index => {
+    toggleMedEdit = index => {
             const arr = [];
 
             conditions.forEach( (item, i) => {
@@ -264,23 +238,21 @@ export default function EHR({ usrId }) {
                 arr.push(item)
             })
             setMeds(arr)
-        },
+    },
 
-        removeCondition = index => {
+    removeCondition = index => {
             const clone = conditions;
 
             clone.splice(index, 1)
             setConditions(clone)
-        },
+    },
 
-        removeMed = index => {
+    removeMed = index => {
             const clone = meds;
 
             clone.splice(index, 1)
             setMeds(clone)
-        }
-
-
+    }
 
     useEffect(() => {   
         loadProfiles()
@@ -289,7 +261,7 @@ export default function EHR({ usrId }) {
     function loadProfiles() {
         API.fetchPatients()
           .then(res => 
-            setGeneralInfo(res.data[0])
+            setGeneralInfo(res.data)
             // console.log(res.data)
           )
           .catch(err => console.log(err));

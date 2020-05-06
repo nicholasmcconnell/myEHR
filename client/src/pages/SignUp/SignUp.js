@@ -2,52 +2,50 @@ import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Container, Row, Col } from '../../components/Grid';
 import { LoggerBtn, Input } from '../../components/Forms';
+import UserContext from '../../utils/UserContext';
 import API from '../../utils/API';
 import Auth from '../../Auth'
 
 export default function SignUp() {
 
-    let history = useHistory();
-    const [credentials, setCredentials] = useState({}),
+   
+    const [user, setUser] = useState(''),
+    [credentials, setCredentials] = useState({});
+
+     let history = useHistory();
      
+    const onInputChange = e => {
 
-        onInputChange = e => {
-            const { name, value } = e.target;
-            setCredentials({ ...credentials, [name]: value })
-        };
+        const { name, value } = e.target;
+        setCredentials({...credentials, [name]: value })
+    },
 
-        useEffect(() => {
-            fetchUser()
-        }, [])
-        const fetchUser = () => {
-            API.getUser()
-            .then( res => console.log(res.data))
-        },
+    authorize = () => {
+        Auth.login(() => {
+            history.push("/profiles")
+        })
+        }
 
-        authorize = () => {
-            Auth.login(() => {
-              history.push("/profiles")
-            })
-          }
+        const handleSubmit = e => {
+        e.preventDefault();
+        e.target.reset();
 
-         const handleSubmit = e => {
-            e.preventDefault();
-            e.target.reset();
+        API.register(credentials)
+        .then(({ data }) => { 
+    
+            if(data) {
+                console.log(data.email)
+            setUser({  email: data }); 
+            authorize()
 
-            API.register(credentials)
-            .then(({ data }) => { 
-       
-              if(data.email) {
-
-                authorize()
-
-              } else {
-                console.log(data)
-                }
-          }).catch((err) => err)
+            } else {
+            console.log('response'+ data)
+            }
+        }).catch((err) => err)
         }
 
     return (
+        <UserContext.Provider value={user} >
         <Container classes={'box-shadow sign'}>
             <Row>
                 <Col size={'md-12'} >
@@ -86,10 +84,15 @@ export default function SignUp() {
                 </Col>
             </Row>
         </Container>
+        </UserContext.Provider>
     )
 }
 const logo = {
+<<<<<<< HEAD
     width: "60px",
+=======
+    width: "75px",
+>>>>>>> cd91ee2c3169aa9989cc8f7916f6a47a64012068
     height: "auto"
 },
 
