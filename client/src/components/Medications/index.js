@@ -4,7 +4,7 @@ import { Input, Button, TextArea } from '../Forms';
 
 
 
-export function Medications ({ data, target, areaTarget, editState, toggleState, formSubmit, renderSuggestions, remove, text, toggleMedState, editDescState, doseChoices, addDoses }) {
+export function Medications ({ data, target,  editState, toggleState, formSubmit, renderSuggestions, remove, text, doseChoices, addDoses }) {
 
     const populateDoses = doses => {
         if(!doses) {
@@ -14,78 +14,39 @@ export function Medications ({ data, target, areaTarget, editState, toggleState,
         }
      },
 
-     renderMeds  = meds => {
-      return (
-          meds.map( (med, i) => 
-          <Col key={i} size={'md-12'} classes={'form-group'}>
-          <label style={fieldText}>
-          <Button className="fas fa-times" style={removeBtn}
-            onClick={remove.bind(this, i)}  
-          />
-              {med.medication} 
-              {' '}
-              </label>
-          <div>
-              {med.dosage}
-              </div>
-      </Col>
-         )
-        )
-     };
+    renderMeds = meds => {
+    return meds.map((med, i) => (
+        <Col key={i} size={"md-12"} classes={"form-group"}>
+        <label style={fieldText}>{med.medication} </label>
+        <div>{med.dosage}</div>
+        </Col>
+    ));
+    };
 
-    
     function renderEditMeds(meds) {
       return (
           meds.map( (med , i) => {
-            if (med.edit) {
-
-              return (
+    
+            meds.map( (med, i) => 
             <Col key={i} size={'md-12'} classes={'form-group'}>
-              <form>
-                <label style={fieldText}>
-                    {med.medication} {' '}
-                    <Button className="fas fa-pen" style={{border:'none'}}
-                        onClick={toggleMedState.bind(this, i)} 
-                        />
-                    <Button className="fas fa-sync-alt" style={littleEditBtn}
-                        onClick={toggleMedState.bind(this, i)} 
-                        />
+            <label style={fieldText}>
+            <Button className="fas fa-times" style={removeBtn}
+                onClick={remove.bind(this, i)}  
+            />
+                {med.medication} 
+                {' '}
                 </label>
-                
-                    <TextArea 
-                        value={med.dosage} 
-                        rows={getRowHeight(med.dosage)}
-                        onChange={areaTarget(i)}
-                        style={textarea} 
-                     />
-              </form>
-            </Col> 
-              )
-            }   else {
-                return (
-                <Col key={i} size={'md-12'} classes={'form-group'}>
-                    <label style={fieldText}>
-                        {med.medication} {' '}
-                        <Button className="fas fa-pen" style={{border:'none'}}
-                            onClick={toggleMedState.bind(this, i)}
-                            />
-                        <Button className="fas fa-times" style={removeBtn}
-                            onClick={remove.bind(this, i)}  
-                            />
-                        </label>
-                    <div>
-                        {med.dosage}
-                        </div>
-                 </Col>
-                )
-            }
-        })
-    )   
+            <div>
+                {med.dosage}
+                </div>
+        </Col>
+            )
+                 
+    }))   
 }
      
-     const getRowHeight = text =>  text.length > 250 ? text.length/80 : 3;
 
-    if ((editState || data.length === 0) && !editDescState) {
+    if ((editState || data.length === 0)) {
         return (
             <div className={'my-5'}>
                 <Col size={'md-12'}>
@@ -128,48 +89,14 @@ export function Medications ({ data, target, areaTarget, editState, toggleState,
                 </div>
                 <div className={"form-row"}>
 
-                    {renderMeds(data)}
+                    {renderEditMeds(data)}
                     
                 </div>
             </form>
             </div>
         )
-        } else if (editDescState) {
-        return (
-            <div className={'my-5'}>
-            <Col size={'md-12'}>
-                    <Button className="fas fa-backspace fa-2x" style={cancelBtn} 
-                    onClick={toggleState} />
-            </Col>
-            <form onSubmit={formSubmit} >
-                <div className="form-row" style={{background:'white'}}>
-                    <Col size={'md-6'} classes={'form-group'}>
-                        <label>Add New Medication</label>
-                        <div>
-                            <Input type="text"
-                            style={input}
-                            value={text}
-                            onChange={target} 
-                            />
-                            {renderSuggestions()}
-                        </div>
-                    </Col>
-                        <Col size={'md-3'}>
-                        <Button className="btn" style={addBtn}
-                        type="submit" > <i className="fa fa-plus fa-2x mr-2"/> 
-                            {' '} Add 
-                        </Button>
-                    </Col>
-            </div>
-                <div className={"form-row"}>
-                   
-                {renderEditMeds(data)}
-
-                </div>
-            </form>
-        </div>
-        )
-    } else {
+        } 
+    else {
         return (
         <div className={'my-5 med-info'}>
             <Col size={'md-12'} classes={'med-edit'}>
@@ -197,14 +124,6 @@ const fieldText = {
     color: 'black'
 },
 
-textarea = {
-
-    resize: 'none',
-
-    
-    borderBottom: '1px solid rgba(0, 0, 0, .2)',
-    transition: 'all 0.30s ease-in-out'
-},
 
 input = {
     borderBottom: '1px solid rgba(0, 0, 0, .2)',
@@ -231,16 +150,15 @@ addBtn = {
     focus: 'none',
     size: '10em'
 },
-littleEditBtn = {
-    border: 'none',
-    color: '#214c91'
-},
+
 littlePointBtn = {
     border: 'none',
     color: 'green',
-    float: 'right'
+    float: 'right',
+    backgroundColor: 'white'
 },
 removeBtn = {
+    backgroundColor: 'white',
     border: 'none',
     color: 'red'
 }

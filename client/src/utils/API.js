@@ -39,6 +39,14 @@ export default {
         return axios.post("/api/patients/add", data);
     },
 
+    removeEHR: function(data) {
+        return axios.delete("/api/patients", data);
+    },
+
+    updateEHR: function(id, data) {
+        return axios.patch(`/api/patients${id}`, data);
+    },
+
     getUser: function() {
         return axios.get('/api/users').then(data => data)
     },

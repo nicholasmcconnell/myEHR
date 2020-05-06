@@ -11,30 +11,8 @@ import API from '../../utils/API';
 export default function EHR({ location }) {
 
     const  context = useContext(value);
-    const [generalInfo, setGeneralInfo] = useState({
-        firstName: 'Anne',
-        lastName: 'Frank',
-        nickname: 'Mrs. Quack',
-        addressOne: '555 Somewhere',
-        addressTwo: 'Apt 7',
-        city: 'Frankfurt',
-        state: 'Darmstadt',
-        zip: '12345',
-        country: 'Germany',
-        phone: '(264) 224-1234',
-        email: 'quacky123@gmail.com'
-    }),
-     [ healthInfo, setHealthInfo ] = useState({
-        dob: '06/12/1929',
-        bloodType: 'A-Negative',
-        insurance: 'Keystone POS Flex',
-        insNumber: 'QCG130515482-01',
-        rxBin: '123456',
-        rxPcn: '060503900',
-        allergies: 'Peanuts, Shellfish, People',
-        immunizations: 'HPV on 5/16/2018',
-        notes: 'Breast Cancer!!  Patient likes talk a lot.',
-    }),
+    const [generalInfo, setGeneralInfo] = useState({}),
+        [ healthInfo, setHealthInfo ] = useState({}),
         [ contactInfo, setContactInfo ] = useState([]),
         [ patient, setPatient ] = useState(location.state.patientId),
         [ conditions, setConditions ] = useState([]),
@@ -151,7 +129,7 @@ export default function EHR({ location }) {
 
      getMedNames = async(search) => {
         const { data }  = await API.getMedNames(search);
-        return data.displayTermsList.term       
+        return !data.displayTermsList ? "??" : data.displayTermsList.term       
     },
 
     selectSuggestedCondit = value => {
@@ -200,16 +178,10 @@ export default function EHR({ location }) {
 
     updateDB = () => {
         // e.preventDefault()
-        const patient = {generalInfo, healthInfo, conditions, meds}
+        const data = {generalInfo, healthInfo, conditions, meds}
 
-        API.updateEHR(patient)
-            .then((res) => {
-                console.log(res);
-                // if (data.status === 'success') {
-                //     console.log('Updated record!', 'green')
-                // } else {
-                //     console.log('Fail to update record.', 'red')
-                // }
+        API.updateEHR(patient, data)
+            .then(({ data }) => {  
             })
             .catch((err) => console.log(err))             
     },
@@ -229,13 +201,13 @@ export default function EHR({ location }) {
                 description = data[0].shortdef ? data[0].shortdef.join('\n') : '';
 
             setConditions([...conditions, { name: text, edit: false, description }])
+            updateDB()
         },
 
         addDoses = async e => {
             e.preventDefault();
+
             setMedSuggestions([]);
-
-
             const { text } = medSuggestions;
             if (!text) {
                 return;
@@ -243,8 +215,6 @@ export default function EHR({ location }) {
             const [ search ]  = text.split('-'),
                 { data } = await API.fetchMeds(search);
                 const doses = data.drugGroup.conceptGroup[1].conceptProperties.map(x => x.synonym)
-           
-
                 setDoses(doses)            
         },
 
@@ -289,6 +259,8 @@ export default function EHR({ location }) {
 
             clone.splice(index, 1)
             setConditions(clone)
+
+            updateDB()
         },
 
         removeMed = index => {
