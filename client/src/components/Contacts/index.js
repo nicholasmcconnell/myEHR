@@ -110,8 +110,8 @@ if (editState) {
     )
     } else {
         return (
-            <div className={'mt-5 gen-info'}>
-                <Col size={'md-12'} classes={'gen-edit'}>
+            <div className={'mt-5 contacts-info'}>
+                <Col size={'md-12'} classes={'contacts-edit'}>
                     <Button className="fas fa-user-edit fa-2x" style={editBtn} 
                         onClick={toggleState} 
                     />   

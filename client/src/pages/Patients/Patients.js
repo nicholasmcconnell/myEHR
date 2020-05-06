@@ -1,15 +1,15 @@
-import { useHistory } from 'react-router-dom';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Container, Row, Col } from '../../components/Grid';
 import Profiles from '../../components/ProfileList'; 
+import UserContext from '../../utils/UserContext';
 import API from "../../utils/API";
-import Auth from '../../Auth'
+import Auth from '../../Auth';
 
-export default function Patients(props) {
+export default function Patients() {
     
-    let history = useHistory();
-    const [user, setUser] = useState();
-    const [patients, setPatients] = useState([]);
+    const { email } = useContext(UserContext),
+     [user, setUser] = useState(email),
+     [patients, setPatients] = useState([]);
 
 
     useEffect(() => {
@@ -21,17 +21,19 @@ export default function Patients(props) {
     }, [user])
 
     const getUser = async () => {
-        const { user } = await API.getUser()
+        console.log(email)
+        const { data } = await API.getUser()
+        console.log(data)
         setUser(user)
     }
 
     const getPatients = async () => {
         console.log(Auth.isAuthenticated())
         const { data } = await API.fetchPatients()
-        // const { firstName, lastName, email } = data;
-
+        const { firstName, lastName, nickname } = data
+            console.log(firstName, lastName, nickname)
         for (let i = 0; i < data.length; i++){
-  //if statement to compare the login email and the email used for that patient?? 
+  
             setPatients(patients => patients.concat(data[i]))
         }
 

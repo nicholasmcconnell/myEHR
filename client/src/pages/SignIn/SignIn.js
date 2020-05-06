@@ -2,16 +2,19 @@ import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Container, Row, Col } from '../../components/Grid';
 import { LoggerBtn, Input } from '../../components/Forms';
+import UserContext from '../../utils/UserContext';
 import API from '../../utils/API';
 import Auth from '../../Auth'
 
 export default function SignIn() {
 
-    let history = useHistory();
-    const [credentials, setCredentials] = useState({}),
+    const [user, setUser] = useState({  email: '' }),
+    [credentials, setCredentials] = useState({});
 
-    onInputChange = e => {
-        console.log(e.target.name)
+     let history = useHistory();
+     
+    const onInputChange = e => {
+
         const { name, value } = e.target;
         setCredentials({...credentials, [name]: value })
     },
@@ -28,16 +31,19 @@ export default function SignIn() {
         
         API.login(credentials)
             .then(({ data }) => { 
-             
               if(data.status === 'success') {
-                authorize()
+
+                  setUser({  email: data.email });
+                    authorize()
+
               } else {
                 console.log('Login failed.  Please try again.')
                 }
-          }).catch((err) => err)
+          }).catch( err => err)
     }
     
     return (
+        <UserContext.Provider value={user} >
         <Container classes={'box-shadow sign'}>
             <Row>
 
@@ -80,6 +86,7 @@ export default function SignIn() {
 
             </Row>
         </Container>
+        </UserContext.Provider>
     )
 }
 
