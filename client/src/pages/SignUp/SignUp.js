@@ -1,39 +1,51 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Container, Row, Col } from '../../components/Grid';
 import { LoggerBtn, Input } from '../../components/Forms';
+
 import API from '../../utils/API';
+import Auth from '../../Auth'
 
 export default function SignUp() {
 
-    const [credentials, setCredentials] = useState({}),
+   
+    const [user, setUser] = useState(''),
+    [credentials, setCredentials] = useState({});
+
+     let history = useHistory();
      
+    const onInputChange = e => {
 
-        onInputChange = e => {
-            const { name, value } = e.target;
-            setCredentials({ ...credentials, [name]: value })
-        };
+        const { name, value } = e.target;
+        setCredentials({...credentials, [name]: value })
+    },
 
-        useEffect(() => {
-            fetchUser()
-        }, [])
-        const fetchUser = () => {
-            API.getUser()
-            .then( res => console.log(res.data))
+    authorize = () => {
+        Auth.login(() => {
+            history.push("/profiles")
+        })
         }
 
-       const  handleSubmit = e => {
-            e.preventDefault();
-            console.log(credentials)
+        const handleSubmit = e => {
+        e.preventDefault();
+        e.target.reset();
 
-            API.register(credentials)
-                .then((res) =>
-                    console.log(res)
-                )
-                .catch((err) => console.log(err))
+        API.register(credentials)
+        .then(({ data }) => { 
+    
+            if(data) {
+                console.log(data.email)
+            setUser({  email: data }); 
+            authorize()
+
+            } else {
+            console.log('response'+ data)
+            }
+        }).catch((err) => err)
         }
 
     return (
+    
         <Container classes={'box-shadow sign'}>
             <Row>
                 <Col size={'md-12'} >
@@ -41,7 +53,7 @@ export default function SignUp() {
                         <div className={'mt-5'}>
                             <h5 style={text}>
                                 <img style={logo} src={require('../../assets/img/Logo.png')} alt={'Logo'} />
-                        Create your account
+                            Create your account
                         </h5>
                         </div>
                     </Row>
@@ -75,7 +87,7 @@ export default function SignUp() {
     )
 }
 const logo = {
-    width: "100px",
+    width: "75px",
     height: "auto"
 },
 

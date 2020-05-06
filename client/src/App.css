@@ -44,6 +44,14 @@ button:focus {
   color: green !important;
 }
 
+.med-info:hover .fa-user-edit {
+  color: green !important;
+}
+
+.contacts-info:hover .fa-user-edit {
+  color: green !important;
+}
+
 textarea.desc {
 	width:100%;
 	box-sizing:border-box;

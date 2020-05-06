@@ -1,14 +1,13 @@
 import axios from "axios";
 require('dotenv').config();
 const apiKey = process.env.REACT_APP_API_KEY;
-// webstersKey = '6bbfacfd-a9a0-44da-a339-83be451e5de0'
 
 export default {
-    getDrugs: function () {
+    getDrugs: function() {
         return axios.get("/api/drugs");
     },
-    //this will be executed when the user selects "get more info" btn
-    getDrugInfo: function () {
+
+    getDrugInfo: function() {
         return axios.get(`https://www.dictionaryapi.com/api/v3/references/medical/json/cetirizine?key=${apiKey}`);
     },
 
@@ -17,24 +16,31 @@ export default {
             .catch(err => console.log(err))
     },
 
+    fetchMeds: function(search) {
+        return axios.get(`https://rxnav.nlm.nih.gov/REST/drugs.json?name=${search}`)
+            .catch(err => console.log(err))
+    },
+
+    getMedNames: function() {
+        return axios.get('https://rxnav.nlm.nih.gov/REST/displaynames')
+            .catch(err => console.log(err))
+    },
 
     fetchCondition: function(search) {
         return axios.get(`https://www.dictionaryapi.com/api/v3/references/medical/json/${search}?key=${apiKey}`)
             .catch(err => console.log(err))
     },
 
-    fetchCondition: function (search) {
-        return axios.get(`https://www.dictionaryapi.com/api/v3/references/medical/json/${search}?key=${apiKey}`)
-            .catch(err => console.log(err))
-    },
-
     fetchPatients: function() {
-        return axios.get("/load");
-  
+        return axios.get("/api/patients/load");
     },
 
-    getUser: () => {
-        return axios.get('/api/users').then( data => data )
+    addPatient: function(data) {
+        return axios.post("/api/patients/add", data);
+    },
+
+    getUser: function() {
+        return axios.get('/api/users').then(data => data)
     },
 
     register: function(credentials) {

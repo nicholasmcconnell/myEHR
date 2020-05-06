@@ -4,7 +4,7 @@ import { Input, Button, TextArea } from '../Forms';
 
 
 
-export function Conditions({ data, target, editState, toggleState, formSubmit, renderSuggestions, text, toggleDescState, editDescState }) {
+export function Conditions({ data, target, areaTarget, editState, toggleState, formSubmit, renderSuggestions, remove, text, toggleDescState, editDescState }) {
 
     const renderConditions = conditions => {
       return (
@@ -30,49 +30,47 @@ export function Conditions({ data, target, editState, toggleState, formSubmit, r
 
               return (
             <Col key={i} size={'md-12'} classes={'form-group'}>
+              <form>
                 <label style={fieldText}>
                     {condition.name} {' '}
                     <Button className="fas fa-pen" style={{border:'none'}}
                         onClick={toggleDescState.bind(this, i)} 
                         />
-                    <Button className="fas fa-times" style={removeBtn}
-                        onClick={toggleState}  
-                        />
                     <Button className="fas fa-sync-alt" style={littleEditBtn}
-                        onClick={toggleState}  
+                        onClick={toggleDescState.bind(this, i)} 
                         />
                 </label>
-                <form>
-                    <TextArea value={condition.description} name="desc"
-                    rows={getRowHeight(condition.description)}
-                    style={textarea} 
-                    />
-                </form>
+                
+                    <TextArea 
+                        value={condition.description} 
+                        rows={getRowHeight(condition.description)}
+                        onChange={areaTarget(i)}
+                        style={textarea} 
+                     />
+              </form>
             </Col> 
               )
             }   else {
                 return (
-        
-            <Col key={i} size={'md-12'} classes={'form-group'}>
-                <label style={fieldText}>
-                    {condition.name} {' '}
-                    <Button className="fas fa-pen" style={{border:'none'}}
-                        onClick={toggleDescState.bind(this, i)}
-                        />
-                    <Button className="fas fa-times" style={removeBtn}
-                        onClick={toggleState}  
-                        />
-                    </label>
-                <div>
-                    {condition.description}
-                    </div>
-            </Col>
+                <Col key={i} size={'md-12'} classes={'form-group'}>
+                    <label style={fieldText}>
+                        {condition.name} {' '}
+                        <Button className="fas fa-pen" style={{border:'none'}}
+                            onClick={toggleDescState.bind(this, i)}
+                            />
+                        <Button className="fas fa-times" style={removeBtn}
+                            onClick={remove.bind(this, i)}  
+                            />
+                        </label>
+                    <div>
+                        {condition.description}
+                        </div>
+                 </Col>
                 )
-                }
-            }))
-         
-        
-     }
+            }
+        })
+    )   
+}
      
      const getRowHeight = text =>  text.length > 250 ? text.length/80 : 3;
 
