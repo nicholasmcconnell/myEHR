@@ -88,11 +88,7 @@ export default function SignUp() {
     )
 }
 const logo = {
-<<<<<<< HEAD
     width: "60px",
-=======
-    width: "75px",
->>>>>>> cd91ee2c3169aa9989cc8f7916f6a47a64012068
     height: "auto"
 },
 
