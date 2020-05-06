@@ -8,11 +8,18 @@ import { Medications } from '../../components/Medications';
 import Contacts from '../../components/Contacts';
 import API from '../../utils/API';
 
+<<<<<<< HEAD
 export default function EHR({ location }) {
 
     const  context = useContext(value);
     const [generalInfo, setGeneralInfo] = useState({}),
         [ healthInfo, setHealthInfo ] = useState({}),
+=======
+export default function EHR({ usrId }) {
+
+    const [generalInfo, setGeneralInfo] = useState({}),
+     [ healthInfo, setHealthInfo ] = useState({}),
+>>>>>>> cd91ee2c3169aa9989cc8f7916f6a47a64012068
         [ contactInfo, setContactInfo ] = useState([]),
         [ patient, setPatient ] = useState(location.state.patientId),
         [ conditions, setConditions ] = useState([]),
@@ -58,7 +65,6 @@ export default function EHR({ location }) {
     }, 
 
     onConditDescChange = index => e => {
-
         const { value } = e.target,
           clone = conditions;
 
@@ -75,7 +81,6 @@ export default function EHR({ location }) {
     }, 
 
     onMedDescChange = index => e => {
-
         const { value } = e.target,
           clone = meds;
 
@@ -92,7 +97,6 @@ export default function EHR({ location }) {
     }, 
     
     onConditInputChange = async e => {
-
       const { value } = e.target,
        items = await getConditionNames(value);
 
@@ -106,7 +110,6 @@ export default function EHR({ location }) {
      },
 
     onMedInputChange = async e => {
-
       const { value, name } = e.target;
       setMedInput({...medInput, [ name ] : value});
 
@@ -175,17 +178,30 @@ export default function EHR({ location }) {
         setConditionSearch({ ...conditionSearch, [name]: value })
     },
 
+<<<<<<< HEAD
     updateDB = () => {
         // e.preventDefault()
         const data = {generalInfo, healthInfo, conditions, meds}
 
         API.updateEHR(patient, data)
             .then(({ data }) => {  
+=======
+    updateDB = e => {
+        e.preventDefault()
+        API.updateEHR()
+            .then((res) => {
+                console.log(res);
+                // if (data.status === 'success') {
+                //     console.log('Updated record!', 'green')
+                // } else {
+                //     console.log('Fail to update record.', 'red')
+                // }
+>>>>>>> cd91ee2c3169aa9989cc8f7916f6a47a64012068
             })
             .catch((err) => console.log(err))             
     },
 
-        addCondition = async e => {
+    addCondition = async e => {
             e.preventDefault();
             setConditSuggestions([]);
             e.target.reset();
@@ -200,10 +216,14 @@ export default function EHR({ location }) {
                 description = data[0].shortdef ? data[0].shortdef.join('\n') : '';
 
             setConditions([...conditions, { name: text, edit: false, description }])
+<<<<<<< HEAD
             updateDB()
         },
+=======
+    },
+>>>>>>> cd91ee2c3169aa9989cc8f7916f6a47a64012068
 
-        addDoses = async e => {
+    addDoses = async e => {
             e.preventDefault();
 
             setMedSuggestions([]);
@@ -215,9 +235,9 @@ export default function EHR({ location }) {
                 { data } = await API.fetchMeds(search);
                 const doses = data.drugGroup.conceptGroup[1].conceptProperties.map(x => x.synonym)
                 setDoses(doses)            
-        },
+    },
 
-        addMeds = e => {
+    addMeds = e => {
             e.preventDefault();
             e.target.reset()
 
@@ -228,11 +248,15 @@ export default function EHR({ location }) {
                 }
 
             setMeds([...meds, newMed])
+<<<<<<< HEAD
             updateDB()
         },
 
+=======
+    },
+>>>>>>> cd91ee2c3169aa9989cc8f7916f6a47a64012068
        
-        toggleDescriptionEdit = index => {
+    toggleDescriptionEdit = index => {
             const arr = [];
 
             conditions.forEach( (item, i) => {
@@ -241,9 +265,9 @@ export default function EHR({ location }) {
                 arr.push(item)
             })
             setConditions(arr)
-        },
+    },
        
-        toggleMedEdit = index => {
+    toggleMedEdit = index => {
             const arr = [];
 
             conditions.forEach( (item, i) => {
@@ -252,29 +276,38 @@ export default function EHR({ location }) {
                 arr.push(item)
             })
             setMeds(arr)
-        },
+    },
 
-        removeCondition = index => {
+    removeCondition = index => {
             const clone = conditions;
 
             clone.splice(index, 1)
             setConditions(clone)
+<<<<<<< HEAD
 
             updateDB()
         },
+=======
+    },
+>>>>>>> cd91ee2c3169aa9989cc8f7916f6a47a64012068
 
-        removeMed = index => {
+    removeMed = index => {
             const clone = meds;
 
             clone.splice(index, 1)
             setMeds(clone)
+<<<<<<< HEAD
             updateDB()
         }
+=======
+    }
+>>>>>>> cd91ee2c3169aa9989cc8f7916f6a47a64012068
 
     useEffect(() => {   
         newPatient()
     }, []);
 
+<<<<<<< HEAD
     const newPatient = () => {
         //if no patient was pass, create a new one on the server.
         if (patient === "") {
@@ -287,6 +320,16 @@ export default function EHR({ location }) {
             .catch(err => console.log(err));
         }
       }
+=======
+    function loadProfiles() {
+        API.fetchPatients()
+          .then(res => 
+            setGeneralInfo(res.data)
+            // console.log(res.data)
+          )
+          .catch(err => console.log(err));
+      };
+>>>>>>> cd91ee2c3169aa9989cc8f7916f6a47a64012068
 
     return (
         <Container>

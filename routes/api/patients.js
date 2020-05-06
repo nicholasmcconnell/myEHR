@@ -5,9 +5,9 @@ const { Patient } = require("../../models");
 // gets all patients
 router.get('/load', async(req, res) => {
     try {
-        const patients = await Patient.find();
+        const email = req.user.email;
+        const patients = await Patient.find({ "email": email });
         res.json(patients);
-        // console.log(userId._id);
     } catch (err) {
         res.json({ message: err });
     }

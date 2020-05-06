@@ -35,7 +35,7 @@ router.post('/login', function(req, res, next) {
     },
     passport.authenticate('local'),
     (req, res, err) => {
-        console.log(`logged in as, ${err}`);
+        console.log(`logged in as ${req.user.email}`);
         if(req.user._id) {
         const userInfo = {
             status: 'success',
