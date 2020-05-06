@@ -5,113 +5,113 @@ import { Input, Button } from '../../components/Forms';
 
 export default function Contacts({ data, target, editState, toggleState, formSubmit }) {
 
-// if (editState) {
-//     return (
-//         <div className={'mt-5'}>
-//         <em><h5>Emergency or other contact Info</h5></em>
-//           <Col size={'md-12'}>
-//                 <Button className="fas fa-backspace fa-2x" style={cancelBtn} 
-//                 onClick={toggleState} />
-//             </Col>
-//             <form onSubmit={formSubmit} >
-//                 <div className={"form-row"}>
-//                     <Col size={'md-4'} classes={'form-group'}>
-//                         <label>First Name</label>
-//                         <Input value={data.firstName} name="firstName"
-//                         style={input}
-//                         onChange={target} 
-//                         />
-//                     </Col>
-//                     <Col size={'md-4'} classes={'form-group'}>
-//                         <label>Last Name</label>
-//                         <Input value={data.lastName} name="lastName"
-//                         style={input}
-//                         onChange={target} 
-//                         />
-//                     </Col>
-//                     <Col size={'md-4'} classes={'form-group'}>
-//                         <label>Association</label>
-//                         <Input value={data.nickname} name="nickname"
-//                         style={input}
-//                         placeholder={"e.g. 'Dr, Pharmacist, etc..'"} 
-//                         onChange={target} 
-//                         />
-//                     </Col>
-//                 </div>
-//                 <div className="form-row">
-//                     <Col size={'md-6'} classes={'form-group'}>
-//                         <label>Address Line 1</label>
-//                         <Input value={data.addressOne} name="addressOne"
-//                         style={input}
-//                         onChange={target} 
-//                         />                    </Col>
-//                     <Col size={'md-6'} classes={'form-group'}>
-//                         <label>Address Line 2</label>
-//                         <Input value={data.addressTwo} name="addressTwo"
-//                         style={input}
-//                         onChange={target} 
-//                         />                    
-//                     </Col>
-//                 </div>
-//                 <div className="form-row">
-//                     <Col size={'md-3'} classes={'form-group'}>
-//                         <label>City</label>
-//                         <Input value={data.city} name="city"
-//                         style={input}
-//                         onChange={target} 
-//                         />
-//                     </Col>
-//                     <Col size={'md-3'} classes={'form-group'}>
-//                         <label>State/Providence</label>
-//                         <Input value={data.state} name="state"
-//                         style={input}
-//                         onChange={target} 
-//                         />
-//                     </Col>
-//                     <Col size={'md-3'} classes={'form-group'}>
-//                         <label>Zip/Postal Code</label>
-//                         <Input value={data.zip} name="zip"
-//                         style={input}
-//                         onChange={target} 
-//                         />
-//                     </Col>
-//                     <Col size={'md-3'} classes={'form-group'}>
-//                         <label>Country</label>
-//                         <Input value={data.country} name="country"
-//                         style={input}
-//                         onChange={target} 
-//                         />
-//                     </Col>
-//                 </div>
-//                     <div className="form-row">
-//                     <Col size={'md-4'} classes={'form-group'}>
-//                         <label>Phone Number</label>
-//                         <Input value={data.phone} name="phone"
-//                         style={input}
-//                         onChange={target} 
-//                         />
-//                     </Col>
-//                     <Col size={'md-4'} classes={'form-group'}>
-//                         <label>Email</label>
-//                         <Input value={data.email} name="email"
-//                         style={input}
-//                         onChange={target} 
-//                         />
-//                     </Col>
-//                     </div>
-//                 <Col size={'md-12'}>
-//                 <Button className="btn" style={updtBtn} 
-//                     type="submit" > <i className="fas fa-sync-alt fa-2x mr-2"/> {' '}  
-//                         {' '} update 
-//                     </Button>
-//                 </Col>
-//             </form>
-//         </div>
-//     )
-    // } else {
+if (editState) {
+    return (
+        <div className={'mt-5'}>
+        <em><h5>Emergency or other contact Info</h5></em>
+          <Col size={'md-12'}>
+                <Button className="fas fa-backspace fa-2x" style={cancelBtn} 
+                onClick={toggleState} />
+            </Col>
+            <form onSubmit={formSubmit} >
+                <div className={"form-row"}>
+                    <Col size={'md-4'} classes={'form-group'}>
+                        <label>First Name</label>
+                        <Input value={data.firstName} name="firstName"
+                        style={input}
+                        onChange={target} 
+                        />
+                    </Col>
+                    <Col size={'md-4'} classes={'form-group'}>
+                        <label>Last Name</label>
+                        <Input value={data.lastName} name="lastName"
+                        style={input}
+                        onChange={target} 
+                        />
+                    </Col>
+                    <Col size={'md-4'} classes={'form-group'}>
+                        <label>Association</label>
+                        <Input value={data.nickname} name="nickname"
+                        style={input}
+                        placeholder={"e.g. 'Dr, Pharmacist, etc..'"} 
+                        onChange={target} 
+                        />
+                    </Col>
+                </div>
+                <div className="form-row">
+                    <Col size={'md-6'} classes={'form-group'}>
+                        <label>Address Line 1</label>
+                        <Input value={data.addressOne} name="addressOne"
+                        style={input}
+                        onChange={target} 
+                        />                    </Col>
+                    <Col size={'md-6'} classes={'form-group'}>
+                        <label>Address Line 2</label>
+                        <Input value={data.addressTwo} name="addressTwo"
+                        style={input}
+                        onChange={target} 
+                        />                    
+                    </Col>
+                </div>
+                <div className="form-row">
+                    <Col size={'md-3'} classes={'form-group'}>
+                        <label>City</label>
+                        <Input value={data.city} name="city"
+                        style={input}
+                        onChange={target} 
+                        />
+                    </Col>
+                    <Col size={'md-3'} classes={'form-group'}>
+                        <label>State/Providence</label>
+                        <Input value={data.state} name="state"
+                        style={input}
+                        onChange={target} 
+                        />
+                    </Col>
+                    <Col size={'md-3'} classes={'form-group'}>
+                        <label>Zip/Postal Code</label>
+                        <Input value={data.zip} name="zip"
+                        style={input}
+                        onChange={target} 
+                        />
+                    </Col>
+                    <Col size={'md-3'} classes={'form-group'}>
+                        <label>Country</label>
+                        <Input value={data.country} name="country"
+                        style={input}
+                        onChange={target} 
+                        />
+                    </Col>
+                </div>
+                    <div className="form-row">
+                    <Col size={'md-4'} classes={'form-group'}>
+                        <label>Phone Number</label>
+                        <Input value={data.phone} name="phone"
+                        style={input}
+                        onChange={target} 
+                        />
+                    </Col>
+                    <Col size={'md-4'} classes={'form-group'}>
+                        <label>Email</label>
+                        <Input value={data.email} name="email"
+                        style={input}
+                        onChange={target} 
+                        />
+                    </Col>
+                    </div>
+                <Col size={'md-12'}>
+                <Button className="btn" style={updtBtn} 
+                    type="submit" > <i className="fas fa-sync-alt fa-2x mr-2"/> {' '}  
+                        {' '} update 
+                    </Button>
+                </Col>
+            </form>
+        </div>
+    )
+    } else {
         return (
-            <div className={'mt-5 gen-info'}>
-                <Col size={'md-12'} classes={'gen-edit'}>
+            <div className={'mt-5 contacts-info'}>
+                <Col size={'md-12'} classes={'contacts-edit'}>
                     <Button className="fas fa-user-edit fa-2x" style={editBtn} 
                         onClick={toggleState} 
                     />   
@@ -173,7 +173,7 @@ export default function Contacts({ data, target, editState, toggleState, formSub
          </div>
         )
     }
-// }
+}
 
 const fieldText = {
     fontStyle: 'italic',

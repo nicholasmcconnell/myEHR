@@ -4,11 +4,12 @@ import Landing from "./pages/Landing";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import EHR from "./pages/EHR";
+import Contacts from './components/Contacts'
 import Patients from "./pages/Patients";
 import NavBar from './components/Navbar';
-import Contacts from './components/Contacts';
+import Wrapper from './components/Wrapper';
 import ProtectedRoute from './ProtectedRoute';
-import './assets/css/bootstrap.min.css';
+import './assets/css/bootstrap.min.css'
 import "./App.css";
 
 
@@ -19,11 +20,13 @@ function App() {
       <div>
       <Route path="/"><NavBar /> </Route>
         <Route exact path="/"> <Landing /> </Route>
+        <Wrapper >
         <Route exact path="/signin"> <SignIn /> </Route>
         <Route exact path="/signup"> <SignUp /> </Route>
         <ProtectedRoute exact path="/profiles" component={Patients} />
         <ProtectedRoute exact path="/ehr" component={EHR} />
-        <ProtectedRoute exact path="/contacts" component={Contacts} /> 
+        <ProtectedRoute exact path="/contacts"> <Contacts /> </ProtectedRoute>
+        </Wrapper>
       </div>
     </Router>
   )

@@ -1,13 +1,12 @@
 import axios from "axios";
 require('dotenv').config();
 const apiKey = process.env.REACT_APP_API_KEY;
-// webstersKey = '6bbfacfd-a9a0-44da-a339-83be451e5de0'
 
 export default {
     getDrugs: function() {
         return axios.get("/api/drugs");
     },
-    //this will be executed when the user selects "get more info" btn
+
     getDrugInfo: function() {
         return axios.get(`https://www.dictionaryapi.com/api/v3/references/medical/json/cetirizine?key=${apiKey}`);
     },
