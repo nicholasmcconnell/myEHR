@@ -55,7 +55,7 @@ export default function SignUp() {
                         <div className={'mt-5'}>
                             <h5 style={text}>
                                 <img style={logo} src={require('../../assets/img/Logo.png')} alt={'Logo'} />
-                        Create your account
+                            Create your account
                         </h5>
                         </div>
                     </Row>
@@ -89,7 +89,7 @@ export default function SignUp() {
     )
 }
 const logo = {
-    width: "100px",
+    width: "75px",
     height: "auto"
 },
 
