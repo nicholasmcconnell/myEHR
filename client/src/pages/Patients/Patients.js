@@ -24,31 +24,23 @@ export default function Patients() {
         console.log(email)
         const { data } = await API.getUser()
         console.log(data)
-        // setUser(user)
+        // setUser([...user, data]);
     }
 
     const getPatients = async () => {
         console.log(Auth.isAuthenticated())
-        const { data } = await API.fetchPatients(user)
+        const { data } = await API.fetchPatients(email)
         const { firstName, lastName, nickname } = data
             console.log(data)
         for (let i = 0; i < data.length; i++){
-  
             setPatients(patients => patients.concat(data[i]))
         }
-
-            /* code here depends on schema but something like... */
-            // const clients = data.patients;
-            // setPatients(clients)
     }
 
     return (
         <Container>
             <Row>
                 <Col size={'md-8'} classes={'offset-md-2'}>
-                    {/* <Profiles props={patients} name={patients} />
-                    <Profiles name={patients} />
-                    <Profiles name={patients} /> */}
                     {
                         patients.map(patient => <Profiles key={patient.id} name={patient.firstName} props={patient}/>)
                     }
