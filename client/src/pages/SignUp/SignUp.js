@@ -88,11 +88,11 @@ export default function SignUp() {
     )
 }
 const logo = {
-    width: "75px",
+    width: "60px",
     height: "auto"
 },
 
     text = {
-        color: "#a1deb6",
+        color: "#0099ff",
         textShadow: "1px 1px #000"
     }
