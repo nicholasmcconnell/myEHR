@@ -6,75 +6,129 @@ mongoose.connect(
     "mongodb://localhost/myEHR"
 );
 
-const passportSeed = [
-    {
-        username: "john doe",
-        password: "kgvhjsbfdlnz",
-        role: "admin"
+const patientSeed = [{
+        patientId: "dana@gmail.com",
+        firstName: "John",
+        lastName: "Doe",
+        nickname: "Me",
+        addressOne: "567 Placeholder Rd",
+        addressTwo: "",
+        city: "Boston",
+        state: "MA",
+        zip: "46532",
+        country: "USA",
+        phone: "456-153-6583",
+        email: "dana@gmail.com",
+        dob: "01/14/1983",
+        bloodType: "B-Positive",
+        insurance: "Aetna",
+        insNumber: "KXY234513",
+        rxBin: "657375",
+        rxPcn: "879646",
+        allergies: "",
+        immunizations: "",
+        notes: "",
+        conditions: ["High blood pressure", "High cholesterol", "GERD"],
+        medications: [{
+                name: "Rosuvastatin Calcium",
+                dose: "5 mg",
+            },
+            {
+                name: "Hydrochlorothiazide",
+                dose: "25 mg",
+            },
+            {
+                name: "Pantoprazole",
+                dose: "40 mg",
+            }
+        ]
     },
     {
-        username: "dana chahn",
-        password: "sdfafgshg",
-        role: "admin"
+        patientId: "dana@gmail.com",
+        firstName: "Jose",
+        lastName: "Martinez",
+        nickname: "Uncle",
+        addressOne: "346 Placeholder St",
+        addressTwo: "APT 304",
+        city: "Boston",
+        state: "MA",
+        zip: "46532",
+        country: "USA",
+        phone: "456-153-6583",
+        email: "dana@gmail.com",
+        dob: "09/24/1933",
+        bloodType: "",
+        insurance: "Medicare",
+        insNumber: "2562345A",
+        rxBin: "657375",
+        rxPcn: "879646",
+        allergies: "",
+        immunizations: "",
+        notes: "",
+        conditions: ["Arthritis"],
+        medications: [{
+            name: "Ibuprofen",
+            dose: "800 mg",
+        }]
     },
     {
-        username: "nick Jude",
-        password: "678f",
-        role: "admin"
+        patientId: "test@gmail.com",
+        firstName: "Shirley",
+        lastName: "Young",
+        nickname: "Me",
+        addressOne: "4 Placeholder Ave",
+        addressTwo: "",
+        city: "Richmond",
+        state: "VA",
+        zip: "67352",
+        country: "USA",
+        phone: "344-443-2415",
+        email: "test@gmail.com",
+        dob: "07/14/1994",
+        bloodType: "O-Negative",
+        insurance: "Keystone First",
+        insNumber: "FDS2504798",
+        rxBin: "874264",
+        rxPcn: "23547",
+        allergies: "Pollen, dust mites, cats",
+        immunizations: "",
+        notes: "Non-smoker",
+        conditions: ["Asthma"],
+        medications: [{
+            name: "Albuterol",
+            dose: "",
+        }]
+    },
+    {
+        patientId: "test@gmail.com",
+        firstName: "Amanda",
+        lastName: "Young",
+        nickname: "Daughter",
+        addressOne: "4 Placeholder Ave",
+        addressTwo: "",
+        city: "Richmond",
+        state: "VA",
+        zip: "67352",
+        country: "USA",
+        phone: "344-443-2415",
+        email: "test@gmail.com",
+        dob: "11/03/2018",
+        bloodType: "O-Negative",
+        insurance: "Keystone First",
+        insNumber: "TSE6735645",
+        rxBin: "844226",
+        rxPcn: "24752",
+        allergies: "",
+        immunizations: "",
+        notes: "",
+        conditions: ["Eczema"],
+        medications: []
     }
-]
+];
 
-// const userSeed = [{
-//         id: "0",
-//         firstName: "John",
-//         lastName: "Doe",
-//         birthday: "01/01/1990",
-//         allergies: "",
-//         medications: [{
-//                 name: "Rosuvastatin Calcium",
-//                 dosage: "5 mg",
-//                 date: new Date(Date.now())
-//             },
-//             {
-//                 name: "Hydrochlorothiazide",
-//                 dosage: "25 mg",
-//                 date: new Date(Date.now())
-//             },
-//             {
-//                 name: "Pantoprazole",
-//                 dosage: "40 mg",
-//                 date: new Date(Date.now())
-//             }
-//         ]
-//     },
-//     {
-//         id: "1",
-//         firstName: "Jane",
-//         lastName: "Doe",
-//         birthday: "10/10/1990",
-//         allergies: "",
-//         medications: [{
-//                 name: "Esomeprazole",
-//                 dosage: "40 mg",
-//                 date: new Date(Date.now())
-//             },
-//             {
-//                 name: "Cetirizine",
-//                 dosage: "5 mg",
-//                 date: new Date(Date.now())
-//             },
-//             {
-//                 name: "Ibuprofen",
-//                 dosage: "400 mg",
-//                 date: new Date(Date.now())
-//             }
-//         ]
-//     }
-// ];
-
-db.User
+db.Patient
     .remove({})
-    .then(() => db.User.collection.insertMany(passportSeed))
+    .then(() => db.Patient.collection.insertMany(patientSeed))
     .then(data => {
         console.log(data.result.n + 'records inserted!');
         process.exit(0);

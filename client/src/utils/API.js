@@ -31,8 +31,8 @@ export default {
             .catch(err => console.log(err))
     },
 
-    fetchPatients: function() {
-        return axios.get("/api/patients/load");
+    fetchPatients: function(email) {
+        return axios.get("/api/patients/load", email);
     },
 
     addPatient: function(data) {

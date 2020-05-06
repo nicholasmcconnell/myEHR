@@ -23,7 +23,8 @@ const PatientSchema = new Schema({
     allergies: { type: String, default: '' },
     immunizations: { type: String, default: '' },
     notes: { type: String, default: '' },
-    conditions: { type: String, default: '' }
+    conditions: { type: Array, default: '' },
+    medications: { type: Array, default: '' }
 })
 
 const Patient = mongoose.model("Patient", PatientSchema);
