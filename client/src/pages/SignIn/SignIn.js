@@ -84,7 +84,7 @@ export default function SignIn() {
 }
 
 const logo = {
-    width: "100px",
+    width: "75px",
     height: "auto"
 },
 
