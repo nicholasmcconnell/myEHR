@@ -4,12 +4,12 @@ import { Container, Row, Col } from '../../components/Grid';
 import { ContactCard } from '../../components/ContactCard';
 import { HealthCard } from '../../components/HealthCard';
 import { Conditions } from '../../components/Conditions';
-import { Medications } from '../../components/Medications'
+import { Medications } from '../../components/Medications';
 import Contacts from '../../components/Contacts';
 import API from '../../utils/API';
 
-export default function EHR(props) {
-console.log(props.location.state);
+export default function EHR({ location }) {
+
     const  context = useContext(value);
     const [generalInfo, setGeneralInfo] = useState({
         firstName: 'Anne',
@@ -36,7 +36,7 @@ console.log(props.location.state);
         notes: 'Breast Cancer!!  Patient likes talk a lot.',
     }),
         [ contactInfo, setContactInfo ] = useState([]),
-        [ patient, setPatient ] = useState(props.location.state.patientId),
+        [ patient, setPatient ] = useState(location.state.patientId),
         [ conditions, setConditions ] = useState([]),
         [ meds, setMeds ] = useState([]),
         [ medInput, setMedInput ] = useState(''),
@@ -55,8 +55,21 @@ console.log(props.location.state);
         [ medSearch, setMedSearch ]= useState(''),
         [ doses, setDoses ]= useState('');
     
+     useEffect(() => {   
+        getPatient()
+    }, []);
 
-    const onGenInfoInputChange = e => {
+    const getPatient = async() => {
+       
+       const { data } = await API.fetchPatient(patient)
+       setGeneralInfo(data.patientData)
+       setHealthInfo(data.healthData)
+       setConditions(data.healthConditions)
+       setContactInfo(data.contacts)
+    },
+
+
+     onGenInfoInputChange = e => {
         const { name, value } = e.target;
         setGeneralInfo({ ...generalInfo, [name]: value })
     }, 
@@ -301,19 +314,6 @@ console.log(props.location.state);
             .catch(err => console.log(err));
         }
       };
-
-    // useEffect(() => {   
-    //     loadProfiles()
-    // }, []);
-
-    // function loadProfiles() {
-    //     API.fetchPatients()
-    //       .then(res => 
-    //         setGeneralInfo(res.data[0])
-    //         // console.log(res.data)
-    //       )
-    //       .catch(err => console.log(err));
-    //   };
 
     return (
         <Container>

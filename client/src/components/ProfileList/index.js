@@ -2,13 +2,13 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import { PromiseProvider } from 'mongoose';
 
-export default function Profiles({name, key }) {
+export default function Profiles({name, id }) {
 
 
     return (
         <Link to={{
             pathname:'/ehr',
-            state: { patientId: "25"}
+            state: { patientId: id }
         }}
             style={{textDecoration: 'none'}} >
             <div className="card box-shadow mt-5">

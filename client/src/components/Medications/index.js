@@ -101,7 +101,7 @@ export function Medications ({ data, target, areaTarget, editState, toggleState,
                             onClick={addDoses}
                             ></Button>
                         <div>
-                            <Input name="medication" type='text'
+                            <Input name="medication"
                             style={input}
                             value={text}
                             onChange={target} 
@@ -112,7 +112,9 @@ export function Medications ({ data, target, areaTarget, editState, toggleState,
                     <Col size={'md-4'} classes={'form-group'}>
                         <label>Select Dosage</label>
                         <div>
-                            <select onChange={target} style={input} name="dosage" class="form-control">
+                            <select name="dosage" 
+                            onChange={target} style={input}
+                            className="form-control">
                                 {populateDoses(doseChoices)}
                             </select>
                         </div>

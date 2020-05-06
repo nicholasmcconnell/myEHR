@@ -3,8 +3,8 @@ require('dotenv').config();
 const apiKey = process.env.REACT_APP_API_KEY;
 
 export default {
-    getDrugs: function() {
-        return axios.get("/api/drugs");
+    fetchPatient: function(id) {
+        return axios.get(`/api/patients/${id}`);
     },
 
     getDrugInfo: function() {

@@ -56,7 +56,7 @@ export default function Patients() {
                     <Profiles name={patients} />
                     <Profiles name={patients} /> */}
                     {
-                        patients.map(patient => <Profiles key={patient._id} name={patient.firstName} />)
+                        patients.map(patient => <Profiles key={patient._id} name={patient.patientData.firstName} id={patient._id} />)
                     }
                 </Col>
            </Row>
