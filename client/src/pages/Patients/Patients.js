@@ -1,4 +1,5 @@
 import React, { useState, useEffect} from 'react';
+import { Link } from 'react-router-dom';
 import { Container, Row, Col } from '../../components/Grid';
 import Profiles from '../../components/ProfileList'; 
 import API from "../../utils/API";
@@ -52,9 +53,6 @@ export default function Patients() {
         <Container>
             <Row>
                 <Col size={'md-8'} classes={'offset-md-2'}>
-                    {/* <Profiles props={patients} name={patients} />
-                    <Profiles name={patients} />
-                    <Profiles name={patients} /> */}
                     {
                         patients.map(patient => <Profiles key={patient._id} name={patient.patientData.firstName} id={patient._id} />)
                     }
@@ -63,7 +61,11 @@ export default function Patients() {
         
             <br/>
             <div>
-            <button  type="button" class="btn" >+ patients</button>
+            <Link  to={{
+                 pathname:'/ehr',
+                 state: { patientId: "" }
+            }} 
+            >+ patients</Link>
 
             </div>
         </Container>

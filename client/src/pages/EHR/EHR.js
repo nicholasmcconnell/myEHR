@@ -55,7 +55,6 @@ export default function EHR({ location }) {
     onContInfoInputChange = e => {
         const { name, value } = e.target;
         setContactInfo({ ...contactInfo, [name]: value })
-        // loadProfiles();
     }, 
 
     onConditDescChange = index => e => {
@@ -229,6 +228,7 @@ export default function EHR({ location }) {
                 }
 
             setMeds([...meds, newMed])
+            updateDB()
         },
 
        
@@ -268,6 +268,7 @@ export default function EHR({ location }) {
 
             clone.splice(index, 1)
             setMeds(clone)
+            updateDB()
         }
 
     useEffect(() => {   
@@ -275,8 +276,8 @@ export default function EHR({ location }) {
     }, []);
 
     const newPatient = () => {
-    
-        if (context === "") {
+        //if no patient was pass, create a new one on the server.
+        if (patient === "") {
 
         const patient = {generalInfo, healthInfo, conditions, meds, contactInfo}
         API.addPatient(patient)
@@ -285,7 +286,7 @@ export default function EHR({ location }) {
         )
             .catch(err => console.log(err));
         }
-      };
+      }
 
     return (
         <Container>
