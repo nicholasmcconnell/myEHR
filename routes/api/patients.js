@@ -6,7 +6,7 @@ const { Patient } = require("../../models");
 router.get('/load', async(req, res) => {
     try {
         const email = req.user.email;
-        const patients = await Patient.find({ "email": email });
+        const patients = await Patient.find({ "userEmail": email });
         res.json(patients);
     } catch (err) {
         res.json({ message: err });
@@ -16,6 +16,7 @@ router.get('/load', async(req, res) => {
 //create new profile
 router.post('/add', async({ body }, res) => {
     const patient = new Patient({
+        userEmail: body.email,
         patientData: body.generalInfo,
         healthData: body.healthInfo,
         healthConditions: body.conditions,
@@ -34,6 +35,7 @@ router.post('/add', async({ body }, res) => {
 
 //get by id
 router.get("/:patientId", async(req, res) => {
+    console.log(req.params.patientId)
     try {
         const patient = await Patient.findById(req.params.patientId);
         res.json(patient);
@@ -57,15 +59,22 @@ router.delete("/:patientId", async(req, res) => {
 //update 
 router.patch("/:patientId", async(req, res) => {
     try {
-        const updatedPatient = await Patient.updateOne({
+        const updatedPatient = await Patient.update({
             _id: req.params.patientId
-        }, {
-            $set: { birthday: req.body.birthday }
-        });
+        }, 
+        {$set: 
+            { 
+                patientData: req.body.generalInfo,
+                healthData: req.body.healthInfo,
+                healthConditions: req.body.conditions,
+                medications: req.body.meds,
+                contacts: req.body.contacts
+        
+            }
+        })
         res.json(updatedPatient);
     } catch (err) {
         res.json({ message: err });
     }
 });
-
 module.exports = router;

@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const PatientSchema = new Schema({
+    userEmail: { 
+        type: String, 
+        required: true
+     },
     patientData: { 
         type: Object, 
         required: false
@@ -18,7 +22,7 @@ const PatientSchema = new Schema({
         type: Array, 
         default: false 
     },
-    Contacts: { 
+    contacts: { 
         type: Array, 
         default: false 
     },
