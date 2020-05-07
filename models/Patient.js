@@ -23,7 +23,11 @@ const PatientSchema = new Schema({
         default: false 
     },
     contacts: { 
+<<<<<<< HEAD
         type: Object, 
+=======
+        type: Array, 
+>>>>>>> 5ae1e66f46a8cbe682148888b815903e4fa940ef
         default: false 
     },
     
