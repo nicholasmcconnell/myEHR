@@ -10,6 +10,7 @@ export default function Patients() {
 
     useEffect(() => {
         getUser()
+       
     }, [])
 
     const getUser = async () => {
