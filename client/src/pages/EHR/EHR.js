@@ -230,7 +230,7 @@ export default function EHR({ location }) {
                 edit : false
             }
             
-        setMeds([...meds, medInput, newMed])
+        setMeds([...meds, medInput])
         updateDB()
     },
 
