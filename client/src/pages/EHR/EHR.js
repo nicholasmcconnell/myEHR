@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import value  from '../Patients';
 import { Container, Row, Col } from '../../components/Grid';
 import { ContactCard } from '../../components/ContactCard';
 import { HealthCard } from '../../components/HealthCard';
@@ -7,11 +8,13 @@ import { Medications } from '../../components/Medications';
 import Contacts from '../../components/Contacts';
 import API from '../../utils/API';
 
-export default function EHR({ usrId }) {
+export default function EHR({ location }) {
 
+    const  context = useContext(value);
     const [generalInfo, setGeneralInfo] = useState({}),
-     [ healthInfo, setHealthInfo ] = useState({}),
+        [ healthInfo, setHealthInfo ] = useState({}),
         [ contactInfo, setContactInfo ] = useState([]),
+        [ patient, setPatient ] = useState(''),
         [ conditions, setConditions ] = useState([]),
         [ meds, setMeds ] = useState([]),
         [ medInput, setMedInput ] = useState(''),
@@ -30,17 +33,32 @@ export default function EHR({ usrId }) {
         [ medSearch, setMedSearch ]= useState(''),
         [ doses, setDoses ]= useState('');
     
+     useEffect(() => {   
+        newPatient()
+    }, []);
 
-    const onGenInfoInputChange = e => {
+    
+    const getPatient = async() => {
+       if (!patient){
+           setPatient("")
+           return
+       }
+       const { data } = await API.fetchPatient(patient)
+       setGeneralInfo(data.patientData)
+       setHealthInfo(data.healthData)
+       setConditions(data.healthConditions)
+       setContactInfo(data.contacts)
+    },
+
+
+     onGenInfoInputChange = e => {
         const { name, value } = e.target;
         setGeneralInfo({ ...generalInfo, [name]: value })
-        loadProfiles();
     }, 
 
     onContInfoInputChange = e => {
         const { name, value } = e.target;
         setContactInfo({ ...contactInfo, [name]: value })
-        loadProfiles();
     }, 
 
     onConditDescChange = index => e => {
@@ -110,7 +128,7 @@ export default function EHR({ usrId }) {
 
      getMedNames = async(search) => {
         const { data }  = await API.getMedNames(search);
-        return data.displayTermsList.term       
+        return !data.displayTermsList ? "??" : data.displayTermsList.term       
     },
 
     selectSuggestedCondit = value => {
@@ -158,15 +176,16 @@ export default function EHR({ usrId }) {
     },
 
     updateDB = e => {
+        if(e) {
         e.preventDefault()
-        API.updateEHR()
-            .then((res) => {
-                console.log(res);
-                // if (data.status === 'success') {
-                //     console.log('Updated record!', 'green')
-                // } else {
-                //     console.log('Fail to update record.', 'red')
-                // }
+        setGenState(false)
+        setHealthState(false)
+        }
+
+        const data = {generalInfo, healthInfo, conditions, meds}
+
+        API.updateEHR(patient, data)
+            .then(({ data }) => {  
             })
             .catch((err) => console.log(err))             
     },
@@ -181,18 +200,19 @@ export default function EHR({ usrId }) {
                 return;
             }
             const [ search ]  = text.split('-'),
-                { data } = await API.fetchCondition(search),
+                { data } = await API.fetchCondition(search);
+                
+                console.log('desc', data)
 
-                description = data[0].shortdef ? data[0].shortdef.join('\n') : '';
-
+                const description = data[0].shortdef ? data[0].shortdef.join('\n') : '';
             setConditions([...conditions, { name: text, edit: false, description }])
-    },
+            updateDB()
+        },
 
     addDoses = async e => {
             e.preventDefault();
+
             setMedSuggestions([]);
-
-
             const { text } = medSuggestions;
             if (!text) {
                 return;
@@ -200,8 +220,6 @@ export default function EHR({ usrId }) {
             const [ search ]  = text.split('-'),
                 { data } = await API.fetchMeds(search);
                 const doses = data.drugGroup.conceptGroup[1].conceptProperties.map(x => x.synonym)
-           
-
                 setDoses(doses)            
     },
 
@@ -216,7 +234,9 @@ export default function EHR({ usrId }) {
                 }
 
             setMeds([...meds, newMed])
-    },
+            updateDB()
+        },
+
        
     toggleDescriptionEdit = index => {
             const arr = [];
@@ -245,27 +265,32 @@ export default function EHR({ usrId }) {
 
             clone.splice(index, 1)
             setConditions(clone)
-    },
+
+            updateDB()
+        },
 
     removeMed = index => {
             const clone = meds;
 
             clone.splice(index, 1)
             setMeds(clone)
-    }
+            updateDB()
+        }
 
-    useEffect(() => {   
-        loadProfiles()
-    }, []);
+    const newPatient = () => {
+        //if no patient was pass, create a new one on the server.
+        if (patient === "") {
 
-    function loadProfiles() {
-        API.fetchPatients()
-          .then(res => 
-            setGeneralInfo(res.data)
-            // console.log(res.data)
-          )
-          .catch(err => console.log(err));
-      };
+        const patient = {generalInfo, healthInfo, conditions, meds, contactInfo}
+        API.addPatient(patient)
+        .then(({ data }) => 
+            setPatient(data._id)
+        )
+            .catch(err => console.log(err));
+        } else {
+            getPatient()
+        }
+      }
 
     return (
         <Container>
@@ -295,6 +320,15 @@ export default function EHR({ usrId }) {
                 <Col size={'md-8'} classes={'offset-md-2'}>
                     <Conditions
                         toggleState={() => setConditState(!editConditState)}
+
+                        editState={editConditState} 
+                        toggleDescState={() => setDescEditState(!descEditState)}
+                        editDescState={descEditState} 
+
+                        editState={editConditState}
+                        toggleDescState={toggleDescriptionEdit}
+                        editDescState={descEditState}
+
                         editState={editConditState}
                         toggleDescState={toggleDescriptionEdit}
                         remove={removeCondition}
@@ -325,7 +359,7 @@ export default function EHR({ usrId }) {
                       />
                 </Col>
             </Row>
-            <Col size={'md-8'} classes={'offset-md-2'}>
+            {/* <Col size={'md-8'} classes={'offset-md-2'}>
                     <Contacts
                         toggleState={() => setContState(!editContState)}
                         editState={editContState}
@@ -333,7 +367,7 @@ export default function EHR({ usrId }) {
                         target={onContInfoInputChange}
                         formSubmit={updateDB}
                     />
-                </Col>
+                </Col> */}
         </Container>
     )
 }

@@ -3,8 +3,8 @@ require('dotenv').config();
 const apiKey = process.env.REACT_APP_API_KEY;
 
 export default {
-    getDrugs: function() {
-        return axios.get("/api/drugs");
+    fetchPatient: function(id) {
+        return axios.get(`/api/patients/${id}`);
     },
 
     getDrugInfo: function() {
@@ -27,6 +27,7 @@ export default {
     },
 
     fetchCondition: function(search) {
+        console.log(apiKey)
         return axios.get(`https://www.dictionaryapi.com/api/v3/references/medical/json/${search}?key=${apiKey}`)
             .catch(err => console.log(err))
     },
@@ -36,7 +37,15 @@ export default {
     },
 
     addPatient: function(data) {
-        return axios.get("/api/patients/add", data);
+        return axios.post("/api/patients/add", data);
+    },
+
+    removeEHR: function(data) {
+        return axios.delete("/api/patients", data);
+    },
+
+    updateEHR: function(id, data) {
+        return axios.patch(`/api/patients${id}`, data);
     },
 
     getUser: function() {

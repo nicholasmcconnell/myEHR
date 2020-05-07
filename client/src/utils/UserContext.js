@@ -1,5 +1,8 @@
-import React from "react";
+import React from 'react';
 
-const UserContext = React.createContext({ email: "" });
+const patient = {
+    _id: ''
+}
+const UserContext = React.createContext(patient);
 
 export default UserContext;

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Container, Row, Col } from '../../components/Grid';
 import { LoggerBtn, Input } from '../../components/Forms';
-import UserContext from '../../utils/UserContext';
+
 import API from '../../utils/API';
 import Auth from '../../Auth'
 
@@ -45,7 +45,7 @@ export default function SignUp() {
         }
 
     return (
-        <UserContext.Provider value={user} >
+    
         <Container classes={'box-shadow sign'}>
             <Row>
                 <Col size={'md-12'} >
@@ -84,7 +84,6 @@ export default function SignUp() {
                 </Col>
             </Row>
         </Container>
-        </UserContext.Provider>
     )
 }
 const logo = {

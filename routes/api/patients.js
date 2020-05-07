@@ -14,29 +14,13 @@ router.get('/load', async(req, res) => {
 });
 
 //create new profile
-router.post('/add', async(req, res) => {
+router.post('/add', async({ body }, res) => {
     const patient = new Patient({
-        patientId: req.body.patientId,
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        addressOne: req.body.addressOne,
-        addressTwo: req.body.addressTwo,
-        city: req.body.city,
-        state: req.body.state,
-        zip: req.body.zip,
-        country: req.body.country,
-        phone: req.body.phone,
-        email: req.body.email,
-        dob: req.body.dob,
-        bloodType: req.body.bloodType,
-        insurance: req.body.insurance,
-        insNumber: req.body.insNumber,
-        rxBin: req.body.rxBin,
-        rxPcn: req.body.rxPcn,
-        allergies: req.body.allergies,
-        immunizations: req.body.immunizations,
-        notes: req.body.notes,
-        conditions: req.body.conditions
+        patientData: body.generalInfo,
+        healthData: body.healthInfo,
+        healthConditions: body.conditions,
+        medications: body.meds,
+        contacts: body.contacts,
     });
 
     //promise
