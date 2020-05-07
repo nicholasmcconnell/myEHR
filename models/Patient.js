@@ -18,7 +18,7 @@ const PatientSchema = new Schema({
         type: Array, 
         default: false 
     },
-    Contacts: { 
+    contacts: { 
         type: Array, 
         default: false 
     },

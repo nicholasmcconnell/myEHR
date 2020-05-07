@@ -166,6 +166,9 @@ export default function EHR({ location }) {
     },
 
     onHealthInfoInputChange = e => {
+        const {options, selectedIndex} = e.target;
+        console.log(options, selectedIndex);
+
         const { name, value } = e.target;
         setHealthInfo({ ...healthInfo, [name]: value })
     },
@@ -182,8 +185,8 @@ export default function EHR({ location }) {
         setHealthState(false)
         }
 
-        const data = {generalInfo, healthInfo, conditions, meds}
-
+        const data = {generalInfo, healthInfo, conditions, meds, contactInfo}
+       
         API.updateEHR(patient, data)
             .then(({ data }) => {  
             })
@@ -207,7 +210,7 @@ export default function EHR({ location }) {
                 const description = data[0].shortdef ? data[0].shortdef.join('\n') : '';
             setConditions([...conditions, { name: text, edit: false, description }])
             updateDB()
-        },
+    },
 
     addDoses = async e => {
             e.preventDefault();
@@ -225,14 +228,13 @@ export default function EHR({ location }) {
 
     addMeds = e => {
             e.preventDefault();
-            e.target.reset()
+           
 
                 const newMed = {
                     medication: medInput.medication,
                     dosage: medInput.dosage,
                     edit : false
                 }
-
             setMeds([...meds, newMed])
             updateDB()
         },
@@ -273,6 +275,8 @@ export default function EHR({ location }) {
             const clone = meds;
 
             clone.splice(index, 1)
+            console.log("clone", clone)
+            
             setMeds(clone)
             updateDB()
         }
@@ -280,7 +284,7 @@ export default function EHR({ location }) {
     const newPatient = () => {
         //if no patient was pass, create a new one on the server.
         if (patient === "") {
-
+            setHealthInfo({bloodType: 'Unknown'})
         const patient = {generalInfo, healthInfo, conditions, meds, contactInfo}
         API.addPatient(patient)
         .then(({ data }) => 

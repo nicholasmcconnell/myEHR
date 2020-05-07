@@ -3,7 +3,7 @@ import { Col } from '../Grid';
 import { Input, Button, TextArea } from '../Forms';
 
 
-export function HealthCard({ data, target, editState, toggleState, formSubmit }) {
+export function HealthCard({ data, target, editState, toggleState, formSubmit, setBlood }) {
 
     const getAge = DOB => {
 
@@ -22,7 +22,7 @@ export function HealthCard({ data, target, editState, toggleState, formSubmit })
     
         const types = ['Unknown', 'A-Positive', 'A-Negative', 'B-Positive', 'B-Negative', 'AB-Positive', 'AB-Negative', 'O-Positive', 'O-Negative']
     
-    return types.map( type => type === bloodType ? <option selected>{bloodType}</option> : <option>{type}</option>)
+    return types.map( type => type === bloodType ? <option value={bloodType} selected>{bloodType}</option> : <option>{type}</option>)
      };
     
 if (editState) {
@@ -45,12 +45,12 @@ if (editState) {
                     <Col size={'md-2'} classes={'form-group'}>
                         <label>Age</label>
                         <div style={fieldText}>
-                            {getAge('06/12/1929')}
+                            {getAge(data.dob)}
                         </div>
                     </Col>
                     <Col size={'md-4'} classes={'form-group'}>
                         <label>Blood Type</label>
-                        <select style={input} name="bloodType" class="form-control">
+                        <select onChange={target} style={input} name="bloodType" className="form-control">
                             {bloodTypes(data.bloodType)}
                         </select>
                     </Col>

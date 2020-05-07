@@ -57,11 +57,20 @@ router.delete("/:patientId", async(req, res) => {
 //update 
 router.patch("/:patientId", async(req, res) => {
     try {
-        const updatedPatient = await Patient.updateOne({
+        console.log(req.body)
+        const updatedPatient = await Patient.update({
             _id: req.params.patientId
-        }, {
-            $set: { birthday: req.body.birthday }
-        });
+        }, 
+        {$set: 
+            { 
+                patientData: req.body.generalInfo,
+                healthData: req.body.healthInfo,
+                healthConditions: req.body.conditions,
+                medications: req.body.meds,
+                contacts: req.body.contacts
+        
+            }
+        })
         res.json(updatedPatient);
     } catch (err) {
         res.json({ message: err });

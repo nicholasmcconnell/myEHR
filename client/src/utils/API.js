@@ -45,7 +45,7 @@ export default {
     },
 
     updateEHR: function(id, data) {
-        return axios.patch(`/api/patients${id}`, data);
+        return axios.patch(`/api/patients/${id}`, data);
     },
 
     getUser: function() {

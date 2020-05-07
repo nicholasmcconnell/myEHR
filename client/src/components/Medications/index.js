@@ -1,6 +1,6 @@
 import React from 'react'
 import { Col, Row } from '../Grid';
-import { Input, Button, TextArea } from '../Forms';
+import { Input, Button } from '../Forms';
 
 
 
