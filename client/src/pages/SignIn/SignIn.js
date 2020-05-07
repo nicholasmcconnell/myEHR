@@ -51,8 +51,8 @@ export default function SignIn() {
                         <div className={'mt-5'}>
                             <h5 style={text}>
                                 <img style={logo} src={require('../../assets/img/Logo.png')} alt={'Logo'} />
-                        Log-in to your account
-                        </h5>
+                                Log-in to your account
+                            </h5>
                         </div>
                     </Row>
                     <Row >
@@ -89,11 +89,11 @@ export default function SignIn() {
 }
 
 const logo = {
-    width: "75px",
+    width: "60px",
     height: "auto"
 },
 
 text = {
-    color: "#a1deb6",
+    color: "#0099ff",
     textShadow: "1px 1px #000"
 }
