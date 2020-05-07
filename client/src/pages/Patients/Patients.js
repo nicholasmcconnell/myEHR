@@ -26,13 +26,13 @@ export default function Patients() {
     }, [user])
 
     const getUser = async () => {
-        const { data } = await API.getUser()
-        console.log(data)
+        const { data } = await API.getUser();
+        console.log(user)
     }
 
     const getPatients = async () => {
         console.log(Auth.isAuthenticated())
-        const { data } = await API.fetchPatients(email)
+        const { data } = await API.fetchPatients(user.email)
         const { firstName, lastName, nickname } = data
             console.log(data)
         for (let i = 0; i < data.length; i++){

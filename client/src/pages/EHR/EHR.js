@@ -8,20 +8,13 @@ import { Medications } from '../../components/Medications';
 import Contacts from '../../components/Contacts';
 import API from '../../utils/API';
 
-<<<<<<< HEAD
 export default function EHR({ location }) {
 
     const  context = useContext(value);
     const [generalInfo, setGeneralInfo] = useState({}),
         [ healthInfo, setHealthInfo ] = useState({}),
-=======
-export default function EHR({ usrId }) {
-
-    const [generalInfo, setGeneralInfo] = useState({}),
-     [ healthInfo, setHealthInfo ] = useState({}),
->>>>>>> cd91ee2c3169aa9989cc8f7916f6a47a64012068
         [ contactInfo, setContactInfo ] = useState([]),
-        [ patient, setPatient ] = useState(location.state.patientId),
+        [ patient, setPatient ] = useState(''),
         [ conditions, setConditions ] = useState([]),
         [ meds, setMeds ] = useState([]),
         [ medInput, setMedInput ] = useState(''),
@@ -41,11 +34,15 @@ export default function EHR({ usrId }) {
         [ doses, setDoses ]= useState('');
     
      useEffect(() => {   
-        getPatient()
+        newPatient()
     }, []);
 
+    
     const getPatient = async() => {
-       
+       if (!patient){
+           setPatient("")
+           return
+       }
        const { data } = await API.fetchPatient(patient)
        setGeneralInfo(data.patientData)
        setHealthInfo(data.healthData)
@@ -178,25 +175,17 @@ export default function EHR({ usrId }) {
         setConditionSearch({ ...conditionSearch, [name]: value })
     },
 
-<<<<<<< HEAD
-    updateDB = () => {
-        // e.preventDefault()
+    updateDB = e => {
+        if(e) {
+        e.preventDefault()
+        setGenState(false)
+        setHealthState(false)
+        }
+
         const data = {generalInfo, healthInfo, conditions, meds}
 
         API.updateEHR(patient, data)
             .then(({ data }) => {  
-=======
-    updateDB = e => {
-        e.preventDefault()
-        API.updateEHR()
-            .then((res) => {
-                console.log(res);
-                // if (data.status === 'success') {
-                //     console.log('Updated record!', 'green')
-                // } else {
-                //     console.log('Fail to update record.', 'red')
-                // }
->>>>>>> cd91ee2c3169aa9989cc8f7916f6a47a64012068
             })
             .catch((err) => console.log(err))             
     },
@@ -211,17 +200,14 @@ export default function EHR({ usrId }) {
                 return;
             }
             const [ search ]  = text.split('-'),
-                { data } = await API.fetchCondition(search),
+                { data } = await API.fetchCondition(search);
+                
+                console.log('desc', data)
 
-                description = data[0].shortdef ? data[0].shortdef.join('\n') : '';
-
+                const description = data[0].shortdef ? data[0].shortdef.join('\n') : '';
             setConditions([...conditions, { name: text, edit: false, description }])
-<<<<<<< HEAD
             updateDB()
         },
-=======
-    },
->>>>>>> cd91ee2c3169aa9989cc8f7916f6a47a64012068
 
     addDoses = async e => {
             e.preventDefault();
@@ -248,13 +234,9 @@ export default function EHR({ usrId }) {
                 }
 
             setMeds([...meds, newMed])
-<<<<<<< HEAD
             updateDB()
         },
 
-=======
-    },
->>>>>>> cd91ee2c3169aa9989cc8f7916f6a47a64012068
        
     toggleDescriptionEdit = index => {
             const arr = [];
@@ -283,31 +265,18 @@ export default function EHR({ usrId }) {
 
             clone.splice(index, 1)
             setConditions(clone)
-<<<<<<< HEAD
 
             updateDB()
         },
-=======
-    },
->>>>>>> cd91ee2c3169aa9989cc8f7916f6a47a64012068
 
     removeMed = index => {
             const clone = meds;
 
             clone.splice(index, 1)
             setMeds(clone)
-<<<<<<< HEAD
             updateDB()
         }
-=======
-    }
->>>>>>> cd91ee2c3169aa9989cc8f7916f6a47a64012068
 
-    useEffect(() => {   
-        newPatient()
-    }, []);
-
-<<<<<<< HEAD
     const newPatient = () => {
         //if no patient was pass, create a new one on the server.
         if (patient === "") {
@@ -318,18 +287,10 @@ export default function EHR({ usrId }) {
             setPatient(data._id)
         )
             .catch(err => console.log(err));
+        } else {
+            getPatient()
         }
       }
-=======
-    function loadProfiles() {
-        API.fetchPatients()
-          .then(res => 
-            setGeneralInfo(res.data)
-            // console.log(res.data)
-          )
-          .catch(err => console.log(err));
-      };
->>>>>>> cd91ee2c3169aa9989cc8f7916f6a47a64012068
 
     return (
         <Container>

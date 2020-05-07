@@ -21,17 +21,15 @@ export function Medications ({ data, target,  editState, toggleState, formSubmit
         <div>{med.dosage}</div>
         </Col>
     ));
-    };
+    }
 
     function renderEditMeds(meds) {
       return (
-          meds.map( (med , i) => {
-    
             meds.map( (med, i) => 
             <Col key={i} size={'md-12'} classes={'form-group'}>
             <label style={fieldText}>
             <Button className="fas fa-times" style={removeBtn}
-                onClick={remove.bind(this, i)}  
+                onClick={()=>{remove.bind(this, i)}}  
             />
                 {med.medication} 
                 {' '}
@@ -41,9 +39,8 @@ export function Medications ({ data, target,  editState, toggleState, formSubmit
                 </div>
         </Col>
             )
-                 
-    }))   
-}
+    )}
+
      
 
     if ((editState || data.length === 0)) {
