@@ -1,10 +1,15 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-import { PromiseProvider } from 'mongoose';
 
-export default function Profiles({name, id }) {
+export default function Profiles({ patient, id }) {
+    let name;
 
-
+  if (typeof patient == 'undefined' || typeof patient.patientData == 'undefined'|| typeof patient.patientData.firstName == 'undefined') {
+      name = "Nameless Patient"
+} else {
+    name = patient.patientData.firstName;
+    }
+    
     return (
         <Link to={{
             pathname:'/ehr',

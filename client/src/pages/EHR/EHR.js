@@ -1,5 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
-import value  from '../Patients';
+import React, { useEffect, useState } from 'react';
 import { Container, Row, Col } from '../../components/Grid';
 import { ContactCard } from '../../components/ContactCard';
 import { HealthCard } from '../../components/HealthCard';
@@ -10,11 +9,11 @@ import API from '../../utils/API';
 
 export default function EHR({ location }) {
 
-    const  context = useContext(value);
+    
     const [generalInfo, setGeneralInfo] = useState({}),
         [ healthInfo, setHealthInfo ] = useState({}),
         [ contactInfo, setContactInfo ] = useState([]),
-        [ patient, setPatient ] = useState(''),
+        [ patient, setPatient ] = useState(),
         [ conditions, setConditions ] = useState([]),
         [ meds, setMeds ] = useState([]),
         [ medInput, setMedInput ] = useState(''),
@@ -34,20 +33,24 @@ export default function EHR({ location }) {
         [ doses, setDoses ]= useState('');
     
      useEffect(() => {   
-        newPatient()
+        getPatient()
     }, []);
 
-    
     const getPatient = async() => {
-       if (!patient){
-           setPatient("")
-           return
-       }
-       const { data } = await API.fetchPatient(patient)
+        console.log('value',location.state.patientId)
+        // const patientId = typeof location.state.patientId == "undefined" ? "" : location.state.patientId;
+        const patientId = location.state.patientId;
+        setPatient(patientId)
+        console.log(patient)
+        if (patientId == "") {
+            newPatient()
+        } else {
+       const { data } = await API.fetchPatient(patientId)
        setGeneralInfo(data.patientData)
        setHealthInfo(data.healthData)
        setConditions(data.healthConditions)
        setContactInfo(data.contacts)
+    } 
     },
 
 
@@ -166,16 +169,8 @@ export default function EHR({ location }) {
     },
 
     onHealthInfoInputChange = e => {
-        const {options, selectedIndex} = e.target;
-        console.log(options, selectedIndex);
-
         const { name, value } = e.target;
         setHealthInfo({ ...healthInfo, [name]: value })
-    },
-
-    onConditionSearchChange = e => {
-        const { name, value } = e.target;
-        setConditionSearch({ ...conditionSearch, [name]: value })
     },
 
     updateDB = e => {
@@ -188,67 +183,63 @@ export default function EHR({ location }) {
         const data = {generalInfo, healthInfo, conditions, meds, contactInfo}
        
         API.updateEHR(patient, data)
-            .then(({ data }) => {  
-            })
-            .catch((err) => console.log(err))             
+            .catch( err => console.log(err))             
     },
 
     addCondition = async e => {
-            e.preventDefault();
-            setConditSuggestions([]);
-            e.target.reset();
+        e.preventDefault();
+        setConditSuggestions([]);
+        e.target.reset();
 
-            const { text } = conditSuggestions;
-            if (!text) {
-                return;
-            }
-            const [ search ]  = text.split('-'),
-                { data } = await API.fetchCondition(search);
-                
-                console.log('desc', data)
-
-                const description = data[0].shortdef ? data[0].shortdef.join('\n') : '';
-            setConditions([...conditions, { name: text, edit: false, description }])
-            updateDB()
+        const { text } = conditSuggestions;
+        if (!text) {
+            return;
+        }
+        const [ search ]  = text.split('-'),
+            { data } = await API.fetchCondition(search);
+    
+            const description = data[0].shortdef ? data[0].shortdef.join('\n') : '';
+        setConditions([...conditions, { name: text, edit: false, description }])
+        updateDB()
     },
 
     addDoses = async e => {
-            e.preventDefault();
+        e.preventDefault();
 
-            setMedSuggestions([]);
-            const { text } = medSuggestions;
-            if (!text) {
-                return;
-            }
-            const [ search ]  = text.split('-'),
-                { data } = await API.fetchMeds(search);
-                const doses = data.drugGroup.conceptGroup[1].conceptProperties.map(x => x.synonym)
-                setDoses(doses)            
+        setMedSuggestions([]);
+        const { text } = medSuggestions;
+        if (!text) {
+            return;
+        }
+        const [ search ]  = text.split('-'),
+            { data } = await API.fetchMeds(search);
+            const doses = data.drugGroup.conceptGroup[1].conceptProperties.map(x => x.synonym)
+            setDoses(doses)            
     },
 
     addMeds = e => {
-            e.preventDefault();
-           
+        e.preventDefault();
+        
 
-                const newMed = {
-                    medication: medInput.medication,
-                    dosage: medInput.dosage,
-                    edit : false
-                }
-            setMeds([...meds, newMed])
-            updateDB()
-        },
+            const newMed = {
+                medication: medInput.medication,
+                dosage: medInput.dosage,
+                edit : false
+            }
+        setMeds([...meds, newMed])
+        updateDB()
+    },
 
        
     toggleDescriptionEdit = index => {
-            const arr = [];
+        const arr = [];
 
-            conditions.forEach( (item, i) => {
-               
-                item.edit = i === index ? !item.edit : false;
-                arr.push(item)
-            })
-            setConditions(arr)
+        conditions.forEach( (item, i) => {
+            
+            item.edit = i === index ? !item.edit : false;
+            arr.push(item)
+        })
+        setConditions(arr)
     },
        
     toggleMedEdit = index => {
@@ -263,38 +254,41 @@ export default function EHR({ location }) {
     },
 
     removeCondition = index => {
-            const clone = conditions;
+        const clone = conditions;
 
-            clone.splice(index, 1)
-            setConditions(clone)
+        clone.splice(index, 1)
+        setConditions(clone)
 
-            updateDB()
-        },
+        updateDB()
+    },
 
     removeMed = index => {
-            const clone = meds;
+        const clone = meds;
 
-            clone.splice(index, 1)
-            console.log("clone", clone)
-            
-            setMeds(clone)
-            updateDB()
-        }
+        clone.splice(index, 1)
+        console.log("clone", clone)
+        
+        setMeds(clone)
+        updateDB()
+    },
 
-    const newPatient = () => {
-        //if no patient was pass, create a new one on the server.
-        if (patient === "") {
-            setHealthInfo({bloodType: 'Unknown'})
-        const patient = {generalInfo, healthInfo, conditions, meds, contactInfo}
-        API.addPatient(patient)
-        .then(({ data }) => 
+    //if no patient gets passed, create a new one on the server.
+    newPatient = async() => {
+        
+    
+        const user  = await API.getUser(),
+            email = user.data.user.email;
+        console.log(email);
+        const newPatient = {email, generalInfo, healthInfo, conditions, meds, contactInfo};
+        console.log("newPatient -> newPatient", newPatient)
+
+        const { data } = await API.addPatient(newPatient);
+            console.log(data)
             setPatient(data._id)
-        )
-            .catch(err => console.log(err));
-        } else {
-            getPatient()
-        }
-      }
+        
+            
+    }
+    
 
     return (
         <Container>

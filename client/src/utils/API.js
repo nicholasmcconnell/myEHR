@@ -27,7 +27,6 @@ export default {
     },
 
     fetchCondition: function(search) {
-        console.log(apiKey)
         return axios.get(`https://www.dictionaryapi.com/api/v3/references/medical/json/${search}?key=${apiKey}`)
             .catch(err => console.log(err))
     },
