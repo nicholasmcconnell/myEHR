@@ -22,14 +22,11 @@ function App() {
         <Route exact path="/"> <Landing /> </Route>
         <Route exact path="/signin"> <SignIn /> </Route>
         <Route exact path="/signup"> <SignUp /> </Route>
-
         <Wrapper >
         <ProtectedRoute exact path="/profiles" component={Patients} />
         <ProtectedRoute exact path="/ehr" component={EHR} />
-        <ProtectedRoute exact path="/profiles" component={Patients} />
         </Wrapper >
         <ProtectedRoute exact path="/contacts"> <Contacts /> </ProtectedRoute>
-        
       </div>
     </Router>
   )
