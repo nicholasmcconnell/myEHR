@@ -21,16 +21,12 @@ export default function EHR({ location }) {
         [ editGenState, setGenState ]= useState(false),
         [ editHealthState, setHealthState ]= useState(false),
         [ editConditState, setConditState ]= useState(false),
-        [ editContState, setContState ]= useState(false),
         [ editMedsState, setMedsState ]= useState(false),
-        [ conditionText, setConditText ]= useState(''),
-        [ medText, setMedText ]= useState(''),
+        [ , setConditText ]= useState(''),
+        [ , setMedText ]= useState(''),
         [ descEditState, setDescEditState ]= useState(false),
-        [ medEditState, setMedEditState ]= useState(false),
         [ conditSuggestions, setConditSuggestions ]= useState([]),
         [ medSuggestions, setMedSuggestions ]= useState([]),
-        [ conditionSearch, setConditionSearch ]= useState(''),
-        [ medSearch, setMedSearch ]= useState(''),
         [ doses, setDoses ]= useState('');
     
      useEffect(() => {   
@@ -182,7 +178,7 @@ export default function EHR({ location }) {
         }
 
         const data = {generalInfo, healthInfo, conditions, meds, contactInfo}
-       
+        console.log(data)
         API.updateEHR(patient, data)
             .catch( err => console.log(err))             
     },
@@ -207,19 +203,25 @@ export default function EHR({ location }) {
     addDoses = async e => {
         e.preventDefault();
 
-        setMedSuggestions([]);
         const { text } = medSuggestions;
         if (!text) {
             return;
         }
-        const [ search ]  = text.split('-'),
-            { data } = await API.fetchMeds(search);
-            const doses = data.drugGroup.conceptGroup[1].conceptProperties.map(x => x.synonym)
-            setDoses(doses)            
+        try {
+            const  { data } = await API.fetchMeds(text),
+              doses = data.drugGroup.conceptGroup[1].conceptProperties.map(x => x.synonym)
+
+            setDoses(doses)   
+        } catch(err)    {
+            console.log(err)
+        }
     },
+                   
+
 
     addMeds = e => {
         e.preventDefault();
+        e.target.reset();
         
 
             const newMed = {
@@ -227,7 +229,8 @@ export default function EHR({ location }) {
                 dosage: medInput.dosage,
                 edit : false
             }
-        setMeds([...meds, newMed])
+            
+        setMeds([...meds, medInput])
         updateDB()
     },
 
@@ -358,15 +361,6 @@ export default function EHR({ location }) {
                       />
                 </Col>
             </Row>
-            {/* <Col size={'md-8'} classes={'offset-md-2'}>
-                    <Contacts
-                        toggleState={() => setContState(!editContState)}
-                        editState={editContState}
-                        data={contactInfo}
-                        target={onContInfoInputChange}
-                        formSubmit={updateDB}
-                    />
-                </Col> */}
         </Container>
     )
 }
