@@ -4,3 +4,6 @@ node_modules/
 .idea/
 .DS_Store
 .env
+client/package-lock.json
+package-lock.json
+.client/build
