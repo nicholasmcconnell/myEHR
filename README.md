@@ -28,6 +28,8 @@ Users will only have access to profiles that are associated with their account a
 
 ## Images
 
+https://user-images.githubusercontent.com/48693333/81631559-1b635300-93d6-11ea-9de1-5181f3211ffd.gif
+
 ## Tools Used
 * Merriam Webster Medical Dictionary API 
 * Clinical Table Search Service API 
