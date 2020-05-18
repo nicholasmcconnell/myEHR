@@ -24,15 +24,11 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // Connect to the Mongo DB
-mongoose.connect(
-        process.env.MONGODB_URI || "mongodb://localhost/myEHR")
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/myEHR")
     .then(console.log("Connection to database established"));
 
 // Routes
 app.use(routes);
-
-// const patientRoutes = require("./routes/api/patients");
-// app.use('/', patientRoutes);
 
 // Start server
 app.listen(PORT, function() {

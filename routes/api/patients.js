@@ -69,7 +69,6 @@ router.patch("/:patientId", async(req, res) => {
                 healthConditions: req.body.conditions,
                 medications: req.body.meds,
                 contacts: req.body.contacts
-        
             }
         })
         res.json(updatedPatient);

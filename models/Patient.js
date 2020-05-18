@@ -12,19 +12,19 @@ const PatientSchema = new Schema({
      },
     healthData: { 
         type: Object, 
-        default: false 
+        required: false 
     },
     healthConditions: { 
         type: Array, 
-        default: false 
+        required: false 
     },
     medications: { 
         type: Array, 
-        default: false 
+        required: false 
     },
     contacts: { 
         type: Object, 
-        default: false 
+        required: false 
     },
     
 })

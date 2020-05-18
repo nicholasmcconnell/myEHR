@@ -14,13 +14,13 @@ export default function EHR({ location }) {
     const [generalInfo, setGeneralInfo] = useState({}),
         [ healthInfo, setHealthInfo ] = useState({}),
         [ contactInfo, setContactInfo ] = useState([]),
-        [ patient, setPatient ] = useState(),
+        [ patient, setPatient ] = useState(''),
         [ conditions, setConditions ] = useState([]),
         [ meds, setMeds ] = useState([]),
         [ medInput, setMedInput ] = useState(''),
         [ editGenState, setGenState ]= useState(false),
-        [ editHealthState, setHealthState ]= useState(false),
-        [ editConditState, setConditState ]= useState(false),
+        [ editHealthState, setHealthState ] = useState(false),
+        [ editConditState, setConditState ] = useState(false),
         [ editMedsState, setMedsState ]= useState(false),
         [ , setConditText ]= useState(''),
         [ , setMedText ]= useState(''),
@@ -34,20 +34,21 @@ export default function EHR({ location }) {
     }, []);
 
     const getPatient = async() => {
-        console.log('value',location.state.patientId)
-        // const patientId = typeof location.state.patientId == "undefined" ? "" : location.state.patientId;
+        
         const patientId = location.state.patientId;
-        setPatient(patientId)
-        console.log(patient)
+
         if (patientId == "") {
             newPatient()
         } else {
-       const { data } = await API.fetchPatient(patientId)
-       setGeneralInfo(data.patientData)
-       setHealthInfo(data.healthData)
-       setConditions(data.healthConditions)
-       setContactInfo(data.contacts)
-    } 
+        const { data } = await API.fetchPatient(patientId)
+            
+            setPatient(patientId)
+            setGeneralInfo(data.patientData)
+            setHealthInfo(data.healthData)
+            setConditions(data.healthConditions)
+            setMeds(data.medications)
+            setContactInfo(data.contacts)
+        } 
     },
 
 
@@ -176,9 +177,8 @@ export default function EHR({ location }) {
         setGenState(false)
         setHealthState(false)
         }
-
+        console.log(meds);
         const data = {generalInfo, healthInfo, conditions, meds, contactInfo}
-        console.log(data)
         API.updateEHR(patient, data)
             .catch( err => console.log(err))             
     },
@@ -217,24 +217,20 @@ export default function EHR({ location }) {
         }
     },
                    
-
-
     addMeds = e => {
         e.preventDefault();
         e.target.reset();
         
-
             const newMed = {
                 medication: medInput.medication,
                 dosage: medInput.dosage,
                 edit : false
             }
             
-        setMeds([...meds, medInput])
+        setMeds([...meds, newMed])
         updateDB()
     },
 
-       
     toggleDescriptionEdit = index => {
         const arr = [];
 
@@ -278,19 +274,15 @@ export default function EHR({ location }) {
 
     //if no patient gets passed, create a new one on the server.
     newPatient = async() => {
-        
     
         const user  = await API.getUser(),
             email = user.data.user.email;
-        console.log(email);
+   
         const newPatient = {email, generalInfo, healthInfo, conditions, meds, contactInfo};
-        console.log("newPatient -> newPatient", newPatient)
 
         const { data } = await API.addPatient(newPatient);
-            console.log(data)
-            setPatient(data._id)
-        
-            
+
+            setPatient(data._id)       
     }
     
 
