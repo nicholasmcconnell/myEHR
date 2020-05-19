@@ -14,7 +14,7 @@ export default function EHR({ location }) {
     const [generalInfo, setGeneralInfo] = useState({}),
         [ healthInfo, setHealthInfo ] = useState({}),
         [ contactInfo, setContactInfo ] = useState([]),
-        [ patient, setPatient ] = useState(''),
+        [ patient, setPatient ] = useState(location.state.patientId),
         [ conditions, setConditions ] = useState([]),
         [ meds, setMeds ] = useState([]),
         [ medInput, setMedInput ] = useState(''),
@@ -27,17 +27,12 @@ export default function EHR({ location }) {
         [ descEditState, setDescEditState ]= useState(false),
         [ conditSuggestions, setConditSuggestions ]= useState([]),
         [ medSuggestions, setMedSuggestions ]= useState([]),
-        [ doses, setDoses ]= useState('');
+        [ doses, setDoses ]= useState(''),
 
-    const isInitialMount = useRef(true),
-      activePatient = useRef('');
+      isInitialMount = useRef(true);
     
-     useEffect(() => {   
-        getPatient()
-    }, []);
-    
-    //only update DB on subsequent mounts, excluding initial. 
-     useEffect(() => {   
+    //only use this effect on subsequent mounts, excluding the initial. 
+    useEffect(() => {   
         if (isInitialMount.current) {
             isInitialMount.current = false;
         } else {
@@ -45,16 +40,18 @@ export default function EHR({ location }) {
          }
     }, [generalInfo, healthInfo, conditions, meds, contactInfo]);
 
-    const getPatient = async() => {
-        
-        const patientId = location.state.patientId;
+    useEffect(() => {   
+        getPatient()
+    }, []);
 
-        if (patientId == "") {
+    //all mounts. loads current patient
+    const getPatient = async() => {
+
+        if (patient === "") {
             newPatient()
         } else {
-        const { data } = await API.fetchPatient(patientId)
+        const { data } = await API.fetchPatient(patient)
             
-            setPatient(patientId)
             setGeneralInfo(data.patientData)
             setHealthInfo(data.healthData)
             setConditions(data.healthConditions)
@@ -189,7 +186,6 @@ export default function EHR({ location }) {
         setGenState(false)
         setHealthState(false)
         }
-        console.log(meds);
         const data = {generalInfo, healthInfo, conditions, meds, contactInfo}
         API.updateEHR(patient, data)
             .catch( err => console.log(err))             
@@ -209,7 +205,6 @@ export default function EHR({ location }) {
     
             const description = data[0].shortdef ? data[0].shortdef.join('\n') : '';
         setConditions([...conditions, { name: text, edit: false, description }])
-        updateDB()
     },
 
     addDoses = async e => {
@@ -240,7 +235,6 @@ export default function EHR({ location }) {
             }
             
         setMeds([...meds, newMed])
-        updateDB()
     },
 
     toggleDescriptionEdit = index => {
@@ -270,21 +264,16 @@ export default function EHR({ location }) {
 
         clone.splice(index, 1)
         setConditions(clone)
-
-        updateDB()
     },
 
     removeMed = index => {
         const clone = meds;
 
         clone.splice(index, 1)
-        console.log("clone", clone)
-        
         setMeds(clone)
-        updateDB()
     },
 
-    //if no patient gets passed, create a new one on the server.
+    //if no patient is passed in, create a new one on the server.
     newPatient = async() => {
     
         const user  = await API.getUser(),
