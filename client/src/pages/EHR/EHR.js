@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import value  from '../Patients';
 import { Container, Row, Col } from '../../components/Grid';
 import { ContactCard } from '../../components/ContactCard';
@@ -28,10 +28,22 @@ export default function EHR({ location }) {
         [ conditSuggestions, setConditSuggestions ]= useState([]),
         [ medSuggestions, setMedSuggestions ]= useState([]),
         [ doses, setDoses ]= useState('');
+
+    const isInitialMount = useRef(true),
+      activePatient = useRef('');
     
      useEffect(() => {   
         getPatient()
     }, []);
+    
+    //only update DB on subsequent mounts, excluding initial. 
+     useEffect(() => {   
+        if (isInitialMount.current) {
+            isInitialMount.current = false;
+        } else {
+            updateDB()
+         }
+    }, [generalInfo, healthInfo, conditions, meds, contactInfo]);
 
     const getPatient = async() => {
         
