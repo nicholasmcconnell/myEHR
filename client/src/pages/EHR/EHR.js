@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from 'react';
-import value  from '../Patients';
 import { Container, Row, Col } from '../../components/Grid';
 import { ContactCard } from '../../components/ContactCard';
 import { HealthCard } from '../../components/HealthCard';
@@ -61,17 +60,50 @@ export default function EHR({ location }) {
     },
 
 
-     onGenInfoInputChange = e => {
+    onGenInfoInputChange = e => {
         const { name, value } = e.target;
         setGeneralInfo({ ...generalInfo, [name]: value })
     }, 
+
+    onHealthInfoInputChange = e => {
+        const { name, value } = e.target;
+        setHealthInfo({ ...healthInfo, [name]: value })
+    },
 
     onContInfoInputChange = e => {
         const { name, value } = e.target;
         setContactInfo({ ...contactInfo, [name]: value })
     }, 
+    
+    onConditInputChange = async e => {
+      const { value } = e.target,
+       items = await getConditionNames(value);
 
-    onConditDescChange = index => e => {
+      let suggestions = [];
+       
+      if (value.length > 0) {
+          const regex = new RegExp(`^${value}`, 'i');
+          suggestions = items.sort().filter( x => regex.test(x));
+        } 
+        setConditSuggestions({ suggestions, text: value })
+     },
+
+    onMedInputChange = async e => {
+      const { name, value } = e.target; //why does it think this value is never read?
+      setMedInput({ ...medInput, [name]: value });
+
+      const items = await getMedNames(value)
+      let suggestions = [];
+      
+       
+      if (value.length > 0) {
+          const regex = new RegExp(`^${value}`, 'i');
+          suggestions = items.sort().filter( x => regex.test(x)).slice(0, 8)
+        } 
+        setMedSuggestions({ suggestions, text: value })
+     },
+
+     onConditDescChange = index => e => {
         const { value } = e.target,
           clone = conditions;
 
@@ -91,7 +123,7 @@ export default function EHR({ location }) {
         const { value } = e.target,
           clone = meds;
 
-        setMedText(value)
+        setMedText(value)  //is this function even being used?
 
          const newMed = {
             name: meds[index].name,
@@ -102,34 +134,6 @@ export default function EHR({ location }) {
         clone.splice(index, 1, newMed)
         setMeds(clone)
     }, 
-    
-    onConditInputChange = async e => {
-      const { value } = e.target,
-       items = await getConditionNames(value);
-
-      let suggestions = [];
-       
-      if (value.length > 0) {
-          const regex = new RegExp(`^${value}`, 'i');
-          suggestions = items.sort().filter( x => regex.test(x));
-        } 
-        setConditSuggestions({ suggestions, text: value })
-     },
-
-    onMedInputChange = async e => {
-      const { value, name } = e.target;
-      setMedInput({...medInput, [ name ] : value});
-
-      const items = await getMedNames(value)
-      let suggestions = [];
-      
-       
-      if (value.length > 0) {
-          const regex = new RegExp(`^${value}`, 'i');
-          suggestions = items.sort().filter( x => regex.test(x)).slice(0, 8)
-        } 
-        setMedSuggestions({ suggestions, text: value })
-     },
 
     getConditionNames = async(search) => {
         const { data } = await API.getConditionNames(search);
@@ -173,11 +177,6 @@ export default function EHR({ location }) {
                 {suggestions.map( (suggestion, i) => <li onClick={() => selectSuggestedMed(suggestion)} key={i}>{suggestion}</li>)}
             </ul>
         )
-    },
-
-    onHealthInfoInputChange = e => {
-        const { name, value } = e.target;
-        setHealthInfo({ ...healthInfo, [name]: value })
     },
 
     updateDB = e => {
