@@ -7,19 +7,18 @@ import { Medications } from '../../components/Medications';
 import Contacts from '../../components/Contacts';
 import API from '../../utils/API';
 
-
+//Custom hook to track previous states for comparison purposes.
 const usePrevious = value => {
     const ref = useRef();
     useEffect(() => {
       ref.current = value;
-    });
+    }, [value]);
     return ref.current;
   }
 
 
 export default function EHR({ location }) {
 
-    
     const [generalInfo, setGeneralInfo] = useState({}),
         [ healthInfo, setHealthInfo ] = useState({}),
         [ contactInfo, setContactInfo ] = useState([]),
@@ -100,11 +99,11 @@ export default function EHR({ location }) {
      },
 
     onMedInputChange = async e => {
-       const { name, value } = e.target; //why does it think this value is never read?
-      setMedInput({ ...medInput, [name]: value });
+       const { name, value } = e.target; 
+       setMedInput({ ...medInput, [name]: value });
 
-
-        if (previousMed !== medInput.medication) {
+    //run this code only when medication input is changed. ignore dosage.
+    if (previousMed !== medInput.medication) {
 
       const items = await getMedNames(value)
       let suggestions = [];
@@ -232,8 +231,9 @@ export default function EHR({ location }) {
                 dosage: medInput.dosage,
                 edit : false
             }
-            
         setMeds([...meds, newMed])
+        setDoses([])
+        setMedSuggestions([])
     },
 
 
