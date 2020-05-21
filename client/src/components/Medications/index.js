@@ -4,23 +4,23 @@ import { Input, Button } from '../Forms';
 
 
 
-export function Medications ({ data, target,  editState, toggleState, formSubmit, renderSuggestions, remove, text, doseChoices, addDoses }) {
+export function Medications ({ data, target,  editState, toggleState, formSubmit, renderSuggestions, remove, text, dose, doseChoices, addDoses }) {
 
     const populateDoses = doses => {
         if(!doses) {
             return
         } else {
-         return doses.map( dose => dose === data.dose ? <option name='dosage' selected>{data.dose}</option> : <option name='dosage'>{dose}</option>)
+         return doses.map( dose => dose === data.dose ? <option selected>{data.dose}</option> : <option name='dosage'>{dose}</option>)
         }
      },
 
     renderMeds = meds => {
-    return meds.map((med, i) => (
-        <Col key={i} size={"md-12"} classes={"form-group"}>
-        <label style={fieldText}>{med.medication} </label>
-        <div>{med.dosage}</div>
-        </Col>
-    ));
+        return meds.map((med, i) => (
+            <Col key={i} size={"md-12"} classes={"form-group"}>
+            <label style={fieldText}>{med.medication} </label>
+            <div>{med.dosage}</div>
+            </Col>
+        ));
     }
 
     function renderEditMeds(meds) {

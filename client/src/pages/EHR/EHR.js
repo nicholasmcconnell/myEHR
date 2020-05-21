@@ -7,6 +7,16 @@ import { Medications } from '../../components/Medications';
 import Contacts from '../../components/Contacts';
 import API from '../../utils/API';
 
+
+const usePrevious = value => {
+    const ref = useRef();
+    useEffect(() => {
+      ref.current = value;
+    });
+    return ref.current;
+  }
+
+
 export default function EHR({ location }) {
 
     
@@ -28,6 +38,7 @@ export default function EHR({ location }) {
         [ medSuggestions, setMedSuggestions ]= useState([]),
         [ doses, setDoses ]= useState(''),
 
+      previousMed = usePrevious(medInput.medication),
       isInitialMount = useRef(true);
     
     //only use this effect on subsequent mounts, excluding the initial. 
@@ -89,20 +100,23 @@ export default function EHR({ location }) {
      },
 
     onMedInputChange = async e => {
-      const { name, value } = e.target; //why does it think this value is never read?
+       const { name, value } = e.target; //why does it think this value is never read?
       setMedInput({ ...medInput, [name]: value });
+
+
+        if (previousMed !== medInput.medication) {
 
       const items = await getMedNames(value)
       let suggestions = [];
       
-       
       if (value.length > 0) {
           const regex = new RegExp(`^${value}`, 'i');
           suggestions = items.sort().filter( x => regex.test(x)).slice(0, 8)
         } 
         setMedSuggestions({ suggestions, text: value })
+    }
      },
-
+     
      onConditDescChange = index => e => {
         const { value } = e.target,
           clone = conditions;
@@ -209,10 +223,12 @@ export default function EHR({ location }) {
     addMeds = e => {
         e.preventDefault();
         e.target.reset();
-        let { text } = medSuggestions,
-           medName = text.split(' ');
+
+        let { text } = medSuggestions;
+           text = text.split(' ');
+
             const newMed = {
-                medication: medName[0],
+                medication: text[0],
                 dosage: medInput.dosage,
                 edit : false
             }
