@@ -62,7 +62,7 @@ export function Medications ({ data, target,  editState, toggleState, formSubmit
                             <Input name="medication"
                             style={input}
                             value={text}
-                            onChange={target} 
+                            onChange={target}
                             />
                             {renderSuggestions()}
                         </div>

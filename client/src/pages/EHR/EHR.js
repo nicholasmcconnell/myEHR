@@ -206,6 +206,21 @@ export default function EHR({ location }) {
         setConditions([...conditions, { name: text, edit: false, description }])
     },
 
+    addMeds = e => {
+        e.preventDefault();
+        e.target.reset();
+        let { text } = medSuggestions,
+           medName = text.split(' ');
+            const newMed = {
+                medication: medName[0],
+                dosage: medInput.dosage,
+                edit : false
+            }
+            
+        setMeds([...meds, newMed])
+    },
+
+
     addDoses = async e => {
         e.preventDefault();
 
@@ -222,20 +237,7 @@ export default function EHR({ location }) {
             console.log(err)
         }
     },
-                   
-    addMeds = e => {
-        e.preventDefault();
-        e.target.reset();
-        
-            const newMed = {
-                medication: medInput.medication,
-                dosage: medInput.dosage,
-                edit : false
-            }
-            
-        setMeds([...meds, newMed])
-    },
-
+                
     toggleDescriptionEdit = index => {
         const arr = [];
 
