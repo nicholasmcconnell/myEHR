@@ -231,9 +231,9 @@ export default function EHR({ location }) {
                 dosage: medInput.dosage,
                 edit : false
             }
-        setMeds([...meds, newMed])
-        setDoses([])
+        setDoses('')
         setMedSuggestions([])
+        setMeds([...meds, newMed])
     },
 
 

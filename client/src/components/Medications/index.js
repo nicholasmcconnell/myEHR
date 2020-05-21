@@ -4,13 +4,27 @@ import { Input, Button } from '../Forms';
 
 
 
-export function Medications ({ data, target,  editState, toggleState, formSubmit, renderSuggestions, remove, text, dose, doseChoices, addDoses }) {
+export function Medications ({ data, target,  editState, toggleState, formSubmit, renderSuggestions, remove, text, doseChoices, addDoses }) {
 
-    const populateDoses = doses => {
+    const renderDoses = doses => {
         if(!doses) {
-            return
+            return (
+                <Input name="dosage"
+                style={input}
+                onChange={target}
+                />
+            )
         } else {
-         return doses.map( dose => dose === data.dose ? <option selected>{data.dose}</option> : <option name='dosage'>{dose}</option>)
+         return (
+                <select name="dosage" style={input}
+                onChange={target} 
+                className="form-control">
+                    <option selected>Which Dose?</option>
+
+                    {doses.map( dose => <option>{dose}</option>)}
+
+                </select>    
+            )
         }
      },
 
@@ -64,17 +78,17 @@ export function Medications ({ data, target,  editState, toggleState, formSubmit
                             value={text}
                             onChange={target}
                             />
+
                             {renderSuggestions()}
+
                         </div>
                     </Col>
                     <Col size={'md-4'} classes={'form-group'}>
                         <label>Select Dosage</label>
                         <div>
-                            <select name="dosage" 
-                            onChange={target} style={input}
-                            className="form-control">
-                                {populateDoses(doseChoices)}
-                            </select>
+
+                           {renderDoses(doseChoices)}
+
                         </div>
                     </Col>
                         <Col size={'md-2'}>
