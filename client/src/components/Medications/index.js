@@ -43,7 +43,7 @@ export function Medications ({ data, target,  editState, toggleState, formSubmit
             <Col key={i} size={'md-12'} classes={'form-group'}>
             <label style={fieldText}>
             <Button className="fas fa-times" style={removeBtn}
-                onClick={()=>{remove.bind(this, i)}}  
+                onClick={remove.bind(this, i)}  
             />
                 {med.medication} 
                 {' '}
@@ -98,12 +98,12 @@ export function Medications ({ data, target,  editState, toggleState, formSubmit
                         </Button>
                     </Col>
                 </div>
+            </form>
                 <div className={"form-row"}>
 
                     {renderEditMeds(data)}
                     
                 </div>
-            </form>
             </div>
         )
         } 

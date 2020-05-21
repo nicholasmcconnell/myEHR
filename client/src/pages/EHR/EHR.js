@@ -44,16 +44,12 @@ export default function EHR({ location }) {
     useEffect(() => {   
         if (isInitialMount.current) {
             isInitialMount.current = false;
+            getPatient()
         } else {
             updateDB()
          }
-    }, [generalInfo, healthInfo, conditions, meds, contactInfo]);
-
-    useEffect(() => {   
-        getPatient()
     }, []);
 
-    //all mounts. loads current patient
     const getPatient = async() => {
 
         if (patient === "") {
