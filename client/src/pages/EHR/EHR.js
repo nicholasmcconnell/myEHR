@@ -39,20 +39,17 @@ export default function EHR({ location }) {
       previousMed = usePrevious(medInput.medication),
       isInitialMount = useRef(true);
     
-    //only use this effect on subsequent mounts, excluding the initial. 
+    //Use this effect to only load patient on initial mount. And update db only on subsequent mounts. 
     useEffect(() => {   
         if (isInitialMount.current) {
             isInitialMount.current = false;
+            getPatient()
             return
         } else {
             console.log('code executed')
             updateDB()
          }
     }, [generalInfo, healthInfo, conditions, meds, contactInfo]);
-
-    useEffect(() => {
-        getPatient()
-    }, [])
 
     const getPatient = async() => {
 
