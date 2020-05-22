@@ -38,15 +38,16 @@ export default function EHR({ location }) {
 
       previousMed = usePrevious(medInput.medication),
       isInitialMount = useRef(true);
+
+/*                                    EHR Initialization                                     */ 
+
     
     //Use this effect to only load patient on initial mount. And update db only on subsequent mounts. 
     useEffect(() => {   
         if (isInitialMount.current) {
             isInitialMount.current = false;
             getPatient()
-            return
         } else {
-            console.log('code executed')
             updateDB()
          }
     }, [generalInfo, healthInfo, conditions, meds, contactInfo]);
@@ -64,6 +65,32 @@ export default function EHR({ location }) {
             setMeds(data.medications)
             setContactInfo(data.contacts)
         } 
+    },
+
+     //if no patient is passed in, create a new one on the server.
+     newPatient = async() => {
+    
+        const user  = await API.getUser(),
+            email = user.data.user.email;
+   
+        const newPatient = {email, generalInfo, healthInfo, conditions, meds, contactInfo};
+
+        const { data } = await API.addPatient(newPatient);
+
+            setPatient(data._id)       
+    },
+
+/*                              State and database management                               */ 
+
+    updateDB = e => {
+        if(e) {
+        e.preventDefault()
+        setGenState(false)
+        setHealthState(false)
+        }
+        const data = {generalInfo, healthInfo, conditions, meds, contactInfo}
+        API.updateEHR(patient, data)
+            .catch(err => console.log(err))             
     },
 
     onGenInfoInputChange = e => {
@@ -95,12 +122,16 @@ export default function EHR({ location }) {
      },
 
     onMedInputChange = async e => {
-       const { name, value } = e.target; 
-       setMedInput({ ...medInput, [name]: value });
-
-    //run this code only when medication input is changed. ignore dosage.
-    if (previousMed !== medInput.medication) {
-
+        
+        clearTimeout(inputTimer)
+        const inputTimer = setTimeout(() => {
+           const { name, value } = e.target;
+           setMedInput({ ...medInput, [name]: value })
+        }, 300)
+        
+        if (previousMed !== medInput.medication) {
+            
+      //run this code only with medication input changes. ignore dosage.
       const items = await getMedNames(value)
       let suggestions = [];
       
@@ -127,6 +158,91 @@ export default function EHR({ location }) {
         clone.splice(index, 1, newDescription)
         setConditions(clone)
     }, 
+
+    toggleDescriptionEdit = index => {
+        const arr = [];
+
+        conditions.forEach( (item, i) => {
+            
+            item.edit = i === index ? !item.edit : false;
+            arr.push(item)
+        })
+        setConditions(arr)
+    },
+
+    addCondition = async e => {
+        e.preventDefault();
+        setConditSuggestions([]);
+        e.target.reset();
+
+        const { text } = conditSuggestions;
+        if (!text) {
+            return;
+        }
+        const [ search ]  = text.split('-'),
+            { data } = await API.fetchCondition(search);
+    
+            const description = data[0].shortdef ? data[0].shortdef.join('\n') : '';
+        setConditions([...conditions, { name: text, edit: false, description }])
+    },
+
+    addMeds = e => {
+        e.preventDefault();
+        e.target.reset();
+
+        let { text } = medSuggestions;
+        if (!text) {
+            return
+        }
+        try {
+           text = text.split(' ');
+
+            const newMed = {
+                medication: text[0],
+                dosage: medInput.dosage,
+                edit : false
+            }
+        setMeds([...meds, newMed])
+        setDoses('')
+        setMedSuggestions([])
+        } catch(err) {
+            return
+        }
+    },
+
+
+    addDoses = async e => {
+        e.preventDefault();
+
+        const { text } = medSuggestions;
+        if (!text) {
+            return;
+        }
+        try {
+            const  { data } = await API.fetchMeds(text),
+              doses = data.drugGroup.conceptGroup[1].conceptProperties.map(x => x.synonym)
+
+            setDoses(doses)   
+        } catch(err)    {
+            return
+        }
+    },
+
+    removeCondition = index => {
+        const clone = conditions;
+
+        clone.splice(index, 1)
+        setConditions([...clone])
+    },
+
+    removeMed = index => {
+        const clone = meds;
+        
+        clone.splice(index, 1)
+        setMeds([...clone])
+    },
+
+/*                              Features Management                                 */ 
 
     getConditionNames = async(search) => {
         const { data } = await API.getConditionNames(search);
@@ -170,116 +286,7 @@ export default function EHR({ location }) {
                 {suggestions.map( (suggestion, i) => <li onClick={() => selectSuggestedMed(suggestion)} key={i}>{suggestion}</li>)}
             </ul>
         )
-    },
-
-    updateDB = e => {
-        if(e) {
-        e.preventDefault()
-        setGenState(false)
-        setHealthState(false)
-        }
-        const data = {generalInfo, healthInfo, conditions, meds, contactInfo}
-        API.updateEHR(patient, data)
-            .catch(err => console.log(err))             
-    },
-
-    addCondition = async e => {
-        e.preventDefault();
-        setConditSuggestions([]);
-        e.target.reset();
-
-        const { text } = conditSuggestions;
-        if (!text) {
-            return;
-        }
-        const [ search ]  = text.split('-'),
-            { data } = await API.fetchCondition(search);
-    
-            const description = data[0].shortdef ? data[0].shortdef.join('\n') : '';
-        setConditions([...conditions, { name: text, edit: false, description }])
-    },
-
-    addMeds = e => {
-        e.preventDefault();
-        e.target.reset();
-
-        let { text } = medSuggestions;
-        if (!text) {
-            return
-        }
-        try {
-           text = text.split(' ');
-
-            const newMed = {
-                medication: text[0],
-                dosage: medInput.dosage,
-                edit : false
-            }
-
-        setMeds([...meds, newMed])
-        setDoses('')
-        setMedSuggestions([])
-        } catch(err) {
-            return
-        }
-    },
-
-
-    addDoses = async e => {
-        e.preventDefault();
-
-        const { text } = medSuggestions;
-        if (!text) {
-            return;
-        }
-        try {
-            const  { data } = await API.fetchMeds(text),
-              doses = data.drugGroup.conceptGroup[1].conceptProperties.map(x => x.synonym)
-
-            setDoses(doses)   
-        } catch(err)    {
-            return
-        }
-    },
-               
-    toggleDescriptionEdit = index => {
-        const arr = [];
-
-        conditions.forEach( (item, i) => {
-            
-            item.edit = i === index ? !item.edit : false;
-            arr.push(item)
-        })
-        setConditions(arr)
-    },
-
-    removeCondition = index => {
-        const clone = conditions;
-
-        clone.splice(index, 1)
-        setConditions([...clone])
-    },
-
-    removeMed = index => {
-        const clone = meds;
-        
-        clone.splice(index, 1)
-        setMeds([...clone])
-    },
-
-    //if no patient is passed in, create a new one on the server.
-    newPatient = async() => {
-    
-        const user  = await API.getUser(),
-            email = user.data.user.email;
-   
-        const newPatient = {email, generalInfo, healthInfo, conditions, meds, contactInfo};
-
-        const { data } = await API.addPatient(newPatient);
-
-            setPatient(data._id)       
     }
-    
 
     return (
         <Container>
