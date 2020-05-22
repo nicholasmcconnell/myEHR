@@ -18,11 +18,18 @@ export function HealthCard({ data, target, editState, toggleState, formSubmit, s
     return month < 0 || (month === 0 && today.getDate() < birthDate.getDate()) ? age - 1 : age;
     },
 
-     bloodTypes = bloodType => {
+     getBloodTypes = bloodType => {
     
         const types = ['Unknown', 'A-Positive', 'A-Negative', 'B-Positive', 'B-Negative', 'AB-Positive', 'AB-Negative', 'O-Positive', 'O-Negative']
     
     return types.map( type => type === bloodType ? <option value={bloodType} selected>{bloodType}</option> : <option>{type}</option>)
+     },
+
+     getGenders = gender => {
+    
+        const types = ['Male', 'Female', 'Transgender Male', 'Transgender Female']
+    
+    return types.map( type => type === gender ? <option value={gender} selected>{gender}</option> : <option>{type}</option>)
      };
     
 if (editState) {
@@ -34,7 +41,7 @@ if (editState) {
             </Col>
             <form onSubmit={formSubmit} >
                 <div className={"form-row"}>
-                    <Col size={'md-4'} classes={'form-group'}>
+                    <Col size={'md-3'} classes={'form-group'}>
                         <label>Date of Birth</label>
                         <Input name="dob" placeholder="MM/DD/YYYY"
                         value={data.dob}
@@ -48,10 +55,20 @@ if (editState) {
                             {getAge(data.dob)}
                         </div>
                     </Col>
+                    <Col size={'md-3'} classes={'form-group'}>
+                    <label>Gender</label>
+                        <select name="gender" className="form-control"
+                        style={input}
+                        onChange={target} >
+                            {getGenders(data.gender)}    
+                        </select>
+                    </Col>
                     <Col size={'md-4'} classes={'form-group'}>
                         <label>Blood Type</label>
-                        <select onChange={target} style={input} name="bloodType" className="form-control">
-                            {bloodTypes(data.bloodType)}
+                        <select name="bloodType" className="form-control"
+                        style={input} 
+                        onChange={target} >
+                            {getBloodTypes(data.bloodType)}
                         </select>
                     </Col>
                 </div>
@@ -129,7 +146,7 @@ if (editState) {
                 </Col>
             <form>
                 <div className={"form-row"}>
-                    <Col size={'md-4'} classes={'form-group'}>
+                    <Col size={'md-3'} classes={'form-group'}>
                         <label>Date of Birth:</label>
                         <div style={fieldText}>{data.dob}</div>
                     </Col>
@@ -138,6 +155,10 @@ if (editState) {
                         <div style={fieldText}>
                             {getAge(data.dob)}
                         </div>
+                    </Col>
+                    <Col size={'md-3'} classes={'form-group'}>
+                        <label>Gender:</label>
+                        <div style={fieldText}>{data.gender}</div>
                     </Col>
                     <Col size={'md-4'} classes={'form-group'}>
                         <label>Blood Type:</label>
