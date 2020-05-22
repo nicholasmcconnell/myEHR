@@ -35,6 +35,7 @@ export default function EHR({ location }) {
         [ conditSuggestions, setConditSuggestions ]= useState([]),
         [ medSuggestions, setMedSuggestions ]= useState([]),
         [ doses, setDoses ]= useState(''),
+        [ query, setQuery ]= useState(''),
 
       previousMed = usePrevious(medInput.medication),
       isInitialMount = useRef(true);
@@ -119,28 +120,37 @@ export default function EHR({ location }) {
           suggestions = items.sort().filter( x => regex.test(x));
         } 
         setConditSuggestions({ suggestions, text: value })
-     },
+     }
 
-    onMedInputChange = async e => {
-       const { name, value } = e.target; 
-       
-       clearTimeout(inputTimer)
-       const inputTimer = setTimeout(() => {
-           setMedInput({ ...medInput, [name]: value })
-        }, 300)
+     useEffect(() => {
+        const timeOutId = setTimeout(() => setMedInput(query), 500);
+        return () => clearTimeout(timeOutId);
+      }, [query]);
+    
+    const onMedInputChange = async e => {
+        const { name, value } = e.target; 
+        setMedInput({ ...medInput, [name]: value })
         
-        if (previousMed !== medInput.medication) {
-            
+    //    const delay = ((fn, ms) => {
+    //     let timer = 0
+    //     return function() {
+    //         console.log('code')
+    //       clearTimeout(timer)
+    //       timer = setTimeout(fn, ms)
+    //     }
+    //   })();
+        
       //run this code only with medication input changes. ignore dosage.
+ 
+                       
       const items = await getMedNames(value)
       let suggestions = [];
-      
+
       if (value.length > 0) {
           const regex = new RegExp(`^${value}`, 'i');
           suggestions = items.sort().filter( x => regex.test(x)).slice(0, 8)
         } 
         setMedSuggestions({ suggestions, text: value })
-    }
 },
      
      onConditDescChange = index => e => {
@@ -321,7 +331,6 @@ export default function EHR({ location }) {
                         editDescState={descEditState} 
                         editState={editConditState}
                         toggleDescState={toggleDescriptionEdit}
-                        editDescState={descEditState}
                         editState={editConditState}
                         toggleDescState={toggleDescriptionEdit}
                         remove={removeCondition}
