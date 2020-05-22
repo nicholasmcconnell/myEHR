@@ -69,7 +69,6 @@ export default function EHR({ location }) {
         } 
     },
 
-
     onGenInfoInputChange = e => {
         const { name, value } = e.target;
         setGeneralInfo({ ...generalInfo, [name]: value })
@@ -132,22 +131,6 @@ export default function EHR({ location }) {
         setConditions(clone)
     }, 
 
-    onMedDescChange = index => e => {
-        const { value } = e.target,
-          clone = meds;
-
-        setMedText(value)  //is this function even being used?
-
-         const newMed = {
-            name: meds[index].name,
-            edit: meds[index].edit,
-            description: value
-        }
-
-        clone.splice(index, 1, newMed)
-        setMeds(clone)
-    }, 
-
     getConditionNames = async(search) => {
         const { data } = await API.getConditionNames(search);
         return  data[3].map( x => x[0]);
@@ -200,7 +183,7 @@ export default function EHR({ location }) {
         }
         const data = {generalInfo, healthInfo, conditions, meds, contactInfo}
         API.updateEHR(patient, data)
-            .catch( err => console.log(err))             
+            .catch(err => console.log(err))             
     },
 
     addCondition = async e => {
@@ -224,6 +207,10 @@ export default function EHR({ location }) {
         e.target.reset();
 
         let { text } = medSuggestions;
+        if (!text) {
+            return
+        }
+        try {
            text = text.split(' ');
 
             const newMed = {
@@ -231,9 +218,13 @@ export default function EHR({ location }) {
                 dosage: medInput.dosage,
                 edit : false
             }
+
         setMeds([...meds, newMed])
         setDoses('')
         setMedSuggestions([])
+        } catch(err) {
+            return
+        }
     },
 
 
@@ -250,10 +241,10 @@ export default function EHR({ location }) {
 
             setDoses(doses)   
         } catch(err)    {
-            console.log(err)
+            return
         }
     },
-                
+               
     toggleDescriptionEdit = index => {
         const arr = [];
 
@@ -321,15 +312,12 @@ export default function EHR({ location }) {
                 <Col size={'md-8'} classes={'offset-md-2'}>
                     <Conditions
                         toggleState={() => setConditState(!editConditState)}
-
                         editState={editConditState} 
                         toggleDescState={() => setDescEditState(!descEditState)}
                         editDescState={descEditState} 
-
                         editState={editConditState}
                         toggleDescState={toggleDescriptionEdit}
                         editDescState={descEditState}
-
                         editState={editConditState}
                         toggleDescState={toggleDescriptionEdit}
                         remove={removeCondition}
@@ -347,7 +335,6 @@ export default function EHR({ location }) {
                     <Medications
                         toggleState={() => setMedsState(!editMedsState)}
                         editState={editMedsState}
-                        areaTarget={onMedDescChange}
                         data={meds}
                         target={onMedInputChange}
                         renderSuggestions={renderMedSuggestions}
