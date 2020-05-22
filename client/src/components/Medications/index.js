@@ -56,8 +56,6 @@ export function Medications ({ data, target,  editState, toggleState, formSubmit
             )
     )}
 
-     
-
     if ((editState || data.length === 0)) {
         return (
             <div className={'my-5'}>

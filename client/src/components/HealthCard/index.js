@@ -79,7 +79,7 @@ if (editState) {
                     </Col>
                     <Col size={'md-2'} classes={'form-group'}>
                         <label>Rx PCN</label>
-                        <Input value={data.rxPcn} name="rcPcn"
+                        <Input value={data.rxPcn} name="rxPcn"
                         style={input}
                         onChange={target} 
                         />
