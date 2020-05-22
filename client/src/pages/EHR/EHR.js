@@ -122,10 +122,10 @@ export default function EHR({ location }) {
      },
 
     onMedInputChange = async e => {
-        
-        clearTimeout(inputTimer)
-        const inputTimer = setTimeout(() => {
-           const { name, value } = e.target;
+       const { name, value } = e.target; 
+       
+       clearTimeout(inputTimer)
+       const inputTimer = setTimeout(() => {
            setMedInput({ ...medInput, [name]: value })
         }, 300)
         
@@ -141,7 +141,7 @@ export default function EHR({ location }) {
         } 
         setMedSuggestions({ suggestions, text: value })
     }
-     },
+},
      
      onConditDescChange = index => e => {
         const { value } = e.target,
