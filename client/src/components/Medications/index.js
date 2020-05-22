@@ -42,7 +42,7 @@ export function Medications ({ data, target,  editState, toggleState, formSubmit
             meds.map( (med, i) => 
             <Col key={i} size={'md-12'} classes={'form-group'}>
             <label style={fieldText}>
-            <Button className="fas fa-times" style={removeBtn}
+            <Button className="fas fa-times" type='submit' style={removeBtn}
                 onClick={remove.bind(this, i)}  
             />
                 {med.medication} 

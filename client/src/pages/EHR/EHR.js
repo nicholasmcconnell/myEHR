@@ -16,15 +16,14 @@ const usePrevious = value => {
     return ref.current;
   }
 
-
 export default function EHR({ location }) {
 
     const [generalInfo, setGeneralInfo] = useState({}),
         [ healthInfo, setHealthInfo ] = useState({}),
         [ contactInfo, setContactInfo ] = useState([]),
-        [ patient, setPatient ] = useState(location.state.patientId),
         [ conditions, setConditions ] = useState([]),
         [ meds, setMeds ] = useState([]),
+        [ patient, setPatient ] = useState(location.state.patientId),
         [ medInput, setMedInput ] = useState(''),
         [ editGenState, setGenState ]= useState(false),
         [ editHealthState, setHealthState ] = useState(false),
@@ -44,11 +43,16 @@ export default function EHR({ location }) {
     useEffect(() => {   
         if (isInitialMount.current) {
             isInitialMount.current = false;
-            getPatient()
+            return
         } else {
+            console.log('code executed')
             updateDB()
          }
-    }, []);
+    }, [generalInfo, healthInfo, conditions, meds, contactInfo]);
+
+    useEffect(() => {
+        getPatient()
+    }, [])
 
     const getPatient = async() => {
 
@@ -227,9 +231,9 @@ export default function EHR({ location }) {
                 dosage: medInput.dosage,
                 edit : false
             }
+        setMeds([...meds, newMed])
         setDoses('')
         setMedSuggestions([])
-        setMeds([...meds, newMed])
     },
 
 
@@ -260,30 +264,19 @@ export default function EHR({ location }) {
         })
         setConditions(arr)
     },
-       
-    toggleMedEdit = index => {
-            const arr = [];
-
-            conditions.forEach( (item, i) => {
-               
-                item.edit = i === index ? !item.edit : false;
-                arr.push(item)
-            })
-            setMeds(arr)
-    },
 
     removeCondition = index => {
         const clone = conditions;
 
         clone.splice(index, 1)
-        setConditions(clone)
+        setConditions([...clone])
     },
 
     removeMed = index => {
         const clone = meds;
-
+        
         clone.splice(index, 1)
-        setMeds(clone)
+        setMeds([...clone])
     },
 
     //if no patient is passed in, create a new one on the server.
@@ -354,7 +347,6 @@ export default function EHR({ location }) {
                     <Medications
                         toggleState={() => setMedsState(!editMedsState)}
                         editState={editMedsState}
-                        toggleMedState={toggleMedEdit}
                         areaTarget={onMedDescChange}
                         data={meds}
                         target={onMedInputChange}
