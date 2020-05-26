@@ -30,7 +30,6 @@ export default function EHR({ location }) {
         [ editConditState, setConditState ] = useState(false),
         [ editMedsState, setMedsState ]= useState(false),
         [ , setConditText ]= useState(''),
-        [ , setMedText ]= useState(''),
         [ descEditState, setDescEditState ]= useState(false),
         [ conditSuggestions, setConditSuggestions ]= useState([]),
         [ medSuggestions, setMedSuggestions ]= useState([]),
@@ -122,6 +121,7 @@ export default function EHR({ location }) {
         setConditSuggestions({ suggestions, text: value })
      }
 
+     //I'm using this effect, along with the query state to create a 1/2 second delay after typing finishes before API or other code is executed.  
      useEffect(() => {
         const timeOutId = setTimeout(() => setMedInput(query), 500);
         return () => clearTimeout(timeOutId);
@@ -129,20 +129,11 @@ export default function EHR({ location }) {
     
     const onMedInputChange = async e => {
         const { name, value } = e.target; 
-        setMedInput({ ...medInput, [name]: value })
-        
-    //    const delay = ((fn, ms) => {
-    //     let timer = 0
-    //     return function() {
-    //         console.log('code')
-    //       clearTimeout(timer)
-    //       timer = setTimeout(fn, ms)
-    //     }
-    //   })();
+        setQuery({ ...query, [name]: value })
         
       //run this code only with medication input changes. ignore dosage.
- 
-                       
+      if (previousMed !== query.medication) {
+    try {           
       const items = await getMedNames(value)
       let suggestions = [];
 
@@ -151,6 +142,8 @@ export default function EHR({ location }) {
           suggestions = items.sort().filter( x => regex.test(x)).slice(0, 8)
         } 
         setMedSuggestions({ suggestions, text: value })
+    } catch (err) {return}
+    } 
 },
      
      onConditDescChange = index => e => {
@@ -215,9 +208,7 @@ export default function EHR({ location }) {
         setMeds([...meds, newMed])
         setDoses('')
         setMedSuggestions([])
-        } catch(err) {
-            return
-        }
+        } catch(err) {return}
     },
 
 
@@ -233,9 +224,7 @@ export default function EHR({ location }) {
               doses = data.drugGroup.conceptGroup[1].conceptProperties.map(x => x.synonym)
 
             setDoses(doses)   
-        } catch(err)    {
-            return
-        }
+        } catch(err) {return}
     },
 
     removeCondition = index => {
