@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Container, Row, Col } from '../../components/Grid';
-import { ContactCard } from '../../components/ContactCard';
+import { GeneralInfo } from '../../components/GeneralInfo';
 import { HealthCard } from '../../components/HealthCard';
 import { Conditions } from '../../components/Conditions';
 import { Medications } from '../../components/Medications';
@@ -20,9 +20,9 @@ export default function EHR({ location }) {
 
     const [generalInfo, setGeneralInfo] = useState({}),
         [ healthInfo, setHealthInfo ] = useState({}),
-        [ contactInfo, setContactInfo ] = useState([]),
         [ conditions, setConditions ] = useState([]),
         [ meds, setMeds ] = useState([]),
+        [ contactInfo, setContactInfo ] = useState([]),
         [ patient, setPatient ] = useState(location.state.patientId),
         [ medInput, setMedInput ] = useState(''),
         [ editGenState, setGenState ]= useState(false),
@@ -131,7 +131,7 @@ export default function EHR({ location }) {
         const { name, value } = e.target; 
         setQuery({ ...query, [name]: value })
         
-      //run this code only with medication input changes. ignore dosage.
+      //Uses custom hook to only run this code when medication name changes. ignore dosage.
       if (previousMed !== query.medication) {
     try {           
       const items = await getMedNames(value)
@@ -291,7 +291,7 @@ export default function EHR({ location }) {
         <Container>
             <Row classes={'my-5'}>
                 <Col size={'md-8'} classes={'offset-md-2'}>
-                    <ContactCard
+                    <GeneralInfo
                         toggleState={() => setGenState(!editGenState)}
                         editState={editGenState}
                         data={generalInfo}
@@ -348,6 +348,17 @@ export default function EHR({ location }) {
                       />
                 </Col>
             </Row>
+            {/* <Row classes={'my-5'}>
+                <Col size={'md-8'} classes={'offset-md-2'}>
+                    <ContactCard
+                        toggleState={() => setGenState(!editGenState)}
+                        editState={editGenState}
+                        data={generalInfo}
+                        target={onGenInfoInputChange}
+                        formSubmit={updateDB}
+                    />
+                </Col>
+            </Row> */}
         </Container>
     )
 }
