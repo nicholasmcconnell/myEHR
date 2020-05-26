@@ -4,7 +4,7 @@ import { GeneralInfo } from '../../components/GeneralInfo';
 import { HealthCard } from '../../components/HealthCard';
 import { Conditions } from '../../components/Conditions';
 import { Medications } from '../../components/Medications';
-import Contacts from '../../components/Contacts';
+import { Contacts } from '../../components/Contacts';
 import API from '../../utils/API';
 
 //Custom hook to track previous states for comparison purposes.
@@ -22,7 +22,7 @@ export default function EHR({ location }) {
         [ healthInfo, setHealthInfo ] = useState({}),
         [ conditions, setConditions ] = useState([]),
         [ meds, setMeds ] = useState([]),
-        [ contactInfo, setContactInfo ] = useState([]),
+        [ contacts, setContacts ] = useState([]),
         [ patient, setPatient ] = useState(location.state.patientId),
         [ medInput, setMedInput ] = useState(''),
         [ editGenState, setGenState ]= useState(false),
@@ -50,7 +50,7 @@ export default function EHR({ location }) {
         } else {
             updateDB()
          }
-    }, [generalInfo, healthInfo, conditions, meds, contactInfo]);
+    }, [generalInfo, healthInfo, conditions, meds, contacts]);
 
     const getPatient = async() => {
 
@@ -63,7 +63,7 @@ export default function EHR({ location }) {
             setHealthInfo(data.healthData)
             setConditions(data.healthConditions)
             setMeds(data.medications)
-            setContactInfo(data.contacts)
+            setContacts(data.contacts)
         } 
     },
 
@@ -73,7 +73,7 @@ export default function EHR({ location }) {
         const user  = await API.getUser(),
             email = user.data.user.email;
    
-        const newPatient = {email, generalInfo, healthInfo, conditions, meds, contactInfo};
+        const newPatient = {email, generalInfo, healthInfo, conditions, meds, contacts};
 
         const { data } = await API.addPatient(newPatient);
 
@@ -88,7 +88,7 @@ export default function EHR({ location }) {
         setGenState(false)
         setHealthState(false)
         }
-        const data = {generalInfo, healthInfo, conditions, meds, contactInfo}
+        const data = {generalInfo, healthInfo, conditions, meds, contacts}
         API.updateEHR(patient, data)
             .catch(err => console.log(err))             
     },
@@ -103,9 +103,9 @@ export default function EHR({ location }) {
         setHealthInfo({ ...healthInfo, [name]: value })
     },
 
-    onContInfoInputChange = e => {
+    onContactsInputChange = e => {
         const { name, value } = e.target;
-        setContactInfo({ ...contactInfo, [name]: value })
+        setContacts({ ...contacts, [name]: value })
     }, 
     
     onConditInputChange = async e => {
@@ -343,22 +343,22 @@ export default function EHR({ location }) {
                         text={medSuggestions.text}
                         remove={removeMed}
                         addDoses={addDoses}
-                        formSubmit={addMeds}
                         doseChoices={doses}
+                        formSubmit={addMeds}
                       />
                 </Col>
             </Row>
-            {/* <Row classes={'my-5'}>
+            <Row classes={'my-5'}>
                 <Col size={'md-8'} classes={'offset-md-2'}>
-                    <ContactCard
+                    <Contacts
                         toggleState={() => setGenState(!editGenState)}
                         editState={editGenState}
-                        data={generalInfo}
-                        target={onGenInfoInputChange}
+                        data={contacts}
+                        target={onContactsInputChange}
                         formSubmit={updateDB}
                     />
                 </Col>
-            </Row> */}
+            </Row>
         </Container>
     )
 }

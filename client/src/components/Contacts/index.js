@@ -3,14 +3,13 @@ import { Col } from '../../components/Grid';
 import { Input, Button } from '../../components/Forms';
 
 
-export default function Contacts({ data, target, editState, toggleState, formSubmit }) {
+export function Contacts({ data, target, editState, toggleState, formSubmit }) {
 
-if (editState || data.length < 1) {
+// if (editState || data.length === 0) {
     return (
         data.map( (contact, i) => {
-            if (contact.edit)
-            {
-                return (
+            if (contact.edit || data.length === 0)  {
+             return (
 
         <div key={i} className={'mt-5'}>
         <em><h5>Emergency or other contact Info</h5></em>
@@ -240,7 +239,7 @@ if (editState || data.length < 1) {
         }
     })
     )
-    }
+    // }
 }
 const fieldText = {
     fontStyle: 'italic',

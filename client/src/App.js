@@ -4,7 +4,7 @@ import Landing from "./pages/Landing";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import EHR from "./pages/EHR";
-import Contacts from './components/Contacts'
+// import Contacts from './components/Contacts'
 import Patients from "./pages/Patients";
 import NavBar from './components/Navbar';
 import Wrapper   from './components/Wrapper'
@@ -26,7 +26,7 @@ function App() {
         <ProtectedRoute exact path="/profiles" component={Patients} />
         <ProtectedRoute exact path="/ehr" component={EHR} />
         </Wrapper >
-        <ProtectedRoute exact path="/contacts"> <Contacts /> </ProtectedRoute>
+        {/* <ProtectedRoute exact path="/contacts"> <Contacts /> </ProtectedRoute> */}
       </div>
     </Router>
   )
