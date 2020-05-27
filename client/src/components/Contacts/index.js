@@ -7,158 +7,157 @@ export function Contacts({ data, target, editState, toggleState, formSubmit }) {
 console.log(data)
 
 // if (editState || data.length === 0) {
-    function renderContacts(contacts) {
-        if (data.length === 0) {
-    return (
-        <div className={'mt-5'}>
-          <Col size={'md-12'}>
-                <Button className="fas fa-backspace fa-2x" style={cancelBtn} 
-                onClick={toggleState} />
-            </Col>
-            <form onSubmit={formSubmit} >
-                <div className={"form-row"}>
-                    <Col size={'md-4'} classes={'form-group'}>
-                        <label>Contact for</label>
-                        <Input name="contact" 
-                        placeholder="e.g. 'Dr, Pharmacist, Daughter, etc.."
-                        style={input}
-                        onChange={target} 
-                        />
-                    </Col>
-                    <Col size={'md-4'} classes={'form-group'}>
-                        <label>Office or Business Name</label>
-                        <Input name="office"
-                        style={input}
-                        onChange={target} 
-                        />
-                    </Col>
-                    <Col size={'md-4'} classes={'form-group'}>
-                        <label>Contact Name</label>
-                        <Input name="name" 
-                        placeholder="Dr. Smith"
-                        style={input}
-                        onChange={target} 
-                        />
-                    </Col>
-                </div>
-                <div className="form-row">
-                    <Col size={'md-6'} classes={'form-group'}>
-                        <label>Address Line 1</label>
-                        <Input name="addressOne"
-                        style={input}
-                        onChange={target} 
-                        />                    </Col>
-                    <Col size={'md-6'} classes={'form-group'}>
-                        <label>Address Line 2</label>
-                        <Input name="addressTwo"
-                        style={input}
-                        onChange={target} 
-                        />                    
-                    </Col>
-                </div>
-                <div className="form-row">
-                    <Col size={'md-3'} classes={'form-group'}>
-                        <label>City</label>
-                        <Input name="city"
-                        style={input}
-                        onChange={target} 
-                        />
-                    </Col>
-                    <Col size={'md-3'} classes={'form-group'}>
-                        <label>State/Providence</label>
-                        <Input name="state"
-                        style={input}
-                        onChange={target} 
-                        />
-                    </Col>
-                    <Col size={'md-3'} classes={'form-group'}>
-                        <label>Zip/Postal Code</label>
-                        <Input name="zip"
-                        style={input}
-                        onChange={target} 
-                        />
-                    </Col>
-                    <Col size={'md-3'} classes={'form-group'}>
-                        <label>Country</label>
-                        <Input name="country"
-                        style={input}
-                        onChange={target} 
-                        />
-                    </Col>
-                </div>
-                <div className="form-row">
-                    <Col size={'md-4'} classes={'form-group'}>
-                        <label>Primary Phone</label>
-                        <Input name="primaryPhone"
-                        style={input}
-                        onChange={target} 
-                        />
-                    </Col>
-                    <Col size={'md-2'} classes={'form-group'}>
-                        <label>Ext.</label>
-                        <Input name="primaryExt"
-                        style={input}
-                        onChange={target} 
-                        />
-                    </Col>
-                    <Col size={'md-4'} classes={'form-group'}>
-                        <label>Another Phone</label>
-                        <Input name="secondaryPhone"
-                        style={input}
-                        onChange={target} 
-                        />
-                    </Col>
-                    <Col size={'md-2'} classes={'form-group'}>
-                        <label>Ext.</label>
-                        <Input name="secondaryExt"
-                        style={input}
-                        onChange={target} 
-                        />
-                    </Col>
-                 </div>
-                 <div className="form-row">
-                    <Col size={'md-4'} classes={'form-group'}>
-                        <label>Fax</label>
-                        <Input name="fax"
-                        style={input}
-                        onChange={target} 
-                        />
-                    </Col>
-                    <Col size={'md-4'} classes={'form-group'}>
-                        <label>Email</label>
-                        <Input name="email"
-                        style={input}
-                        onChange={target} 
-                        />
-                    </Col>
-                    <Col size={'md-4'} classes={'form-group'}>
-                        <label>Website</label>
-                        <Input name="website"
-                        style={input}
-                        onChange={target} 
-                        />
-                    </Col>
-                </div>
-                <Col size={'md-12'}>
-                <Button className="btn" style={updtBtn} 
-                    type="submit" > <i className="fas fa-sync-alt fa-2x mr-2"/> {' '}  
-                        {' '} update 
-                    </Button>
-                </Col>
-            </form>
-        </div> )
-    } else {
-
-        console.log(contacts.length === 0)
-        return (
+    const renderContacts = contacts => {
+    //     if (data.length === 0) {
+    // return (
+    //     <div className={'mt-5'}>
+    //       <Col size={'md-12'}>
+    //             <Button className="fas fa-backspace fa-2x" style={cancelBtn} 
+    //             onClick={toggleState} />
+    //         </Col>
+    //         <form onSubmit={formSubmit} >
+    //             <div className={"form-row"}>
+    //                 <Col size={'md-4'} classes={'form-group'}>
+    //                     <label>Contact for</label>
+    //                     <Input name="contact" 
+    //                     placeholder="e.g. 'Dr, Pharmacist, Daughter, etc.."
+    //                     style={input}
+    //                     onChange={target} 
+    //                     />
+    //                 </Col>
+    //                 <Col size={'md-4'} classes={'form-group'}>
+    //                     <label>Office or Business Name</label>
+    //                     <Input name="office"
+    //                     style={input}
+    //                     onChange={target} 
+    //                     />
+    //                 </Col>
+    //                 <Col size={'md-4'} classes={'form-group'}>
+    //                     <label>Contact Name</label>
+    //                     <Input name="name" 
+    //                     placeholder="Dr. Smith"
+    //                     style={input}
+    //                     onChange={target} 
+    //                     />
+    //                 </Col>
+    //             </div>
+    //             <div className="form-row">
+    //                 <Col size={'md-6'} classes={'form-group'}>
+    //                     <label>Address Line 1</label>
+    //                     <Input name="addressOne"
+    //                     style={input}
+    //                     onChange={target} 
+    //                     />                    </Col>
+    //                 <Col size={'md-6'} classes={'form-group'}>
+    //                     <label>Address Line 2</label>
+    //                     <Input name="addressTwo"
+    //                     style={input}
+    //                     onChange={target} 
+    //                     />                    
+    //                 </Col>
+    //             </div>
+    //             <div className="form-row">
+    //                 <Col size={'md-3'} classes={'form-group'}>
+    //                     <label>City</label>
+    //                     <Input name="city"
+    //                     style={input}
+    //                     onChange={target} 
+    //                     />
+    //                 </Col>
+    //                 <Col size={'md-3'} classes={'form-group'}>
+    //                     <label>State/Providence</label>
+    //                     <Input name="state"
+    //                     style={input}
+    //                     onChange={target} 
+    //                     />
+    //                 </Col>
+    //                 <Col size={'md-3'} classes={'form-group'}>
+    //                     <label>Zip/Postal Code</label>
+    //                     <Input name="zip"
+    //                     style={input}
+    //                     onChange={target} 
+    //                     />
+    //                 </Col>
+    //                 <Col size={'md-3'} classes={'form-group'}>
+    //                     <label>Country</label>
+    //                     <Input name="country"
+    //                     style={input}
+    //                     onChange={target} 
+    //                     />
+    //                 </Col>
+    //             </div>
+    //             <div className="form-row">
+    //                 <Col size={'md-4'} classes={'form-group'}>
+    //                     <label>Primary Phone</label>
+    //                     <Input name="primaryPhone"
+    //                     style={input}
+    //                     onChange={target} 
+    //                     />
+    //                 </Col>
+    //                 <Col size={'md-2'} classes={'form-group'}>
+    //                     <label>Ext.</label>
+    //                     <Input name="primaryExt"
+    //                     style={input}
+    //                     onChange={target} 
+    //                     />
+    //                 </Col>
+    //                 <Col size={'md-4'} classes={'form-group'}>
+    //                     <label>Another Phone</label>
+    //                     <Input name="secondaryPhone"
+    //                     style={input}
+    //                     onChange={target} 
+    //                     />
+    //                 </Col>
+    //                 <Col size={'md-2'} classes={'form-group'}>
+    //                     <label>Ext.</label>
+    //                     <Input name="secondaryExt"
+    //                     style={input}
+    //                     onChange={target} 
+    //                     />
+    //                 </Col>
+    //              </div>
+    //              <div className="form-row">
+    //                 <Col size={'md-4'} classes={'form-group'}>
+    //                     <label>Fax</label>
+    //                     <Input name="fax"
+    //                     style={input}
+    //                     onChange={target} 
+    //                     />
+    //                 </Col>
+    //                 <Col size={'md-4'} classes={'form-group'}>
+    //                     <label>Email</label>
+    //                     <Input name="email"
+    //                     style={input}
+    //                     onChange={target} 
+    //                     />
+    //                 </Col>
+    //                 <Col size={'md-4'} classes={'form-group'}>
+    //                     <label>Website</label>
+    //                     <Input name="website"
+    //                     style={input}
+    //                     onChange={target} 
+    //                     />
+    //                 </Col>
+    //             </div>
+    //             <Col size={'md-12'}>
+    //             <Button className="btn" style={updtBtn} 
+    //                 type="submit" > <i className="fas fa-sync-alt fa-2x mr-2"/> {' '}  
+    //                     {' '} update 
+    //                 </Button>
+    //             </Col>
+    //         </form>
+    //     </div> )
+    // } else {
+        console.log(contacts)
+       return (
             contacts.map( (contact, i) => {
-                if (contact.edit) {
+                if (contact.edit || data.length === 0) {
             return (
         <div key={i} className={'mt-5'}>
         <em><h5>Emergency or other contact Info</h5></em>
           <Col size={'md-12'}>
                 <Button className="fas fa-backspace fa-2x" style={cancelBtn} 
-                onClick={toggleState} />
+                onClick={toggleState.bind(this, i)} />
             </Col>
             <form onSubmit={formSubmit} >
                 <div className={"form-row"}>
@@ -297,26 +296,25 @@ console.log(data)
     
             return(
             <div key={i} className={'mt-5 contacts-info'}>
-                            <em><h5>Emergency or other contact Info</h5></em>
 
                 <Col size={'md-12'} classes={'contacts-edit'}>
                     <Button className="fas fa-user-edit fa-2x" style={editBtn} 
-                        onClick={toggleState} 
+                        onClick={toggleState.bind(this, i)} 
                     />   
                 </Col>
             <form>
                 <div className={"form-row"}>
                     <Col size={'md-4'} classes={'form-group'}>
                         <label>Contact for:</label>
-                        <div style={fieldText}>{contact.firstName}</div>
+                        <div style={fieldText}>{contact.contact}</div>
                     </Col>
                     <Col size={'md-4'} classes={'form-group'}>
                         <label>Office or Business Name:</label>
-                        <div style={fieldText}>{contact.lastName}</div>
+                        <div style={fieldText}>{contact.office}</div>
                     </Col>
                     <Col size={'md-4'} classes={'form-group'}>
                         <label>Contact Name:</label>
-                        <div style={fieldText}>{contact.nickname}</div>
+                        <div style={fieldText}>{contact.name}</div>
                     </Col>
                 </div>
                 <div className="form-row">
@@ -350,25 +348,25 @@ console.log(data)
                 <div className="form-row">
                     <Col size={'md-4'} classes={'form-group'}>
                         <label>Primary Phone:</label>
-                        <div style={fieldText}>{contact.phone}</div>
+                        <div style={fieldText}>{contact.primaryPhone}</div>
                     </Col>
                     <Col size={'md-2'} classes={'form-group'}>
                         <label>Ext:</label>
-                        <div style={fieldText}>{contact.phone}</div>
+                        <div style={fieldText}>{contact.primaryExt}</div>
                     </Col>
                     <Col size={'md-4'} classes={'form-group'}>
                         <label>Another Phone:</label>
-                        <div style={fieldText}>{contact.email}</div>
+                        <div style={fieldText}>{contact.secondaryPhone}</div>
                     </Col>
                     <Col size={'md-2'} classes={'form-group'}>
                         <label>Ext:</label>
-                        <div style={fieldText}>{contact.phone}</div>
+                        <div style={fieldText}>{contact.secondaryExt}</div>
                     </Col>
                 </div>
                 <div className="form-row">
                     <Col size={'md-4'} classes={'form-group'}>
                         <label>Fax:</label>
-                        <div style={fieldText}>{contact.phone}</div>
+                        <div style={fieldText}>{contact.fax}</div>
                     </Col>
                     <Col size={'md-4'} classes={'form-group'}>
                         <label>Email:</label>
@@ -376,14 +374,15 @@ console.log(data)
                     </Col>
                     <Col size={'md-4'} classes={'form-group'}>
                         <label>Website:</label>
-                        <div style={fieldText}>{contact.phone}</div>
+                        <div style={fieldText}>{contact.website}</div>
                     </Col>
                 </div>
             </form>
         </div> )}
-        })
-     )}
+        }
+       ))
     }
+       
     
 
 

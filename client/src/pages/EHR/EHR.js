@@ -22,7 +22,23 @@ export default function EHR({ location }) {
         [ healthInfo, setHealthInfo ] = useState({}),
         [ conditions, setConditions ] = useState([]),
         [ meds, setMeds ] = useState([]),
-        [ contacts, setContacts ] = useState([]),
+        [ contacts, setContacts ] = useState([{
+            contact: 'Primary Care',
+            office: 'Medical Center',
+            name: 'Dr. Evil',
+            addressOne: '1234 Candy Ln',
+            city: 'Sky High',
+            state: 'NV',
+            zip: '50025',
+            country: 'beckybeckystanstan',
+            primaryPhone: '(212)555-1234',
+            primaryExt: '6628',
+            fax: '(212)555-9876',
+            email: 'drevilguy@gmail.com',
+            website: 'getyourevil-medicine.com',
+            edit: false
+
+        }]),
         [ patient, setPatient ] = useState(location.state.patientId),
         [ medInput, setMedInput ] = useState(''),
         [ editGenState, setGenState ]= useState(false),
@@ -64,7 +80,7 @@ export default function EHR({ location }) {
             setHealthInfo(data.healthData)
             setConditions(data.healthConditions)
             setMeds(data.medications)
-            setContacts(data.contacts)
+            // setContacts(data.contacts)
         } 
     },
 
@@ -74,7 +90,7 @@ export default function EHR({ location }) {
         const user  = await API.getUser(),
             email = user.data.user.email;
    
-        const newPatient = {email, generalInfo, healthInfo, conditions, meds, contacts};
+        const newPatient = {email, generalInfo, healthInfo, conditions, meds, contacts}
 
         const { data } = await API.addPatient(newPatient);
 
@@ -172,6 +188,16 @@ export default function EHR({ location }) {
             arr.push(item)
         })
         setConditions(arr)
+    },
+    toggleContactEdit = index => {
+        const arr = [];
+
+        contacts.forEach( (item, i) => {
+            
+            item.edit = i === index ? !item.edit : false;
+            arr.push(item)
+        })
+        setContacts(arr)
     },
 
     addCondition = async e => {
@@ -321,8 +347,6 @@ export default function EHR({ location }) {
                         editDescState={descEditState} 
                         editState={editConditState}
                         toggleDescState={toggleDescriptionEdit}
-                        editState={editConditState}
-                        toggleDescState={toggleDescriptionEdit}
                         remove={removeCondition}
                         areaTarget={onConditDescChange}
                         data={conditions}
@@ -352,7 +376,7 @@ export default function EHR({ location }) {
             <Row classes={'my-5'}>
                 <Col size={'md-8'} classes={'offset-md-2'}>
                     <Contacts
-                        toggleState={() => setContactState(!editConditState)}
+                        toggleState={toggleContactEdit}
                         editState={editContactState}
                         data={contacts}
                         target={onContactsInputChange}
