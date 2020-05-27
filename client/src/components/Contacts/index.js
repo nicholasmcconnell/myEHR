@@ -4,13 +4,156 @@ import { Input, Button } from '../../components/Forms';
 
 
 export function Contacts({ data, target, editState, toggleState, formSubmit }) {
+console.log(data)
 
 // if (editState || data.length === 0) {
+    function renderContacts(contacts) {
+        if (data.length === 0) {
     return (
-        data.map( (contact, i) => {
-            if (contact.edit || data.length === 0)  {
-             return (
+        <div className={'mt-5'}>
+          <Col size={'md-12'}>
+                <Button className="fas fa-backspace fa-2x" style={cancelBtn} 
+                onClick={toggleState} />
+            </Col>
+            <form onSubmit={formSubmit} >
+                <div className={"form-row"}>
+                    <Col size={'md-4'} classes={'form-group'}>
+                        <label>Contact for</label>
+                        <Input name="contact" 
+                        placeholder="e.g. 'Dr, Pharmacist, Daughter, etc.."
+                        style={input}
+                        onChange={target} 
+                        />
+                    </Col>
+                    <Col size={'md-4'} classes={'form-group'}>
+                        <label>Office or Business Name</label>
+                        <Input name="office"
+                        style={input}
+                        onChange={target} 
+                        />
+                    </Col>
+                    <Col size={'md-4'} classes={'form-group'}>
+                        <label>Contact Name</label>
+                        <Input name="name" 
+                        placeholder="Dr. Smith"
+                        style={input}
+                        onChange={target} 
+                        />
+                    </Col>
+                </div>
+                <div className="form-row">
+                    <Col size={'md-6'} classes={'form-group'}>
+                        <label>Address Line 1</label>
+                        <Input name="addressOne"
+                        style={input}
+                        onChange={target} 
+                        />                    </Col>
+                    <Col size={'md-6'} classes={'form-group'}>
+                        <label>Address Line 2</label>
+                        <Input name="addressTwo"
+                        style={input}
+                        onChange={target} 
+                        />                    
+                    </Col>
+                </div>
+                <div className="form-row">
+                    <Col size={'md-3'} classes={'form-group'}>
+                        <label>City</label>
+                        <Input name="city"
+                        style={input}
+                        onChange={target} 
+                        />
+                    </Col>
+                    <Col size={'md-3'} classes={'form-group'}>
+                        <label>State/Providence</label>
+                        <Input name="state"
+                        style={input}
+                        onChange={target} 
+                        />
+                    </Col>
+                    <Col size={'md-3'} classes={'form-group'}>
+                        <label>Zip/Postal Code</label>
+                        <Input name="zip"
+                        style={input}
+                        onChange={target} 
+                        />
+                    </Col>
+                    <Col size={'md-3'} classes={'form-group'}>
+                        <label>Country</label>
+                        <Input name="country"
+                        style={input}
+                        onChange={target} 
+                        />
+                    </Col>
+                </div>
+                <div className="form-row">
+                    <Col size={'md-4'} classes={'form-group'}>
+                        <label>Primary Phone</label>
+                        <Input name="primaryPhone"
+                        style={input}
+                        onChange={target} 
+                        />
+                    </Col>
+                    <Col size={'md-2'} classes={'form-group'}>
+                        <label>Ext.</label>
+                        <Input name="primaryExt"
+                        style={input}
+                        onChange={target} 
+                        />
+                    </Col>
+                    <Col size={'md-4'} classes={'form-group'}>
+                        <label>Another Phone</label>
+                        <Input name="secondaryPhone"
+                        style={input}
+                        onChange={target} 
+                        />
+                    </Col>
+                    <Col size={'md-2'} classes={'form-group'}>
+                        <label>Ext.</label>
+                        <Input name="secondaryExt"
+                        style={input}
+                        onChange={target} 
+                        />
+                    </Col>
+                 </div>
+                 <div className="form-row">
+                    <Col size={'md-4'} classes={'form-group'}>
+                        <label>Fax</label>
+                        <Input name="fax"
+                        style={input}
+                        onChange={target} 
+                        />
+                    </Col>
+                    <Col size={'md-4'} classes={'form-group'}>
+                        <label>Email</label>
+                        <Input name="email"
+                        style={input}
+                        onChange={target} 
+                        />
+                    </Col>
+                    <Col size={'md-4'} classes={'form-group'}>
+                        <label>Website</label>
+                        <Input name="website"
+                        style={input}
+                        onChange={target} 
+                        />
+                    </Col>
+                </div>
+                <Col size={'md-12'}>
+                <Button className="btn" style={updtBtn} 
+                    type="submit" > <i className="fas fa-sync-alt fa-2x mr-2"/> {' '}  
+                        {' '} update 
+                    </Button>
+                </Col>
+            </form>
+        </div> )
+    } else {
 
+        console.log(contacts.length === 0)
+        return (
+            contacts.map( (contact, i) => {
+                if (contact.edit) {
+            return (
         <div key={i} className={'mt-5'}>
         <em><h5>Emergency or other contact Info</h5></em>
           <Col size={'md-12'}>
@@ -148,11 +291,14 @@ export function Contacts({ data, target, editState, toggleState, formSubmit }) {
                     </Button>
                 </Col>
             </form>
-        </div>
-        )
+            </div> )
+        
     } else {
-        return (
-            <div className={'mt-5 contacts-info'}>
+    
+            return(
+            <div key={i} className={'mt-5 contacts-info'}>
+                            <em><h5>Emergency or other contact Info</h5></em>
+
                 <Col size={'md-12'} classes={'contacts-edit'}>
                     <Button className="fas fa-user-edit fa-2x" style={editBtn} 
                         onClick={toggleState} 
@@ -234,12 +380,23 @@ export function Contacts({ data, target, editState, toggleState, formSubmit }) {
                     </Col>
                 </div>
             </form>
-         </div>
-            )
-        }
-    })
+        </div> )}
+        })
+     )}
+    }
+    
+
+
+    return (
+        <div className={'mt-5'}>
+            <em><h5>Emergency or other contact Info</h5></em>
+         
+
+        {renderContacts(data)}
+
+   
+        </div>
     )
-    // }
 }
 const fieldText = {
     fontStyle: 'italic',

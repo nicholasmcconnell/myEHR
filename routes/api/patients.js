@@ -21,7 +21,7 @@ router.post('/add', async({ body }, res) => {
         healthData: body.healthInfo,
         healthConditions: body.conditions,
         medications: body.meds,
-        contacts: body.contacts,
+        contacts: body.contacts
     });
 
     //promise
@@ -35,7 +35,6 @@ router.post('/add', async({ body }, res) => {
 
 //get by id
 router.get("/:patientId", async(req, res) => {
-    console.log(req.params.patientId)
     try {
         const patient = await Patient.findById(req.params.patientId);
         res.json(patient);

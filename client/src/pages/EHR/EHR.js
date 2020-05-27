@@ -29,6 +29,7 @@ export default function EHR({ location }) {
         [ editHealthState, setHealthState ] = useState(false),
         [ editConditState, setConditState ] = useState(false),
         [ editMedsState, setMedsState ]= useState(false),
+        [ editContactState, setContactState ]= useState(false),
         [ , setConditText ]= useState(''),
         [ descEditState, setDescEditState ]= useState(false),
         [ conditSuggestions, setConditSuggestions ]= useState([]),
@@ -105,7 +106,7 @@ export default function EHR({ location }) {
 
     onContactsInputChange = e => {
         const { name, value } = e.target;
-        setContacts({ ...contacts, [name]: value })
+        setContacts([ ...contacts, { [name]: value }])
     }, 
     
     onConditInputChange = async e => {
@@ -351,8 +352,8 @@ export default function EHR({ location }) {
             <Row classes={'my-5'}>
                 <Col size={'md-8'} classes={'offset-md-2'}>
                     <Contacts
-                        toggleState={() => setGenState(!editGenState)}
-                        editState={editGenState}
+                        toggleState={() => setContactState(!editConditState)}
+                        editState={editContactState}
                         data={contacts}
                         target={onContactsInputChange}
                         formSubmit={updateDB}
