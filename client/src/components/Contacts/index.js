@@ -1,153 +1,21 @@
 import React from 'react'
 import { Col } from '../../components/Grid';
+import { NewContact } from '../../components/NewContact';
 import { Input, Button } from '../../components/Forms';
 
 
-export function Contacts({ data, target, editState, toggleState, formSubmit }) {
-console.log(data)
+export function Contacts({ data, target, newContact, toggleNew, newInput, toggleState, formSubmit }) {
 
-// if (editState || data.length === 0) {
+
+    const getNewContact = nextContact => {
+        if(nextContact){
+            return (
+            <NewContact target={newInput} toggleState={toggleState} formSubmit={formSubmit} />
+            )
+        }
+    }
     function renderContacts(contacts) {
-    //     if (data.length === 0) {
-    // return (
-    //     <div className={'mt-5'}>
-    //       <Col size={'md-12'}>
-    //             <Button className="fas fa-backspace fa-2x" style={cancelBtn} 
-    //             onClick={toggleState} />
-    //         </Col>
-    //         <form onSubmit={formSubmit} >
-    //             <div className={"form-row"}>
-    //                 <Col size={'md-4'} classes={'form-group'}>
-    //                     <label>Contact for</label>
-    //                     <Input name="contact" 
-    //                     placeholder="e.g. 'Dr, Pharmacist, Daughter, etc.."
-    //                     style={input}
-    //                     onChange={target} 
-    //                     />
-    //                 </Col>
-    //                 <Col size={'md-4'} classes={'form-group'}>
-    //                     <label>Office or Business Name</label>
-    //                     <Input name="office"
-    //                     style={input}
-    //                     onChange={target} 
-    //                     />
-    //                 </Col>
-    //                 <Col size={'md-4'} classes={'form-group'}>
-    //                     <label>Contact Name</label>
-    //                     <Input name="name" 
-    //                     placeholder="Dr. Smith"
-    //                     style={input}
-    //                     onChange={target} 
-    //                     />
-    //                 </Col>
-    //             </div>
-    //             <div className="form-row">
-    //                 <Col size={'md-6'} classes={'form-group'}>
-    //                     <label>Address Line 1</label>
-    //                     <Input name="addressOne"
-    //                     style={input}
-    //                     onChange={target} 
-    //                     />                    </Col>
-    //                 <Col size={'md-6'} classes={'form-group'}>
-    //                     <label>Address Line 2</label>
-    //                     <Input name="addressTwo"
-    //                     style={input}
-    //                     onChange={target} 
-    //                     />                    
-    //                 </Col>
-    //             </div>
-    //             <div className="form-row">
-    //                 <Col size={'md-3'} classes={'form-group'}>
-    //                     <label>City</label>
-    //                     <Input name="city"
-    //                     style={input}
-    //                     onChange={target} 
-    //                     />
-    //                 </Col>
-    //                 <Col size={'md-3'} classes={'form-group'}>
-    //                     <label>State/Providence</label>
-    //                     <Input name="state"
-    //                     style={input}
-    //                     onChange={target} 
-    //                     />
-    //                 </Col>
-    //                 <Col size={'md-3'} classes={'form-group'}>
-    //                     <label>Zip/Postal Code</label>
-    //                     <Input name="zip"
-    //                     style={input}
-    //                     onChange={target} 
-    //                     />
-    //                 </Col>
-    //                 <Col size={'md-3'} classes={'form-group'}>
-    //                     <label>Country</label>
-    //                     <Input name="country"
-    //                     style={input}
-    //                     onChange={target} 
-    //                     />
-    //                 </Col>
-    //             </div>
-    //             <div className="form-row">
-    //                 <Col size={'md-4'} classes={'form-group'}>
-    //                     <label>Primary Phone</label>
-    //                     <Input name="primaryPhone"
-    //                     style={input}
-    //                     onChange={target} 
-    //                     />
-    //                 </Col>
-    //                 <Col size={'md-2'} classes={'form-group'}>
-    //                     <label>Ext.</label>
-    //                     <Input name="primaryExt"
-    //                     style={input}
-    //                     onChange={target} 
-    //                     />
-    //                 </Col>
-    //                 <Col size={'md-4'} classes={'form-group'}>
-    //                     <label>Another Phone</label>
-    //                     <Input name="secondaryPhone"
-    //                     style={input}
-    //                     onChange={target} 
-    //                     />
-    //                 </Col>
-    //                 <Col size={'md-2'} classes={'form-group'}>
-    //                     <label>Ext.</label>
-    //                     <Input name="secondaryExt"
-    //                     style={input}
-    //                     onChange={target} 
-    //                     />
-    //                 </Col>
-    //              </div>
-    //              <div className="form-row">
-    //                 <Col size={'md-4'} classes={'form-group'}>
-    //                     <label>Fax</label>
-    //                     <Input name="fax"
-    //                     style={input}
-    //                     onChange={target} 
-    //                     />
-    //                 </Col>
-    //                 <Col size={'md-4'} classes={'form-group'}>
-    //                     <label>Email</label>
-    //                     <Input name="email"
-    //                     style={input}
-    //                     onChange={target} 
-    //                     />
-    //                 </Col>
-    //                 <Col size={'md-4'} classes={'form-group'}>
-    //                     <label>Website</label>
-    //                     <Input name="website"
-    //                     style={input}
-    //                     onChange={target} 
-    //                     />
-    //                 </Col>
-    //             </div>
-    //             <Col size={'md-12'}>
-    //             <Button className="btn" style={updtBtn} 
-    //                 type="submit" > <i className="fas fa-sync-alt fa-2x mr-2"/> {' '}  
-    //                     {' '} update 
-    //                 </Button>
-    //             </Col>
-    //         </form>
-    //     </div> )
-    // } else {
+
         console.log(contacts)
        return (
             contacts.map( (contact, i) => {
@@ -291,7 +159,7 @@ console.log(data)
             </form>
             </div> )
     } else {
-            return(
+            return (
             <div key={i} className={'mt-5 contacts-info'}>
 
                 <Col size={'md-12'} classes={'contacts-edit'}>
@@ -379,17 +247,18 @@ console.log(data)
         }
        ))
     }
-       
-    
-
 
     return (
         <div className={'my-5'}>
             <em><h5>Emergency or other contact Info</h5></em>
          
         {renderContacts(data)}
+
+        {getNewContact(newContact)}
+        
         <div className={'add'}>
-            <Button className="btn plus" type="submit" > 
+            <Button className="btn plus" 
+            onClick={toggleNew} > 
                 <i className="fa fa-plus"></i> 
                     {' '} New Contact 
             </Button>    
@@ -397,6 +266,7 @@ console.log(data)
         </div>
     )
 }
+
 const fieldText = {
     fontStyle: 'italic',
     fontWeight: '1000',
@@ -404,6 +274,16 @@ const fieldText = {
     padding: '10px',
     paddingLeft: '0',
     color: 'black'
+},
+input = {
+    borderBottom: '1px solid rgba(0, 0, 0, .2)',
+    transition: 'all 0.30s ease-in-out'
+},
+updtBtn = {
+    float: 'right',
+    margin: '0',
+    backgroundColor: '#214c91',
+    color: 'white'
 },
 editBtn = {
     float: 'right',
@@ -418,14 +298,5 @@ cancelBtn = {
     margin: '0',
     color: 'tomato',
     backgroundColor: 'white'
-},
-updtBtn = {
-    float: 'right',
-    margin: '0',
-    backgroundColor: '#214c91',
-    color: 'white'
-},
-input = {
-    borderBottom: '1px solid rgba(0, 0, 0, .2)',
-    transition: 'all 0.30s ease-in-out'
 }
+
