@@ -55,6 +55,9 @@ button:focus {
 .add:hover .plus {
   color: #499cf5 !important;
 }
+.remove:hover .minus {
+  color: tomato !important;
+}
 
 textarea.desc {
 	width:100%;

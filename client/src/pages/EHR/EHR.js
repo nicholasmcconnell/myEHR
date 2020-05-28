@@ -23,20 +23,20 @@ export default function EHR({ location }) {
         [ conditions, setConditions ] = useState([]),
         [ meds, setMeds ] = useState([]),
         [ contacts, setContacts ] = useState([
-        //   {  contact: 'Primary Care',
-        //     office: 'Medical Center',
-        //     name: 'Dr. Evil',
-        //     addressOne: '1234 Candy Ln',
-        //     city: 'Sky High',
-        //     state: 'NV',
-        //     zip: '50025',
-        //     country: 'beckybeckystanstan',
-        //     primaryPhone: '(212)555-1234',
-        //     primaryExt: '6628',
-        //     fax: '(212)555-9876',
-        //     email: 'drevilguy@gmail.com',
-        //     website: 'getyourevil-medicine.com',
-        //     edit: false}
+          {  contact: 'Primary Care',
+            office: 'Medical Center',
+            name: 'Dr. Evil',
+            addressOne: '1234 Candy Ln',
+            city: 'Sky High',
+            state: 'NV',
+            zip: '50025',
+            country: 'beckybeckystanstan',
+            primaryPhone: '(212)555-1234',
+            primaryExt: '6628',
+            fax: '(212)555-9876',
+            email: 'drevilguy@gmail.com',
+            website: 'getyourevil-medicine.com',
+            edit: false}
         ]),
         [ patient, setPatient ] = useState(location.state.patientId),
         [ medInput, setMedInput ] = useState(''),
@@ -297,6 +297,13 @@ export default function EHR({ location }) {
         setMeds([...clone])
     },
 
+    removeContact = index => {
+        const clone = contacts;
+        
+        clone.splice(index, 1)
+        setContacts([...clone])
+    },
+
 /*                              Features Management                                 */ 
 
     getConditionNames = async(search) => {
@@ -410,6 +417,7 @@ export default function EHR({ location }) {
                         newContact={addContact}
                         data={contacts}
                         target={onContactChange}
+                        remove={removeContact}
                         newTarget={newContactInputChange}
                         formSubmit={addNewContact}
                     />

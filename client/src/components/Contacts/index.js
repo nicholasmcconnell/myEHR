@@ -4,7 +4,7 @@ import { NewContact } from '../../components/NewContact';
 import { Input, Button } from '../../components/Forms';
 
 
-export function Contacts({ data, target, newContact, toggleNew, newTarget, toggleState, formSubmit }) {
+export function Contacts({ data, target, remove, newContact, toggleNew, newTarget, toggleState, formSubmit }) {
 
 
     const getNewContact = nextContact => {
@@ -23,7 +23,7 @@ export function Contacts({ data, target, newContact, toggleNew, newTarget, toggl
         console.log(contacts)
        return (
             contacts.map( (contact, i) => {
-                if (contact.edit || data.length === 0) {
+                if (contact.edit) {
             return (
         <div key={i} className={'mt-5'}>
           <Col size={'md-12'}>
@@ -154,13 +154,25 @@ export function Contacts({ data, target, newContact, toggleNew, newTarget, toggl
                         />
                     </Col>
                 </div>
-                <Col size={'md-12'}>
+                <div className="form-row">
+                <Col size={'md-6'}>
+                <div className={'remove'}>
+                    <Button className="btn minus" 
+                        style={{float: "left"}}
+                        onClick={remove.bind(this, i)} > 
+                            <i className="fa fa-minus"></i> 
+                            {' '}{' '} Remove Contact 
+                    </Button>    
+                 </div>
+                </Col>
+                <Col size={'md-6'}>
                 <Button className="btn" style={updtBtn} 
                     onClick={toggleState.bind(this, i)}> 
-                    <i className="fas fa-sync-alt mr-2"/> {' '}  
-                        {' '} update 
+                    <i className="fas fa-sync-alt mr-2"/>
+                     update 
                     </Button>
                 </Col>
+                </div>
             </form>
             </div> )
     } else {
