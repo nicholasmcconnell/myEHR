@@ -52,6 +52,10 @@ button:focus {
   color: green !important;
 }
 
+.add:hover .plus {
+  color: #499cf5 !important;
+}
+
 textarea.desc {
 	width:100%;
 	box-sizing:border-box;

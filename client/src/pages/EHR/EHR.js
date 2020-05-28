@@ -137,30 +137,49 @@ export default function EHR({ location }) {
         setConditSuggestions({ suggestions, text: value })
      }
 
-     //I'm using this effect, along with the query state to create a 1/2 second delay after typing finishes before API or other code is executed.  
+     //I'm using this effect, along with the query state to create a 1/2 second delay after typing finishes before API and other code is executed to resolve performance issues.  
      useEffect(() => {
         const timeOutId = setTimeout(() => setMedInput(query), 500);
         return () => clearTimeout(timeOutId);
       }, [query]);
     
     const onMedInputChange = async e => {
-        const { name, value } = e.target; 
-        setQuery({ ...query, [name]: value })
-        
-      //Uses custom hook to only run this code when medication name changes. ignore dosage.
-      if (previousMed !== query.medication) {
-    try {           
-      const items = await getMedNames(value)
-      let suggestions = [];
+            const { name, value } = e.target; 
+            setQuery({ ...query, [name]: value })
+            
+        //Uses custom hook to only run this code when medication name changes. ignore dosage.
+        if (previousMed !== query.medication) {
+        try {           
+        const items = await getMedNames(value)
+        let suggestions = [];
 
-      if (value.length > 0) {
-          const regex = new RegExp(`^${value}`, 'i');
-          suggestions = items.sort().filter( x => regex.test(x)).slice(0, 8)
+        if (value.length > 0) {
+            const regex = new RegExp(`^${value}`, 'i');
+            suggestions = items.sort().filter( x => regex.test(x)).slice(0, 8)
+            } 
+            setMedSuggestions({ suggestions, text: value })
+        } catch (err) {return}
         } 
-        setMedSuggestions({ suggestions, text: value })
-    } catch (err) {return}
-    } 
-},
+    },
+
+    onContactChange = index => e => {
+        const { name, value } = e.target,
+        clone = contacts,
+        edit = contacts[index];
+        
+        setContactEdit(value) //force the re-rendering of state.
+        
+        for (let key of Object.keys(edit)) {
+
+            if (key === name) {
+                edit[key] = value;
+            } else if (!edit.hasOwnProperty(name)) {
+                edit[name] = value;
+            }
+        }
+        clone.splice(index, 1, edit)
+        setContacts(clone)
+    }, 
      
      onConditDescChange = index => e => {
         const { value } = e.target,
@@ -177,30 +196,6 @@ export default function EHR({ location }) {
         setConditions(clone)
     }, 
 
-     onContactChange = index => e => {
-        const { name, value } = e.target,
-        clone = contacts,
-        edit = contacts[index];
-        
-        setContactEdit(value) //force a re-rendering of state.
-        
-        for (let key of Object.keys(edit)) {
-            if (key === name) {
-                edit[key] = value;
-                console.log("EHR -> edit[key]", edit[key])
-            } else if (!edit.hasOwnProperty(name)) {
-                edit[name] = value;
-                console.log(edit[name])
-            }
-        }
-        console.log(edit)
-
-        clone.splice(index, 1, edit)
-        console.log(clone)
-
-        setContacts(clone)
-    }, 
-
     toggleDescriptionEdit = index => {
         const arr = [];
 
@@ -211,6 +206,7 @@ export default function EHR({ location }) {
         })
         setConditions(arr)
     },
+
     toggleContactEdit = index => {
         const arr = [];
 

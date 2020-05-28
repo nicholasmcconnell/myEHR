@@ -290,9 +290,7 @@ console.log(data)
                 </Col>
             </form>
             </div> )
-        
     } else {
-    
             return(
             <div key={i} className={'mt-5 contacts-info'}>
 
@@ -389,10 +387,13 @@ console.log(data)
         <div className={'my-5'}>
             <em><h5>Emergency or other contact Info</h5></em>
          
-
         {renderContacts(data)}
-
-   
+        <div className={'add'}>
+            <Button className="btn plus" type="submit" > 
+                <i className="fa fa-plus"></i> 
+                    {' '} New Contact 
+            </Button>    
+        </div>
         </div>
     )
 }
