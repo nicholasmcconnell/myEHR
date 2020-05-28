@@ -136,9 +136,9 @@ export function NewContact({ target, toggleState, formSubmit }) {
                 </Col>
             </div>
             <Col size={'md-12'}>
-            <Button className="btn" style={updtBtn} 
-                type="submit" > <i className="fas fa-sync-alt fa-2x mr-2"/> {' '}  
-                    {' '} update 
+            <Button className="btn" style={saveBtn} 
+                type="submit" > <i className="fa fa-address-book mr-2"/> {' '}  
+                    {' '} Save 
                 </Button>
             </Col>
         </form>
@@ -153,11 +153,12 @@ const cancelBtn = {
     color: 'tomato',
     backgroundColor: 'white'
 },
-updtBtn = {
+saveBtn = {
     float: 'right',
     margin: '0',
-    backgroundColor: '#214c91',
-    color: 'white'
+    backgroundColor: '#55595c',
+    color: 'white',
+    textSize: '200%'
 },
 input = {
     borderBottom: '1px solid rgba(0, 0, 0, .2)',
