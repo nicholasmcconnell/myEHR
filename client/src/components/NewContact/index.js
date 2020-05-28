@@ -158,7 +158,6 @@ saveBtn = {
     margin: '0',
     backgroundColor: '#55595c',
     color: 'white',
-    textSize: '200%'
 },
 input = {
     borderBottom: '1px solid rgba(0, 0, 0, .2)',

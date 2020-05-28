@@ -10,7 +10,11 @@ export function Contacts({ data, target, newContact, toggleNew, newInput, toggle
     const getNewContact = nextContact => {
         if(nextContact){
             return (
-            <NewContact target={newInput} toggleState={toggleState} formSubmit={formSubmit} />
+            <NewContact 
+            target={newInput} 
+            toggleState={toggleNew} 
+            formSubmit={formSubmit} 
+            />
             )
         }
     }
@@ -258,6 +262,7 @@ export function Contacts({ data, target, newContact, toggleNew, newInput, toggle
         
         <div className={'add'}>
             <Button className="btn plus" 
+            style={newContact ? {display: 'none'} : {display: 'block'}}
             onClick={toggleNew} > 
                 <i className="fa fa-plus"></i> 
                     {' '} New Contact 
