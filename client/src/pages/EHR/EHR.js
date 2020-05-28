@@ -23,30 +23,29 @@ export default function EHR({ location }) {
         [ conditions, setConditions ] = useState([]),
         [ meds, setMeds ] = useState([]),
         [ contacts, setContacts ] = useState([
-        //   {  contact: 'Primary Care',
-        //     office: 'Medical Center',
-        //     name: 'Dr. Evil',
-        //     addressOne: '1234 Candy Ln',
-        //     city: 'Sky High',
-        //     state: 'NV',
-        //     zip: '50025',
-        //     country: 'beckybeckystanstan',
-        //     primaryPhone: '(212)555-1234',
-        //     primaryExt: '6628',
-        //     fax: '(212)555-9876',
-        //     email: 'drevilguy@gmail.com',
-        //     website: 'getyourevil-medicine.com',
-        //     edit: true}
+          {  contact: 'Primary Care',
+            office: 'Medical Center',
+            name: 'Dr. Evil',
+            addressOne: '1234 Candy Ln',
+            city: 'Sky High',
+            state: 'NV',
+            zip: '50025',
+            country: 'beckybeckystanstan',
+            primaryPhone: '(212)555-1234',
+            primaryExt: '6628',
+            fax: '(212)555-9876',
+            email: 'drevilguy@gmail.com',
+            website: 'getyourevil-medicine.com',
+            edit: true}
         ]),
         [ patient, setPatient ] = useState(location.state.patientId),
         [ medInput, setMedInput ] = useState(''),
-        [ newContact, setNewContact ] = useState(''),
+        [ newContact, setNewContact ] = useState({}),
         [ addContact, setAddContact ]= useState(false),
         [ editGenState, setGenState ]= useState(false),
         [ editHealthState, setHealthState ] = useState(false),
         [ editConditState, setConditState ] = useState(false),
         [ editMedsState, setMedsState ]= useState(false),
-        [ editContactState, setContactState ]= useState(false),
         [ ,setContactEdit ]= useState(''),
         [ , setConditText ]= useState(''),
         [ descEditState, setDescEditState ]= useState(false),
@@ -121,7 +120,7 @@ export default function EHR({ location }) {
         setHealthInfo({ ...healthInfo, [name]: value })
     },
 
-    newContactsInputChange = e => {
+    newContactInputChange = e => {
         const { name, value } = e.target;
         setNewContact({...newContact, [name]: value})
     }, 
@@ -384,7 +383,6 @@ export default function EHR({ location }) {
                         editState={editMedsState}
                         data={meds}
                         target={onMedInputChange}
-                        newInput={newContactsInputChange}
                         renderSuggestions={renderMedSuggestions}
                         text={medSuggestions.text}
                         remove={removeMed}
@@ -402,6 +400,7 @@ export default function EHR({ location }) {
                         newContact={addContact}
                         data={contacts}
                         target={onContactChange}
+                        newTarget={newContactInputChange}
                         formSubmit={updateDB}
                     />
                 </Col>

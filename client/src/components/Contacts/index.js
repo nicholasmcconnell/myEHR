@@ -4,14 +4,14 @@ import { NewContact } from '../../components/NewContact';
 import { Input, Button } from '../../components/Forms';
 
 
-export function Contacts({ data, target, newContact, toggleNew, newInput, toggleState, formSubmit }) {
+export function Contacts({ data, target, newContact, toggleNew, newTarget, toggleState, formSubmit }) {
 
 
     const getNewContact = nextContact => {
         if(nextContact){
             return (
             <NewContact 
-            target={newInput} 
+            target={newTarget} 
             toggleState={toggleNew} 
             formSubmit={formSubmit} 
             />
@@ -30,7 +30,7 @@ export function Contacts({ data, target, newContact, toggleNew, newInput, toggle
                 <Button className="fas fa-backspace fa-2x" style={cancelBtn} 
                 onClick={toggleState.bind(this, i)} />
             </Col>
-            <form onSubmit={formSubmit} >
+            <form>
                 <div className={"form-row"}>
                     <Col size={'md-4'} classes={'form-group'}>
                         <label>Contact for</label>
@@ -156,7 +156,8 @@ export function Contacts({ data, target, newContact, toggleNew, newInput, toggle
                 </div>
                 <Col size={'md-12'}>
                 <Button className="btn" style={updtBtn} 
-                    type="submit" > <i className="fas fa-sync-alt fa-2x mr-2"/> {' '}  
+                    onClick={toggleState.bind(this, i)}> 
+                    <i className="fas fa-sync-alt mr-2"/> {' '}  
                         {' '} update 
                     </Button>
                 </Col>
