@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { Col } from '../../components/Grid';
 import { NewContact } from '../../components/NewContact';
 import { Input, Button } from '../../components/Forms';
@@ -6,8 +6,9 @@ import { Input, Button } from '../../components/Forms';
 
 export function Contacts({ data, target, remove, newContact, toggleNew, newTarget, toggleState, formSubmit }) {
 
+    const isConfirmed = useRef(false),
 
-    const getNewContact = nextContact => {
+    getNewContact = nextContact => {
         if(nextContact){
             return (
             <NewContact 
@@ -17,7 +18,38 @@ export function Contacts({ data, target, remove, newContact, toggleNew, newTarge
             />
             )
         }
+    },
+
+    confirmRemoval = () => {
+        if(isConfirmed.current) {
+            return (   
+            <div className={'remove'}>
+                <Button type="button" className="btn btn-danger"
+                onClick={remove} >
+                    Please Confirm
+                </Button>
+                <Button className="btn minus" 
+                    style={{float: "left"}}
+                    onClick={isConfirmed.current = !isConfirmed.current} > 
+                        <i>X {' '}</i> 
+                        {' '} Cancel 
+                </Button>    
+             </div>
+            )
+        }  else {
+            return (
+                <div className={'remove'}>
+                    <Button className="btn minus" 
+                        style={{float: "left"}}
+                        onClick={isConfirmed.current = !isConfirmed.current} > 
+                             <i className="fa fa-minus"></i> 
+                            {' '} Remove Contact 
+                    </Button>    
+                </div>
+            )
+        }
     }
+
     function renderContacts(contacts) {
 
         console.log(contacts)
@@ -156,14 +188,10 @@ export function Contacts({ data, target, remove, newContact, toggleNew, newTarge
                 </div>
                 <div className="form-row">
                 <Col size={'md-6'}>
-                <div className={'remove'}>
-                    <Button className="btn minus" 
-                        style={{float: "left"}}
-                        onClick={remove.bind(this, i)} > 
-                            <i className="fa fa-minus"></i> 
-                            {' '}{' '} Remove Contact 
-                    </Button>    
-                 </div>
+                
+                    
+                {confirmRemoval()}
+
                 </Col>
                 <Col size={'md-6'}>
                 <Button className="btn" style={updtBtn} 
