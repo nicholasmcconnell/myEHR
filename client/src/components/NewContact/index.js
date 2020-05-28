@@ -6,7 +6,7 @@ import { Input, Button } from '../../components/Forms';
 export function NewContact({ target, toggleState, formSubmit }) {
 
     return (
-    <div className={'mt-5'}>
+    <div className={'my-5'}>
         <Col size={'md-12'}>
             <Button className="fas fa-backspace fa-2x" style={cancelBtn} 
             onClick={toggleState} />

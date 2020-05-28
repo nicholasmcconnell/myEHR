@@ -23,20 +23,20 @@ export default function EHR({ location }) {
         [ conditions, setConditions ] = useState([]),
         [ meds, setMeds ] = useState([]),
         [ contacts, setContacts ] = useState([
-          {  contact: 'Primary Care',
-            office: 'Medical Center',
-            name: 'Dr. Evil',
-            addressOne: '1234 Candy Ln',
-            city: 'Sky High',
-            state: 'NV',
-            zip: '50025',
-            country: 'beckybeckystanstan',
-            primaryPhone: '(212)555-1234',
-            primaryExt: '6628',
-            fax: '(212)555-9876',
-            email: 'drevilguy@gmail.com',
-            website: 'getyourevil-medicine.com',
-            edit: true}
+        //   {  contact: 'Primary Care',
+        //     office: 'Medical Center',
+        //     name: 'Dr. Evil',
+        //     addressOne: '1234 Candy Ln',
+        //     city: 'Sky High',
+        //     state: 'NV',
+        //     zip: '50025',
+        //     country: 'beckybeckystanstan',
+        //     primaryPhone: '(212)555-1234',
+        //     primaryExt: '6628',
+        //     fax: '(212)555-9876',
+        //     email: 'drevilguy@gmail.com',
+        //     website: 'getyourevil-medicine.com',
+        //     edit: false}
         ]),
         [ patient, setPatient ] = useState(location.state.patientId),
         [ medInput, setMedInput ] = useState(''),
@@ -46,7 +46,7 @@ export default function EHR({ location }) {
         [ editHealthState, setHealthState ] = useState(false),
         [ editConditState, setConditState ] = useState(false),
         [ editMedsState, setMedsState ]= useState(false),
-        [ ,setContactEdit ]= useState(''),
+        [ , setContactEdit ]= useState(''),
         [ , setConditText ]= useState(''),
         [ descEditState, setDescEditState ]= useState(false),
         [ conditSuggestions, setConditSuggestions ]= useState([]),
@@ -178,6 +178,7 @@ export default function EHR({ location }) {
                 edit[name] = value;
             }
         }
+        console.log(edit)
         clone.splice(index, 1, edit)
         setContacts(clone)
     }, 
@@ -271,6 +272,15 @@ export default function EHR({ location }) {
 
             setDoses(doses)   
         } catch(err) {return}
+    },
+
+    addNewContact = e => {
+        e.preventDefault();
+        setAddContact(false)
+
+        const list = contacts.concat(newContact);
+        
+        setContacts(list)
     },
 
     removeCondition = index => {
@@ -401,7 +411,7 @@ export default function EHR({ location }) {
                         data={contacts}
                         target={onContactChange}
                         newTarget={newContactInputChange}
-                        formSubmit={updateDB}
+                        formSubmit={addNewContact}
                     />
                 </Col>
             </Row>
