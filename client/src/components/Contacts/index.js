@@ -7,7 +7,7 @@ export function Contacts({ data, target, editState, toggleState, formSubmit }) {
 console.log(data)
 
 // if (editState || data.length === 0) {
-    const renderContacts = contacts => {
+    function renderContacts(contacts) {
     //     if (data.length === 0) {
     // return (
     //     <div className={'mt-5'}>
@@ -165,7 +165,7 @@ console.log(data)
                         <Input value={contact.contact} name="contact" 
                         placeholder="e.g. 'Dr, Pharmacist, Daughter, etc.."
                         style={input}
-                        onChange={target}
+                        onChange={target(i)}
                         />
                     </Col>
                     <Col size={'md-4'} classes={'form-group'}>
@@ -180,7 +180,7 @@ console.log(data)
                         <Input value={contact.name} name="name" 
                         placeholder="Dr. Smith"
                         style={input}
-                        onChange={target.bind(this, i)} 
+                        onChange={target(i)} 
                         />
                     </Col>
                 </div>
@@ -189,13 +189,13 @@ console.log(data)
                         <label>Address Line 1</label>
                         <Input value={contact.addressOne} name="addressOne"
                         style={input}
-                        onChange={target.bind(this, i)} 
+                        onChange={target(i)} 
                         />                    </Col>
                     <Col size={'md-6'} classes={'form-group'}>
                         <label>Address Line 2</label>
                         <Input value={contact.addressTwo} name="addressTwo"
                         style={input}
-                        onChange={target.bind(this, i)} 
+                        onChange={target(i)} 
                         />                    
                     </Col>
                 </div>
@@ -204,28 +204,28 @@ console.log(data)
                         <label>City</label>
                         <Input value={contact.city} name="city"
                         style={input}
-                        onChange={target.bind(this, i)} 
+                        onChange={target(i)} 
                         />
                     </Col>
                     <Col size={'md-3'} classes={'form-group'}>
                         <label>State/Providence</label>
                         <Input value={contact.state} name="state"
                         style={input}
-                        onChange={target.bind(this, i)} 
+                        onChange={target(i)} 
                         />
                     </Col>
                     <Col size={'md-3'} classes={'form-group'}>
                         <label>Zip/Postal Code</label>
                         <Input value={contact.zip} name="zip"
                         style={input}
-                        onChange={target.bind(this, i)} 
+                        onChange={target(i)} 
                         />
                     </Col>
                     <Col size={'md-3'} classes={'form-group'}>
                         <label>Country</label>
                         <Input value={contact.country} name="country"
                         style={input}
-                        onChange={target.bind(this, i)} 
+                        onChange={target(i)} 
                         />
                     </Col>
                 </div>
@@ -234,28 +234,28 @@ console.log(data)
                         <label>Primary Phone</label>
                         <Input value={contact.primaryPhone} name="primaryPhone"
                         style={input}
-                        onChange={target.bind(this, i)} 
+                        onChange={target(i)} 
                         />
                     </Col>
                     <Col size={'md-2'} classes={'form-group'}>
                         <label>Ext.</label>
                         <Input value={contact.primaryExt} name="primaryExt"
                         style={input}
-                        onChange={target.bind(this, i)} 
+                        onChange={target(i)} 
                         />
                     </Col>
                     <Col size={'md-4'} classes={'form-group'}>
                         <label>Another Phone</label>
                         <Input value={contact.secondaryPhone} name="secondaryPhone"
                         style={input}
-                        onChange={target.bind(this, i)} 
+                        onChange={target(i)} 
                         />
                     </Col>
                     <Col size={'md-2'} classes={'form-group'}>
                         <label>Ext.</label>
                         <Input value={contact.secondaryExt} name="secondaryExt"
                         style={input}
-                        onChange={target.bind(this, i)} 
+                        onChange={target(i)} 
                         />
                     </Col>
                  </div>
@@ -264,21 +264,21 @@ console.log(data)
                         <label>Fax</label>
                         <Input value={contact.fax} name="fax"
                         style={input}
-                        onChange={target.bind(this, i)} 
+                        onChange={target(i)} 
                         />
                     </Col>
                     <Col size={'md-4'} classes={'form-group'}>
                         <label>Email</label>
                         <Input value={contact.email} name="email"
                         style={input}
-                        onChange={target.bind(this, i)} 
+                        onChange={target(i)} 
                         />
                     </Col>
                     <Col size={'md-4'} classes={'form-group'}>
                         <label>Website</label>
                         <Input value={contact.website} name="website"
                         style={input}
-                        onChange={target.bind(this, i)} 
+                        onChange={target(i)} 
                         />
                     </Col>
                 </div>
