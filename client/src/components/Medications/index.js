@@ -59,9 +59,13 @@ export function Medications ({ data, target,  editState, toggleState, formSubmit
     if ((editState || data.length === 0)) {
         return (
             <div className={'my-5'}>
-                <Col size={'md-12'}>
-                        <Button className="fas fa-backspace fa-2x" style={cancelBtn} 
-                        onClick={toggleState} />
+                <em><h5 style={{textDecoration: "underline"}}>Medications:</h5></em>
+                
+                <Col size={'md-12'} classes="mt-5">
+                    <Button className="fas fa-backspace fa-2x" 
+                    style={{...toggleBtn, color: "tomato"}} 
+                    onClick={toggleState} 
+                    />
                 </Col>
             <form onSubmit={formSubmit} >
                  <div className="form-row" style={{background:'white'}}>
@@ -109,8 +113,11 @@ export function Medications ({ data, target,  editState, toggleState, formSubmit
     else {
         return (
         <div className={'my-5 med-info'}>
-            <Col size={'md-12'} classes={'med-edit'}>
-                <Button className="fas fa-user-edit fa-2x" style={editBtn} 
+        <em><h5 style={{textDecoration: "underline"}}>Medications:</h5></em>
+
+            <Col size={'md-12'} classes={"mt-5"}>
+                <Button className="fas fa-user-edit fa-2x" 
+                    style={toggleBtn} 
                     onClick={toggleState} 
                 />   
             </Col>
@@ -133,25 +140,15 @@ const fieldText = {
     paddingLeft: '0',
     color: 'black'
 },
-
-
 input = {
     borderBottom: '1px solid rgba(0, 0, 0, .2)',
     transition: 'all 0.30s ease-in-out'
 },
-
-editBtn = {
+toggleBtn = {
     float: 'right',
     border: 'none',
     margin: '0',
     color: 'white',
-    backgroundColor: 'white'
-},
-cancelBtn = {
-    float: 'right',
-    border: 'none',
-    margin: '0',
-    color: 'tomato',
     backgroundColor: 'white'
 },
 addBtn = {
@@ -160,7 +157,6 @@ addBtn = {
     focus: 'none',
     size: '10em'
 },
-
 littlePointBtn = {
     border: 'none',
     color: 'green',

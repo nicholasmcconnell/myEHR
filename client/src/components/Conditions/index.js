@@ -6,7 +6,9 @@ import { Input, Button, TextArea } from '../Forms';
 
 export function Conditions({ data, target, areaTarget, editState, toggleState, formSubmit, renderSuggestions, remove, text, toggleDescState, editDescState }) {
 
-    const renderConditions = conditions => {
+    const getRowHeight = text =>  text.length > 250 ? text.length/80 : 3,
+
+    renderConditions = conditions => {
       return (
           conditions.map( (condition, i) => 
             <Col key={i} size={'md-12'} classes={'form-group'}>
@@ -72,13 +74,14 @@ export function Conditions({ data, target, areaTarget, editState, toggleState, f
     )   
 }
      
-     const getRowHeight = text =>  text.length > 250 ? text.length/80 : 3;
-
     if ((editState || data.length === 0) && !editDescState) {
         return (
-            <div className={'mt-5'}>
-                <Col size={'md-12'}>
-                        <Button className="fas fa-backspace fa-2x" style={cancelBtn} 
+            <div className={'my-5'}>
+                <em><h5 style={{textDecoration: "underline"}}>Health Conditions:</h5></em>
+
+                <Col size={"md-12"} classes="mt-5">
+                        <Button className="fas fa-backspace fa-2x" 
+                        style={{...toggleBtn, color: "tomato"}} 
                         onClick={toggleState} />
                 </Col>
             <form onSubmit={formSubmit} >
@@ -111,9 +114,12 @@ export function Conditions({ data, target, areaTarget, editState, toggleState, f
         )
         } else if (editDescState) {
         return (
-            <div className={'mt-5'}>
-            <Col size={'md-12'}>
-                    <Button className="fas fa-backspace fa-2x" style={cancelBtn} 
+            <div className={'my-5'}>
+                <em><h5 style={{textDecoration: "underline"}}>Health Conditions:</h5></em>
+
+            <Col size={'md-12 mt-5'}>
+                    <Button className="fas fa-backspace fa-2x" 
+                    style={{...toggleBtn, color: "tomato"}} 
                     onClick={toggleState} />
             </Col>
             <form onSubmit={formSubmit} >
@@ -147,8 +153,10 @@ export function Conditions({ data, target, areaTarget, editState, toggleState, f
     } else {
         return (
         <div className={'mt-5 condition-info'}>
-            <Col size={'md-12'} classes={'condition-edit'}>
-                <Button className="fas fa-user-edit fa-2x" style={editBtn} 
+        <em><h5 style={{textDecoration: "underline"}}>Health Conditions:</h5></em>
+            
+            <Col size={'md-12'} classes={'condition-edit mt-5'}>
+                <Button className="fas fa-user-edit fa-2x" style={toggleBtn} 
                     onClick={toggleState} 
                 />   
             </Col>
@@ -171,33 +179,20 @@ const fieldText = {
     paddingLeft: '0',
     color: 'black'
 },
-
 textarea = {
-
     resize: 'none',
-
-    
     borderBottom: '1px solid rgba(0, 0, 0, .2)',
     transition: 'all 0.30s ease-in-out'
 },
-
 input = {
     borderBottom: '1px solid rgba(0, 0, 0, .2)',
     transition: 'all 0.30s ease-in-out'
 },
-
-editBtn = {
+toggleBtn = {
     float: 'right',
     border: 'none',
     margin: '0',
     color: 'white',
-    backgroundColor: 'white'
-},
-cancelBtn = {
-    float: 'right',
-    border: 'none',
-    margin: '0',
-    color: 'tomato',
     backgroundColor: 'white'
 },
 addBtn = {

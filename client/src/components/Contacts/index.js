@@ -297,7 +297,7 @@ export function Contacts({ data, target, remove, newContact, toggleNew, newTarge
 
     return (
         <div className={'my-5'}>
-            <em><h5>Emergency or other contact Info</h5></em>
+            <em><h5 style={{textDecoration: "underline"}}>Emergency or other contact Info:</h5></em>
          
         {renderContacts(data)}
 

@@ -8,7 +8,9 @@ export function GeneralInfo({ data, target, editState, toggleState, formSubmit }
 if (editState) {
     return (
         <div className={'my-5'}>
-          <Col size={'md-12'}>
+        <em><h5 style={{textDecoration: "underline"}}>Contact Information:</h5></em>
+        
+          <Col size={'md-12'} classes={"mt-5"}>
                 <Button className="fas fa-backspace fa-2x" style={cancelBtn} 
                 onClick={toggleState} />
             </Col>
@@ -110,7 +112,9 @@ if (editState) {
     } else {
         return (
             <div className={'my-5 gen-info'}>
-                <Col size={'md-12'} classes={'gen-edit'}>
+                <em><h5 style={{textDecoration: "underline"}}>Contact Information:</h5></em>
+
+                <Col size={'md-12'} classes={'gen-edit mt-5'}>
                     <Button className="fas fa-user-edit fa-2x" style={editBtn} 
                         onClick={toggleState} 
                     />   
