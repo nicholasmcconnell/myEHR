@@ -15,9 +15,12 @@ export function Conditions({
 	toggleDescState,
 	editDescState
 }) {
+	
 	const getRowHeight = (text) => (text.length > 250 ? text.length / 80 : 3),
-		renderConditions = (conditions) => {
-			return conditions.map((condition, i) => (
+
+		renderConditions = conditions => {
+			return conditions.sort((a, b) => b.createdAt - a.createdAt).map((condition, i) => 
+				(
 				<Col key={i} size={'md-12'} classes={'form-group'}>
 					<label style={fieldText}>{condition.name} </label>
 					<div>{condition.description}</div>
@@ -26,7 +29,7 @@ export function Conditions({
 		};
 
 	function renderEditConditions(conditions) {
-		return conditions.map((condition, i) => {
+		return conditions.sort((a, b) => b.createdAt - a.createdAt).map((condition, i) => {
 			if (condition.edit) {
 				return (
 					<Col key={i} size={'md-12'} classes={'form-group'}>

@@ -232,7 +232,7 @@ export default function EHR({ location }) {
             { data } = await API.fetchCondition(search);
     
             const description = data[0].shortdef ? data[0].shortdef.join('\n') : '';
-        setConditions([...conditions, { name: text, edit: false, description }])
+        setConditions([...conditions, { name: text, description, edit: false, createdAt: Date.now() }])
     },
 
     addMeds = e => {
