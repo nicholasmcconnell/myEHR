@@ -9,7 +9,7 @@ export function Contacts({ data, target, remove, newContact, toggleNew, newTarge
     const [ confirmed, isConfirmed ] = useState(false),
 
     getNewContact = nextContact => {
-        if(nextContact){
+        if(nextContact) {
             return (
             <NewContact 
             target={newTarget} 
@@ -21,12 +21,12 @@ export function Contacts({ data, target, remove, newContact, toggleNew, newTarge
     },
 
     confirmRemoval = i => {
-        console.log(confirmed)
+        console.log(i)
         if(confirmed) {
             return (   
             <div className={'remove'}>
-                <Button type="button" className="btn btn-danger"
-                    onClick={remove.bind(i)} >
+                <Button type="button" className="btn btn-danger" style={{float: 'right'}}
+                    onClick={remove.bind(this, i)} >
                         <i class="fas fa-user-times">  </i>
                         {' '} Please Confirm
                 </Button>
@@ -54,7 +54,6 @@ export function Contacts({ data, target, remove, newContact, toggleNew, newTarge
 
     function renderContacts(contacts) {
 
-        console.log(contacts)
        return (
             contacts.map( (contact, i) => {
                 if (contact.edit) {
@@ -189,14 +188,13 @@ export function Contacts({ data, target, remove, newContact, toggleNew, newTarge
                     </Col>
                 </div>
                 <div className="form-row">
-                <Col size={'md-6'}>
+                <Col size={'md-12'}>
                 
                     
                 {confirmRemoval(i)}
 
-                </Col>
-                <Col size={'md-6'}>
-                <Button className="btn" style={updtBtn} 
+      
+                <Button className="btn" style={confirmed ? {display:'none'} : updtBtn} 
                     onClick={toggleState.bind(this, i)}> 
                     <i className="fas fa-sync-alt mr-2"/>
                      update 
