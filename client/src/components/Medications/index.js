@@ -4,24 +4,25 @@ import { Input, Button } from '../Forms';
 
 
 
-export function Medications ({ data, target,  editState, toggleState, formSubmit, renderSuggestions, remove, text, doseChoices, addDoses }) {
+export function Medications ({ data, target,  editState, toggleState, formSubmit, renderSuggestions, remove, text, doseChoices, addDoses, otherDosage }) {
 
     const renderDoses = doses => {
-        if(!doses) {
+        if(!doses || otherDosage === 'Other Dose') {
             return (
-                <Input name="dosage"
+                <Input name="dosage" placeholder="Enter Dosage"
                 style={input}
                 onChange={target}
                 />
             )
         } else {
+          const clone = doses.includes('Other Dose') ? doses : doses.concat('Other Dose'); 
          return (
                 <select name="dosage" style={input}
                 onChange={target} 
                 className="form-control">
                     <option selected>Which Dose?</option>
 
-                    {doses.map( dose => <option>{dose}</option>)}
+                    {clone.map( dose => <option>{dose}</option>)}
 
                 </select>    
             )
@@ -136,9 +137,7 @@ export function Medications ({ data, target,  editState, toggleState, formSubmit
 const fieldText = {
     fontStyle: 'italic',
     fontWeight: '1000',
-    fontSize: '100%',
-    padding: '10px',
-    paddingLeft: '0',
+    padding: '10px 10px 10px 0',
     color: 'black'
 },
 input = {

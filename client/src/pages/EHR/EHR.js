@@ -401,6 +401,7 @@ export default function EHR({ location }) {
                         target={onMedInputChange}
                         renderSuggestions={renderMedSuggestions}
                         text={medSuggestions.text}
+                        otherDosage={medInput.dosage}
                         remove={removeMed}
                         addDoses={addDoses}
                         doseChoices={doses}

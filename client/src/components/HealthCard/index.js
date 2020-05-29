@@ -213,9 +213,7 @@ if (editState) {
 const fieldText = {
     fontStyle: 'italic',
     fontWeight: '1000',
-    fontSize: '100%',
-    padding: '10px',
-    paddingLeft: '0',
+    padding: '10px 10px 10px 0',
     color: 'black'
 },
 toggleBtn = {
