@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useState } from 'react'
 import { Col } from '../../components/Grid';
 import { NewContact } from '../../components/NewContact';
 import { Input, Button } from '../../components/Forms';
@@ -6,7 +6,7 @@ import { Input, Button } from '../../components/Forms';
 
 export function Contacts({ data, target, remove, newContact, toggleNew, newTarget, toggleState, formSubmit }) {
 
-    const isConfirmed = useRef(false),
+    const [ confirmed, isConfirmed ] = useState(false),
 
     getNewContact = nextContact => {
         if(nextContact){
@@ -20,19 +20,21 @@ export function Contacts({ data, target, remove, newContact, toggleNew, newTarge
         }
     },
 
-    confirmRemoval = () => {
-        if(isConfirmed.current) {
+    confirmRemoval = i => {
+        console.log(confirmed)
+        if(confirmed) {
             return (   
             <div className={'remove'}>
                 <Button type="button" className="btn btn-danger"
-                onClick={remove} >
-                    Please Confirm
+                    onClick={remove.bind(i)} >
+                        <i class="fas fa-user-times">  </i>
+                        {' '} Please Confirm
                 </Button>
                 <Button className="btn minus" 
                     style={{float: "left"}}
-                    onClick={isConfirmed.current = !isConfirmed.current} > 
-                        <i>X {' '}</i> 
-                        {' '} Cancel 
+                    onClick={()=>{isConfirmed(!confirmed)}} > 
+                    <i>X  </i> 
+                    Cancel 
                 </Button>    
              </div>
             )
@@ -41,7 +43,7 @@ export function Contacts({ data, target, remove, newContact, toggleNew, newTarge
                 <div className={'remove'}>
                     <Button className="btn minus" 
                         style={{float: "left"}}
-                        onClick={isConfirmed.current = !isConfirmed.current} > 
+                        onClick={()=>{isConfirmed(!confirmed)}} > 
                              <i className="fa fa-minus"></i> 
                             {' '} Remove Contact 
                     </Button>    
@@ -190,7 +192,7 @@ export function Contacts({ data, target, remove, newContact, toggleNew, newTarge
                 <Col size={'md-6'}>
                 
                     
-                {confirmRemoval()}
+                {confirmRemoval(i)}
 
                 </Col>
                 <Col size={'md-6'}>
