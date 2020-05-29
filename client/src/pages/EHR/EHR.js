@@ -257,22 +257,6 @@ export default function EHR({ location }) {
         } catch(err) {return}
     },
 
-
-    addDoses = async e => {
-        e.preventDefault();
-
-        const { text } = medSuggestions;
-        if (!text) {
-            return;
-        }
-        try {
-            const  { data } = await API.fetchMeds(text),
-              doses = data.drugGroup.conceptGroup[1].conceptProperties.map(x => x.synonym).filter(x => x !== '')
-           
-            setDoses(doses)   
-        } catch(err) {return}
-    },
-
     addNewContact = e => {
         e.preventDefault();
         setAddContact(false)
@@ -318,10 +302,6 @@ export default function EHR({ location }) {
     selectSuggestedCondit = value => {
         setConditSuggestions({ suggestions: [], text: value })
     },
-    
-    selectSuggestedMed = value => {
-        setMedSuggestions({ suggestions: [], text: value })
-    },
 
     renderConditSuggestions = () => {
         const { suggestions } = conditSuggestions;
@@ -336,6 +316,21 @@ export default function EHR({ location }) {
         )
     },
 
+    selectSuggestedMed = async value => {
+        setMedSuggestions({ suggestions: [], text: value})
+
+        //populate dosage choices with suggestions when autocomplete option is clicked
+        if (!value) {
+            return;
+        }
+        try {
+            const  { data } = await API.fetchMeds(value),
+              doses = data.drugGroup.conceptGroup[1].conceptProperties.map(x => x.synonym).filter(x => x !== '')
+           
+            setDoses(doses)   
+        } catch(err) {return}
+    },
+
     renderMedSuggestions = () => {
         const { suggestions } = medSuggestions;
         
@@ -347,7 +342,24 @@ export default function EHR({ location }) {
                 {suggestions.map( (suggestion, i) => <li onClick={() => selectSuggestedMed(suggestion)} key={i}>{suggestion}</li>)}
             </ul>
         )
+    },
+
+    //populate dosage choices when finger button is clicked
+    addDoses = async e => {
+        e.preventDefault();
+
+        const { text } = medSuggestions;
+        if (!text) {
+            return;
+        }
+        try {
+            const  { data } = await API.fetchMeds(text),
+              doses = data.drugGroup.conceptGroup[1].conceptProperties.map(x => x.synonym).filter(x => x !== '')
+           
+            setDoses(doses)   
+        } catch(err) {return}
     }
+
 
     return (
         <Container>
