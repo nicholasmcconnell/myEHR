@@ -178,7 +178,6 @@ export default function EHR({ location }) {
                 edit[name] = value;
             }
         }
-        console.log(edit)
         clone.splice(index, 1, edit)
         setContacts(clone)
     }, 

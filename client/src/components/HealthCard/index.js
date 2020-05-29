@@ -3,7 +3,7 @@ import { Col } from '../Grid';
 import { Input, Button, TextArea } from '../Forms';
 
 
-export function HealthCard({ data, target, editState, toggleState, formSubmit, setBlood }) {
+export function HealthCard({ data, target, editState, toggleState, formSubmit }) {
 
     const getAge = DOB => {
 
@@ -38,7 +38,7 @@ if (editState) {
             <em><h5 style={{textDecoration: "underline"}}>Basic Information:</h5></em>
 
           <Col size={'md-12'} classes={"mt-5"}>
-                <Button className="fas fa-backspace fa-2x" style={cancelBtn} 
+                <Button className="fas fa-backspace fa-2x" style={{...toggleBtn, color: "tomato"}} 
                 onClick={toggleState} />
             </Col>
             <form onSubmit={formSubmit} >
@@ -131,7 +131,7 @@ if (editState) {
                 </div>
                 <Col size={'md-12'}>
                 <Button className="btn" style={updtBtn} 
-                    type="submit" > <i className="fas fa-sync-alt fa-2x mr-2"/> {' '}  
+                    type="submit" > <i className="fas fa-sync-alt mr-2"/> {' '}  
                         {' '} update 
                     </Button>
                 </Col>
@@ -144,7 +144,7 @@ if (editState) {
                 <em><h5 style={{textDecoration: "underline"}}>Basic Information:</h5></em>
 
                 <Col size={'md-12'} classes={'gen-edit mt-5'}>
-                    <Button className="fas fa-user-edit fa-2x" style={editBtn} 
+                    <Button className="fas fa-user-edit fa-2x" style={toggleBtn} 
                         onClick={toggleState} 
                     />   
                 </Col>
@@ -218,25 +218,19 @@ const fieldText = {
     paddingLeft: '0',
     color: 'black'
 },
-editBtn = {
+toggleBtn = {
     float: 'right',
     border: 'none',
     margin: '0',
     color: 'white',
     backgroundColor: 'white'
 },
-cancelBtn = {
-    float: 'right',
-    border: 'none',
-    margin: '0',
-    color: 'tomato',
-    backgroundColor: 'white'
-},
 updtBtn = {
     float: 'right',
     margin: '0',
     backgroundColor: '#214c91',
-    color: 'white'
+    color: 'white',
+    padding: ".4rem .75rem"
 },
 input = {
     borderBottom: '1px solid rgba(0, 0, 0, .2)',
