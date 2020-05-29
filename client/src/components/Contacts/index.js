@@ -28,13 +28,13 @@ export function Contacts({ data, target, remove, newContact, toggleNew, newTarge
                 <Button type="button" className="btn btn-danger" style={{float: 'right'}}
                     onClick={remove.bind(this, i)} >
                         <i class="fas fa-user-times">  </i>
-                        {' '} Please Confirm
+                        {' '} Confirm Delete
                 </Button>
                 <Button className="btn minus" 
                     style={{float: "left"}}
                     onClick={()=>{isConfirmed(!confirmed)}} > 
-                    <i>X  </i> 
-                    Cancel 
+                    <i class="fas fa-ban"></i>
+                   {' '} Cancel 
                 </Button>    
              </div>
             )
@@ -60,8 +60,10 @@ export function Contacts({ data, target, remove, newContact, toggleNew, newTarge
             return (
         <div key={i} className={'mt-5'}>
           <Col size={'md-12'}>
-                <Button className="fas fa-backspace fa-2x" style={cancelBtn} 
-                onClick={toggleState.bind(this, i)} />
+                <Button className="fas fa-backspace fa-2x" 
+                style={confirmed ? {...cancelBtn, color: "white"} : cancelBtn} 
+                onClick={toggleState.bind(this, i)} 
+                />
             </Col>
             <form>
                 <div className={"form-row"}>
