@@ -23,10 +23,13 @@ const PatientSchema = new Schema({
         required: false 
     },
     contacts: { 
-        type: Object, 
+        type: Array, 
         required: false 
     },
-    
+    date: {
+        type: Date,
+        default: Date.now
+    }
 })
 
 const Patient = mongoose.model("Patient", PatientSchema);
