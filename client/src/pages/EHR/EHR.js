@@ -267,8 +267,8 @@ export default function EHR({ location }) {
         }
         try {
             const  { data } = await API.fetchMeds(text),
-              doses = data.drugGroup.conceptGroup[1].conceptProperties.map(x => x.synonym)
-
+              doses = data.drugGroup.conceptGroup[1].conceptProperties.map(x => x.synonym).filter(x => x !== '')
+           
             setDoses(doses)   
         } catch(err) {return}
     },

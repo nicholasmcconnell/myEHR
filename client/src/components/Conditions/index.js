@@ -92,7 +92,11 @@ export function Conditions({
 						<Col size={'md-6'} classes={'form-group'}>
 							<label>Add New Condition</label>
 							<div>
-								<Input type="text" style={input} value={text} onChange={target} />
+								<Input type="text"  autoComplete="off"
+								style={input} 
+								value={text} 
+								onChange={target} 
+								/>
 								{renderSuggestions()}
 							</div>
 						</Col>
@@ -126,7 +130,11 @@ export function Conditions({
 						<Col size={'md-6'} classes={'form-group'}>
 							<label>Add New Condition</label>
 							<div>
-								<Input type="text" style={input} value={text} onChange={target} />
+								<Input type="text" 
+								style={input} 
+								value={text} 
+								onChange={target} 
+								/>
 								{renderSuggestions()}
 							</div>
 						</Col>
@@ -149,7 +157,9 @@ export function Conditions({
 				</em>
 
 				<Col size={'md-12'} classes={'condition-edit mt-5'}>
-					<Button className="fas fa-user-edit fa-2x" style={toggleBtn} onClick={toggleState} />
+					<Button className="fas fa-user-edit fa-2x" style={toggleBtn} 
+					onClick={toggleState}
+					/>
 				</Col>
 				<form>
 					<div className={'form-row'}>{renderConditions(data)}</div>

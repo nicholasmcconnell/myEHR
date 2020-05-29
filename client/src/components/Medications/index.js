@@ -76,9 +76,10 @@ export function Medications ({ data, target,  editState, toggleState, formSubmit
                             onClick={addDoses}
                             ></Button>
                         <div>
-                            <Input name="medication"
+                            <Input name="medication" autoComplete="off"
                             style={input}
                             value={text}
+                            onBlur={addDoses}
                             onChange={target}
                             />
 
