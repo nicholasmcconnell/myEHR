@@ -50,26 +50,31 @@ export default function navBar() {
             <button onClick={toggleNav} className={'navbar-toggler'} type="button" data-toggle="collapse" data-target="#target-collapse" >
             <span className="navbar-toggler-icon"></span>
             </button>
-                
 
             <Collapse navState={navLinks} id={'target-collapse'}>
               <ul className="navbar-nav mr-auto">
                 <li className={pathname === "/" ? "nav-item active" : "nav-item"}>
                     <Link to="/" className={'nav-link'}>
                         Home
-                    </Link>    
+                    </Link>
                 </li>
                 <li className={pathname === "/profiles" ? "nav-item active" : "nav-item"}
                     style={Auth.isAuthenticated() ? {display: 'block'} : {display: 'none'}} >
                     <Link to="/profiles" className={'nav-link'}>
                         Saved health records
-                    </Link>    
+                    </Link>
                 </li>
                 <li className={pathname === "/ehr" ? "nav-item active" : "nav-item"}
-                    style={Auth.isAuthenticated() ? {display: 'block'} : {display: 'none'}} >
+                    style={pathname === "/ehr" || pathname === "/contacts" ? {display: 'block'} : {display: 'none'}} >
 
-                    <Link to="/contacts" className={'nav-link'} 
-                    style={pathname === "/ehr" ? {display: 'block'} : {display: 'none'}} >
+                    <Link to="/ehr" className={'nav-link'} >
+                        EHR
+                    </Link>    
+                </li>
+                <li className={pathname === "/contacts" ? "nav-item active" : "nav-item"}
+                    style={pathname === "/ehr" || pathname === "/contacts" ? {display: 'block'} : {display: 'none'}}  >
+
+                    <Link to="/contacts" className={'nav-link'} >
                         Just Contacts
                     </Link>    
                 </li>

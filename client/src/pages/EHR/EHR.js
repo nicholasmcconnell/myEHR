@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useContext } from 'react';
+import PatientContext from '../../utils/PatientContext';
 import { Container, Row, Col } from '../../components/Grid';
 import { GeneralInfo } from '../../components/GeneralInfo';
 import { HealthCard } from '../../components/HealthCard';
@@ -55,7 +56,9 @@ export default function EHR({ location }) {
         [ query, setQuery ]= useState(''),
 
       previousMed = usePrevious(medInput.medication),
-      isInitialMount = useRef(true);
+      isInitialMount = useRef(true),
+       { _currentValue } = useContext(PatientContext);
+       console.log("EHR -> PatientContext", PatientContext)
 
 /*                                    EHR Initialization                                     */ 
 

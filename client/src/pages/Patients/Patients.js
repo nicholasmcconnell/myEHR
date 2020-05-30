@@ -4,7 +4,7 @@ import { Container, Row, Col } from '../../components/Grid';
 import Profiles from '../../components/ProfileList'; 
 import API from "../../utils/API";
 
-export default function Patients() {
+export default function Patients({ setContext }) {
 
     const [patients, setPatients] = useState([])
 
@@ -12,7 +12,7 @@ export default function Patients() {
         getUser()
        
     }, [])
-
+    
     const getUser = async () => {
         const { data }= await API.getUser();
         console.log("getUser -> data", data)
@@ -20,6 +20,7 @@ export default function Patients() {
          let patients  = await API.fetchPatients(data.user)
         patients = patients.data
         setPatients(patients)
+        // setContext(patients)
         console.log("getUser -> patients", patients)
     }
 
@@ -28,7 +29,13 @@ export default function Patients() {
             <Row>
                 <Col size={'md-8'} classes={'offset-md-2'}>
                     {
-                        patients.map(patient => <Profiles key={patient._id} patient={patient} id={patient._id} />)
+                        patients.map( patient => 
+                            <Profiles 
+                            patient={patient} 
+                            context={setContext}  
+                            id={patient._id} 
+                            key={patient._id} 
+                            />)
                     }
                 </Col>
            </Row>
