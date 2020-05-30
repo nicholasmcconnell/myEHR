@@ -30,6 +30,7 @@ export function Conditions({
 
 	function renderEditConditions(conditions) {
 		return conditions.sort((a, b) => b.createdAt - a.createdAt).map((condition, i) => {
+			
 			if (condition.edit) {
 				return (
 					<Col key={i} size={'md-12'} classes={'form-group'}>

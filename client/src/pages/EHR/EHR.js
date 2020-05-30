@@ -221,18 +221,26 @@ export default function EHR({ location }) {
 
     addCondition = async e => {
         e.preventDefault();
-        setConditSuggestions([]);
         e.target.reset();
+        
+        let { text } = conditSuggestions;
+        setConditSuggestions([]);
 
-        const { text } = conditSuggestions;
         if (!text) {
             return;
         }
         const [ search ]  = text.split('-'),
-            { data } = await API.fetchCondition(search);
+            { data } = await API.fetchCondition(search),
     
-            const description = data[0].shortdef ? data[0].shortdef.join('\n') : '';
-        setConditions([...conditions, { name: text, description, edit: false, createdAt: Date.now() }])
+        description = data[0].shortdef ? data[0].shortdef.join('\n') : '',
+
+                newCondition = { 
+                    name: text, 
+                    description, 
+                    edit: false, 
+                    createdAt: Date.now()
+                }
+        setConditions([...conditions, newCondition])
     },
 
     addMeds = e => {
@@ -249,7 +257,8 @@ export default function EHR({ location }) {
             const newMed = {
                 medication: text[0],
                 dosage: medInput.dosage,
-                edit : false
+                edit : false,
+                createdAt: Date.now()
             }
         setMeds([...meds, newMed])
         setDoses('')

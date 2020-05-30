@@ -42,7 +42,8 @@ export function Medications({
     },
 
         renderMeds = meds => {
-            return meds.map((med, i) => (
+            return meds.sort((a, b) => b.createdAt - a.createdAt).map((med, i) => (
+
                 <Col key={i} size={"md-12"} classes={"form-group"}>
                     <label style={fieldText}>{med.medication} </label>
                     <div>{med.dosage}</div>
@@ -52,7 +53,8 @@ export function Medications({
 
     function renderEditMeds(meds) {
         return (
-            meds.map((med, i) =>
+            meds.sort((a, b) => b.createdAt - a.createdAt).map((med, i) =>
+            
                 <Col key={i} size={'md-12'} classes={'form-group'}>
                     <label style={fieldText}>
                         {med.medication}
