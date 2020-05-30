@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { Link, useLocation as location, useHistory } from 'react-router-dom'
+import { Link, useLocation as Location, useHistory } from 'react-router-dom'
 import { Button } from '../Forms'
 import { Collapse } from '../Grid'
 import Auth from '../../Auth'
@@ -15,7 +15,7 @@ export default function navBar() {
         Auth.logout(() => {history.push("/")})
     },
     
-     { pathname } = location(),
+     { pathname } = Location(),
 
      getButtons = () => {
         if(Auth.isAuthenticated()) {
@@ -68,8 +68,9 @@ export default function navBar() {
                 <li className={pathname === "/ehr" ? "nav-item active" : "nav-item"}
                     style={Auth.isAuthenticated() ? {display: 'block'} : {display: 'none'}} >
 
-                    <Link to="/ehr" className={'nav-link'}>
-                        New health record
+                    <Link to="/contacts" className={'nav-link'} 
+                    style={pathname === "/ehr" ? {display: 'block'} : {display: 'none'}} >
+                        Just Contacts
                     </Link>    
                 </li>
               </ul>

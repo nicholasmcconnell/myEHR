@@ -3,9 +3,9 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Landing from "./pages/Landing";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
-import EHR from "./pages/EHR";
-// import Contacts from './components/Contacts'
 import Patients from "./pages/Patients";
+import EHR from "./pages/EHR";
+import Contacts from './pages/Contacts'
 import NavBar from './components/Navbar';
 import Wrapper   from './components/Wrapper'
 import ProtectedRoute from './ProtectedRoute';
@@ -26,7 +26,7 @@ function App() {
         <ProtectedRoute exact path="/profiles" component={Patients} />
         <ProtectedRoute exact path="/ehr" component={EHR} />
         </Wrapper >
-        {/* <ProtectedRoute exact path="/contacts"> <Contacts /> </ProtectedRoute> */}
+        <ProtectedRoute exact path="/contacts"> <Contacts /> </ProtectedRoute>
       </div>
     </Router>
   )
