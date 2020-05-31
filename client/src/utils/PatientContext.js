@@ -1,8 +1,9 @@
-import React from 'react';
+import { createContext } from 'react';
 
 const patient = {
-    patient: '_id'
+    patientId: '',
+    name: ''
 }
-const PatientContext = React.createContext(patient);
+const PatientContext = createContext(patient);
 
 export default PatientContext;

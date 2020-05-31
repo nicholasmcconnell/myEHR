@@ -10,9 +10,8 @@ export default function Patients({ setContext }) {
 
     useEffect(() => {
         getUser()
-       
     }, [])
-    
+
     const getUser = async () => {
         const { data }= await API.getUser();
         console.log("getUser -> data", data)

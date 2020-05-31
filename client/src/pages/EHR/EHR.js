@@ -19,7 +19,14 @@ const usePrevious = value => {
 
 export default function EHR({ location }) {
 
-    const [generalInfo, setGeneralInfo] = useState({}),
+    
+    let { patientId } = useContext(PatientContext);
+    console.log("EHR -> patientId", patientId);
+        patientId = patientId ? patientId : location.state.patientId;
+
+
+    const [ patient, setPatient ] = useState(patientId),
+        [generalInfo, setGeneralInfo] = useState({}),
         [ healthInfo, setHealthInfo ] = useState({}),
         [ conditions, setConditions ] = useState([]),
         [ meds, setMeds ] = useState([]),
@@ -39,7 +46,6 @@ export default function EHR({ location }) {
         //     website: 'getyourevil-medicine.com',
         //     edit: false}
         ]),
-        [ patient, setPatient ] = useState(location.state.patientId),
         [ medInput, setMedInput ] = useState(''),
         [ newContact, setNewContact ] = useState({}),
         [ addContact, setAddContact ]= useState(false),
@@ -55,12 +61,13 @@ export default function EHR({ location }) {
         [ doses, setDoses ]= useState(''),
         [ query, setQuery ]= useState(''),
 
-      previousMed = usePrevious(medInput.medication),
-      isInitialMount = useRef(true),
-       { _currentValue } = useContext(PatientContext);
-       console.log("EHR -> PatientContext", PatientContext)
-
-/*                                    EHR Initialization                                     */ 
+        previousMed = usePrevious(medInput.medication),
+        isInitialMount = useRef(true);
+   
+        console.log(location.state.patientId)
+/*
+EHR Initialization
+*/ 
 
     
     //Use this effect to only load patient on initial mount. And update db only on subsequent mounts. 
@@ -75,10 +82,10 @@ export default function EHR({ location }) {
 
     const getPatient = async() => {
 
-        if (patient === "") {
+        if (patientId === "") {
             newPatient()
         } else {
-        const { data } = await API.fetchPatient(patient)
+        const { data } = await API.fetchPatient(patientId)
             setGeneralInfo(data.patientData)
             setHealthInfo(data.healthData)
             setConditions(data.healthConditions)
@@ -97,7 +104,7 @@ export default function EHR({ location }) {
 
         const { data } = await API.addPatient(newPatient);
 
-            setPatient(data._id)       
+            setPatient(data._id)       ;
     },
 
 /*                              State and database management                               */ 

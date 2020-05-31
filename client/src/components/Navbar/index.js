@@ -1,22 +1,26 @@
-import React, {useState} from 'react'
-import { Link, useLocation as Location, useHistory } from 'react-router-dom'
-import { Button } from '../Forms'
-import { Collapse } from '../Grid'
-import Auth from '../../Auth'
+import React, { useState, useContext } from 'react';
+import { Link, useLocation, useHistory } from 'react-router-dom';
+import PatientContext from '../../utils/PatientContext';
+import { Button } from '../Forms';
+import { Collapse } from '../Grid';
+import Auth from '../../Auth';
 
 export default function navBar() {
 
-    let history = useHistory(),
-      [navLinks, showNavLinks] = useState(false)
+    const [navLinks, showNavLinks] = useState(false),
+    
+        history = useHistory(),
+        { pathname } = useLocation(),
+      { patientId, name } = useContext(PatientContext);
 
-     const toggleNav = () => showNavLinks(navLinks = !navLinks),
+    // hide or show links when screen width is small
+     const toggleNav = () => showNavLinks(navLinks = !navLinks),  
+
 
      logout = () => {
         Auth.logout(() => {history.push("/")})
     },
     
-     { pathname } = Location(),
-
      getButtons = () => {
         if(Auth.isAuthenticated()) {
             return (
@@ -67,14 +71,14 @@ export default function navBar() {
                 <li className={pathname === "/ehr" ? "nav-item active" : "nav-item"}
                     style={pathname === "/ehr" || pathname === "/contacts" ? {display: 'block'} : {display: 'none'}} >
 
-                    <Link to="/ehr" className={'nav-link'} >
+                    <Link to={{pathname:"/ehr", state: { patientId }}} className={'nav-link'} >
                         EHR
                     </Link>    
                 </li>
                 <li className={pathname === "/contacts" ? "nav-item active" : "nav-item"}
                     style={pathname === "/ehr" || pathname === "/contacts" ? {display: 'block'} : {display: 'none'}}  >
 
-                    <Link to="/contacts" className={'nav-link'} >
+                    <Link to={{pathname:"/contacts", state: { patientId }}} className={'nav-link'} >
                         Just Contacts
                     </Link>    
                 </li>

@@ -16,7 +16,7 @@ export default function Profiles({ patient, context, id }) {
             pathname:'/ehr',
             state: { patientId: id }
         }}
-            onClick={context(id)}  //set patientContext as universal variable.  
+            onClick={()=>{context({ patientId: id, name })}}  //set patientContext as universal variable.  
             style={{textDecoration: 'none'}}
             >
             <div className="card box-shadow mt-5">
