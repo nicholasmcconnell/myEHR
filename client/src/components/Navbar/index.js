@@ -11,15 +11,13 @@ export default function navBar() {
     
         history = useHistory(),
         { pathname } = useLocation(),
-      { patientId, name } = useContext(PatientContext);
+      { patientId, name } = useContext(PatientContext),
+
 
     // hide or show links when screen width is small
-     const toggleNav = () => showNavLinks(navLinks = !navLinks),  
+     toggleNav = () => showNavLinks(navLinks = !navLinks),  
 
-
-     logout = () => {
-        Auth.logout(() => {history.push("/")})
-    },
+     logout = () => Auth.logout(() => {history.push("/")}),
     
      getButtons = () => {
         if(Auth.isAuthenticated()) {
@@ -30,7 +28,7 @@ export default function navBar() {
                 </Button>
         )
         } else {
-            return(
+            return (
                 <div>
                     <Link to='/signin' >
                                 <Button className={'btn btn-outline-primary m-2'} type='button'>
@@ -72,14 +70,14 @@ export default function navBar() {
                     style={pathname === "/ehr" || pathname === "/contacts" ? {display: 'block'} : {display: 'none'}} >
 
                     <Link to={{pathname:"/ehr", state: { patientId }}} className={'nav-link'} >
-                        EHR
+                       {name}'s EHR
                     </Link>    
                 </li>
                 <li className={pathname === "/contacts" ? "nav-item active" : "nav-item"}
                     style={pathname === "/ehr" || pathname === "/contacts" ? {display: 'block'} : {display: 'none'}}  >
 
                     <Link to={{pathname:"/contacts", state: { patientId }}} className={'nav-link'} >
-                        Just Contacts
+                        {name}'s Contacts
                     </Link>    
                 </li>
               </ul>
