@@ -13,14 +13,12 @@ export default function Patients({ setContext }) {
     }, [])
 
     const getUser = async () => {
-        const { data }= await API.getUser();
-        console.log("getUser -> data", data)
+        const { data }= await API.getUser(),
    
-         let patients  = await API.fetchPatients(data.user)
-        patients = patients.data
-        setPatients(patients)
-        // setContext(patients)
-        console.log("getUser -> patients", patients)
+          patients  = await API.fetchPatients(data.user);
+
+        setPatients(patients.data);
+        console.log('hello', patients)
     }
 
     return (
@@ -38,7 +36,6 @@ export default function Patients({ setContext }) {
                     }
                 </Col>
            </Row>
-        
             <br/>
             <div>
             <Link  to={{

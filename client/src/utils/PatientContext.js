@@ -1,9 +1,6 @@
 import { createContext } from 'react';
 
-const patient = {
+export default createContext({
     patientId: '',
     name: ''
-}
-const PatientContext = createContext(patient);
-
-export default PatientContext;
+})

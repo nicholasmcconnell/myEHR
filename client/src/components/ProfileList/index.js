@@ -3,12 +3,13 @@ import { Link } from 'react-router-dom';
 
 
 export default function Profiles({ patient, context, id }) {
-    let name;
+    let name,
+      { patientData } = patient;
 
-  if (typeof patient == 'undefined' || typeof patient.patientData == 'undefined'|| typeof patient.patientData.firstName == 'undefined') {
-      name = "Nameless Patient"
+  if (!patientData || (patientData.firstName === null && patientData.nickName === null)) {
+      name = "name this patient"
 } else {
-    name = patient.patientData.firstName;
+    name = patientData.nickName ? patientData.nickName : patientData.firstName;
     }
     
     return (
@@ -20,10 +21,12 @@ export default function Profiles({ patient, context, id }) {
             style={{textDecoration: 'none'}}
             >
             <div className="card box-shadow mt-5">
-            <div className="card-body text-center">
-                <h2 className="card-title">{name}</h2>
-                <p className="card-text"> Access {name}'s information here</p>
-            </div>
+                <div className="card-body text-center">
+                    <h2 className="card-title">{name}</h2>
+                    <p className="card-text"> 
+                        Access {name !== 'name this patient' ? name : 'this patient'}'s information here
+                    </p>
+                </div>
             </div>
         </Link>
     )

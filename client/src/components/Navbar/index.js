@@ -70,14 +70,14 @@ export default function navBar() {
                     style={pathname === "/ehr" || pathname === "/contacts" ? {display: 'block'} : {display: 'none'}} >
 
                     <Link to={{pathname:"/ehr", state: { patientId }}} className={'nav-link'} >
-                       {name}'s EHR
+                       {name ? `${name}'s` : ''} EHR
                     </Link>    
                 </li>
                 <li className={pathname === "/contacts" ? "nav-item active" : "nav-item"}
                     style={pathname === "/ehr" || pathname === "/contacts" ? {display: 'block'} : {display: 'none'}}  >
 
                     <Link to={{pathname:"/contacts", state: { patientId }}} className={'nav-link'} >
-                        {name}'s Contacts
+                    {name ? `${name}'s` : ''} Contacts
                     </Link>    
                 </li>
               </ul>

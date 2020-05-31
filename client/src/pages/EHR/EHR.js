@@ -21,8 +21,7 @@ export default function EHR({ location }) {
 
     
     let { patientId } = useContext(PatientContext);
-    console.log("EHR -> patientId", patientId);
-        patientId = patientId ? patientId : location.state.patientId;
+     patientId = patientId ? patientId : location.state.patientId;
 
 
     const [ patient, setPatient ] = useState(patientId),
@@ -48,27 +47,24 @@ export default function EHR({ location }) {
         ]),
         [ medInput, setMedInput ] = useState(''),
         [ newContact, setNewContact ] = useState({}),
-        [ addContact, setAddContact ]= useState(false),
-        [ editGenState, setGenState ]= useState(false),
+        [ addContact, setAddContact ] = useState(false),
+        [ editGenState, setGenState ] = useState(false),
         [ editHealthState, setHealthState ] = useState(false),
         [ editConditState, setConditState ] = useState(false),
-        [ editMedsState, setMedsState ]= useState(false),
-        [ , setContactEdit ]= useState(''),
-        [ , setConditText ]= useState(''),
-        [ descEditState, setDescEditState ]= useState(false),
-        [ conditSuggestions, setConditSuggestions ]= useState([]),
-        [ medSuggestions, setMedSuggestions ]= useState([]),
-        [ doses, setDoses ]= useState(''),
-        [ query, setQuery ]= useState(''),
+        [ editMedsState, setMedsState ] = useState(false),
+        [ , setContactEdit ] = useState(''),
+        [ , setConditText ] = useState(''),
+        [ descEditState, setDescEditState ] = useState(false),
+        [ conditSuggestions, setConditSuggestions ] = useState([]),
+        [ medSuggestions, setMedSuggestions ] = useState([]),
+        [ doses, setDoses ] = useState(''),
+        [ query, setQuery ] = useState(''),
 
         previousMed = usePrevious(medInput.medication),
         isInitialMount = useRef(true);
-   
-        console.log(location.state.patientId)
 /*
 EHR Initialization
 */ 
-
     
     //Use this effect to only load patient on initial mount. And update db only on subsequent mounts. 
     useEffect(() => {   
