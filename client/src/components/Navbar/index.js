@@ -5,7 +5,7 @@ import { Button } from '../Forms';
 import { Collapse } from '../Grid';
 import Auth from '../../Auth';
 
-//Custom hook to track previous states for comparison purposes.
+//Custom hook to track changes in patient id
 const usePrevious = value => {
     const ref = useRef();
     useEffect(() => {
@@ -17,17 +17,19 @@ const usePrevious = value => {
 export default function navBar() {
 
     const [navLinks, showNavLinks] = useState(false),
+    { patientId, name } = useContext(PatientContext),
+    [id, setId] = useState(''),
     
         history = useHistory(),
-        { pathname } = useLocation(),
-      { patientId, name } = useContext(PatientContext),
+        { pathname } = useLocation();
+        
+    if (patientId && patientId !== id) {
+        setId(patientId)
 
-    //   previousId = usePrevious(medInput.medication),
+        // let previousId = usePrevious(patientId);
 
-    //   if (patientId && patientId)
-
-      patient = patientId ? patientId : patient;
-      console.log("navBar -> patientId", patient)
+        console.log("navBar -> patientId", id)
+    }
 
 
     // hide or show links when screen width is small
@@ -85,14 +87,14 @@ export default function navBar() {
                 <li className={pathname === "/ehr" ? "nav-item active" : "nav-item"}
                     style={pathname === "/ehr" || pathname === "/contacts" ? {display: 'block'} : {display: 'none'}} >
 
-                    <Link to={{pathname:"/ehr", state: { patient }}} className={'nav-link'} >
+                    <Link to={{pathname:"/ehr", state: { id }}} className={'nav-link'} >
                        {name ? `${name}'s` : ''} EHR
                     </Link>    
                 </li>
                 <li className={pathname === "/contacts" ? "nav-item active" : "nav-item"}
                     style={pathname === "/ehr" || pathname === "/contacts" ? {display: 'block'} : {display: 'none'}}  >
 
-                    <Link to={{pathname:"/contacts", state: { patient }}} className={'nav-link'} >
+                    <Link to={{pathname:"/contacts", state: { id }}} className={'nav-link'} >
                     {name ? `${name}'s` : ''} Contacts
                     </Link>    
                 </li>

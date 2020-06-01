@@ -15,7 +15,7 @@ export default function Profiles({ patient, context, id }) {
     return (
         <Link to={{
             pathname:'/ehr',
-            state: { patientId: id }
+            state: { patient: id }
         }}
             onClick={()=>{context({ patientId: id, name })}}  //set patientContext as universal variable.  
             style={{textDecoration: 'none'}}
