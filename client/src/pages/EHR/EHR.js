@@ -21,7 +21,13 @@ export default function EHR({ location }) {
 /*
 Globals
 */ 
-    const [generalInfo, setGeneralInfo] = useState({}),
+
+    let { patientId } = useContext(PatientContext);
+        patientId = patientId ? patientId : location.state.patientId;
+        console.log('location', location.state.patientId,"patientId", patientId)
+
+    const [ patient, setPatient ] = useState(patientId),
+        [generalInfo, setGeneralInfo] = useState({}),
         [ healthInfo, setHealthInfo ] = useState({}),
         [ conditions, setConditions ] = useState([]),
         [ meds, setMeds ] = useState([]),
@@ -44,9 +50,6 @@ Globals
         previousMed = usePrevious(medInput.medication),
         isInitialMount = useRef(true);
 
-        let { patientId } = useContext(PatientContext);
-        patientId = patientId ? patientId : location.state.patientId;
-        console.log("EHR -> patientId", patientId)
 /*
 EHR Setup and Initialization
 */ 
@@ -66,7 +69,7 @@ EHR Setup and Initialization
         if (patientId === "") {
             newPatient()
         } else {
-        const { data } = await API.fetchPatient(patientId)
+        const { data } = await API.fetchPatient(patient)
             setGeneralInfo(data.patientData)
             setHealthInfo(data.healthData)
             setConditions(data.healthConditions)
@@ -84,7 +87,7 @@ EHR Setup and Initialization
         const newPatient = {email, generalInfo, healthInfo, conditions, meds, contacts},
          { data } = await API.addPatient(newPatient);
 
-        patientId = data._id;
+        setPatient(data._id);
     },
 
 /*
@@ -98,7 +101,7 @@ State and database management
         setHealthState(false)
         }
         const data = {generalInfo, healthInfo, conditions, meds, contacts}
-        API.updateEHR(patientId, data)
+        API.updateEHR(patient, data)
             .catch(err => console.log(err))             
     },
 
