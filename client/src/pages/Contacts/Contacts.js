@@ -6,7 +6,8 @@ import API from '../../utils/API';
 export default function Contacts({ location }) {
 
     let { patientId, name } = useContext(PatientContext);
-      patientId = patientId ? patientId : location.state.patientId;
+      patientId = patientId ? patientId : location.state.patient;
+      console.log("Contacts -> patientId", patientId)
 
     const [ patientData, setPatientData ] = useState(),
       [ contacts, setContacts ] = useState([

@@ -18,7 +18,6 @@ export default function Patients({ setContext }) {
           patients  = await API.fetchPatients(data.user);
 
         setPatients(patients.data);
-        console.log('hello', patients)
     }
 
     return (
