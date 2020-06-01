@@ -2,46 +2,39 @@ import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Container, Row, Col } from '../../components/Grid';
 import { LoggerBtn, Input } from '../../components/Forms';
-
 import API from '../../utils/API';
 import Auth from '../../Auth'
 
 export default function SignIn() {
 
-    const [user, setUser] = useState({  email: '' }),
-    [credentials, setCredentials] = useState({});
+    let history = useHistory();
+    const [credentials, setCredentials] = useState({}),
 
-     let history = useHistory();
-     
-    const onInputChange = e => {
+        onInputChange = e => {
+            const { name, value } = e.target;
+            setCredentials({ ...credentials, [name]: value })
+        },
 
-        const { name, value } = e.target;
-        setCredentials({...credentials, [name]: value })
-    },
+        authorize = () => {
+            Auth.login(() => {
+                history.push("/profiles")
+            })
+        },
 
-     authorize = () => {
-        Auth.login(() => {
-          history.push("/profiles")
-        })
-      },
-       
-     handleSubmit = e => {
-        e.preventDefault();
-        e.target.reset();
-        
-        API.login(credentials)
-            .then(({ data }) => { 
-              if(data.status === 'success') {
+        handleSubmit = e => {
+            e.preventDefault();
+            e.target.reset();
 
-                setUser({  user: data.email });
-                authorize()
-                console.log(data)
-              } else {
-                console.log('Login failed.  Please try again.')
-                }
-          }).catch( err => err)
-    }
-    
+            API.login(credentials)
+                .then(({ data }) => {
+                    if (data.status === 'success') {
+                        authorize()
+                    } else {
+                        console.log('Login failed.  Please try again.')
+                    }
+                }).catch(err => err)
+        }
+
     return (
 
         <Container classes={'box-shadow sign'}>
@@ -70,11 +63,8 @@ export default function SignIn() {
                                     name="password" type="password" placeholder="Password" />
                             </div>
 
-
                             <LoggerBtn btnType={'log in'} />
-
                         </form>
-
                     </Row>
                     <Row classes={'justify-content-center'}>
                         <p> New here?
@@ -82,7 +72,6 @@ export default function SignIn() {
                         </p>
                     </Row>
                 </Col>
-
             </Row>
         </Container>
     )
@@ -93,7 +82,7 @@ const logo = {
     height: "auto"
 },
 
-text = {
-    color: "#0099ff",
-    textShadow: "1px 1px #000"
-}
+    text = {
+        color: "#0099ff",
+        textShadow: "1px 1px #000"
+    }

@@ -36,9 +36,8 @@ export default function SignUp() {
                                 }
                             })
                     }
-                }
-                )
-        } catch (err) { return }
+                })
+        } catch (err) { console.log(err) }
     }
     return (
         <Container classes={"box-shadow sign"}>
