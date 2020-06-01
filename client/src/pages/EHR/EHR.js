@@ -18,34 +18,14 @@ const usePrevious = value => {
   }
 
 export default function EHR({ location }) {
-
-    
-    let { patientId } = useContext(PatientContext);
-     patientId = patientId ? patientId : location.state.patientId;
-     patientId = patientId ? patientId : '';
-
-
-    const [ patient, setPatient ] = useState(patientId),
-        [generalInfo, setGeneralInfo] = useState({}),
+/*
+Globals
+*/ 
+    const [generalInfo, setGeneralInfo] = useState({}),
         [ healthInfo, setHealthInfo ] = useState({}),
         [ conditions, setConditions ] = useState([]),
         [ meds, setMeds ] = useState([]),
-        [ contacts, setContacts ] = useState([
-        //   {  contact: 'Primary Care',
-        //     office: 'Medical Center',
-        //     name: 'Dr. Evil',
-        //     addressOne: '1234 Candy Ln',
-        //     city: 'Sky High',
-        //     state: 'NV',
-        //     zip: '50025',
-        //     country: 'beckybeckystanstan',
-        //     primaryPhone: '(212)555-1234',
-        //     primaryExt: '6628',
-        //     fax: '(212)555-9876',
-        //     email: 'drevilguy@gmail.com',
-        //     website: 'getyourevil-medicine.com',
-        //     edit: false}
-        ]),
+        [ contacts, setContacts ] = useState([]),
         [ medInput, setMedInput ] = useState(''),
         [ newContact, setNewContact ] = useState({}),
         [ addContact, setAddContact ] = useState(false),
@@ -63,8 +43,11 @@ export default function EHR({ location }) {
 
         previousMed = usePrevious(medInput.medication),
         isInitialMount = useRef(true);
+
+        let { patientId } = useContext(PatientContext);
+        patientId = patientId ? patientId : location.state.patientId;
 /*
-EHR Initialization
+EHR Setup and Initialization
 */ 
     
     //Use this effect to only load patient on initial mount. And update db only on subsequent mounts. 
@@ -97,11 +80,10 @@ EHR Initialization
         const user  = await API.getUser(),
             email = user.data.user.email;
    
-        const newPatient = {email, generalInfo, healthInfo, conditions, meds, contacts}
+        const newPatient = {email, generalInfo, healthInfo, conditions, meds, contacts},
+         { data } = await API.addPatient(newPatient);
 
-        const { data } = await API.addPatient(newPatient);
-
-            setPatient(data._id)       ;
+        patientId = data._id;
     },
 
 /*                              State and database management                               */ 
@@ -113,7 +95,7 @@ EHR Initialization
         setHealthState(false)
         }
         const data = {generalInfo, healthInfo, conditions, meds, contacts}
-        API.updateEHR(patient, data)
+        API.updateEHR(patientId, data)
             .catch(err => console.log(err))             
     },
 

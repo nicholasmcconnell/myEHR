@@ -4,40 +4,30 @@ import { Contacts as ForwardThis } from '../../components/Contacts';
 import PatientContext from '../../utils/PatientContext';
 import API from '../../utils/API';
 
+//force the re-rendering of state.
+function useForceUpdate(){
+    const [value, setValue] = useState(0); // integer state
+    return () => setValue(value => ++value); // update the state to force render
+}
+
 export default function Contacts({ location }) {
 
-    let { patientId, name } = useContext(PatientContext);
-      patientId = patientId ? patientId : location.state.patientId;
-      console.log("Contacts -> patientId", patientId)
-
-    const [ otherData, setOtherData ] = useState(),
-      [ contacts, setContacts ] = useState([
-        //   {  contact: 'Primary Care',
-        //     office: 'Medical Center',
-        //     name: 'Dr. Evil',
-        //     addressOne: '1234 Candy Ln',
-        //     city: 'Sky High',
-        //     state: 'NV',
-        //     zip: '50025',
-        //     country: 'beckybeckystanstan',
-        //     primaryPhone: '(212)555-1234',
-        //     primaryExt: '6628',
-        //     fax: '(212)555-9876',
-        //     email: 'drevilguy@gmail.com',
-        //     website: 'getyourevil-medicine.com',
-        //     edit: false}
-        ]),
+     const [ contacts, setContacts ] = useState([]),
         [ newContact, setNewContact ] = useState({}),
         [ addContact, setAddContact ] = useState(false),
-        [generalInfo, setGeneralInfo] = useState({}),
+        [ generalInfo, setGeneralInfo ] = useState({}),
         [ healthInfo, setHealthInfo ] = useState({}),
         [ conditions, setConditions ] = useState([]),
         [ meds, setMeds ] = useState([]),
 
-        
+        update = useForceUpdate(), 
+        isInitialMount = useRef(true);
+
+        let { patientId, name } = useContext(PatientContext);
+        patientId = patientId ? patientId : location.state.patientId;
+
+
     //Use this effect to only load patient on initial mount. And update db only on subsequent mounts. 
-    isInitialMount = useRef(true);
-    console.log(otherData)
     useEffect(() => {   
         if (isInitialMount.current) {
             isInitialMount.current = false;
@@ -69,9 +59,7 @@ export default function Contacts({ location }) {
         const data = {generalInfo, healthInfo, conditions, meds, contacts}
 
         API.updateEHR(patientId, data)
-            .then(res => console.log(res))
-            .catch(err => console.log(err))
-        console.log(data.healthData)             
+            .catch(err => console.log(err))         
     },
 
     newContactInputChange = e => {
@@ -84,8 +72,8 @@ export default function Contacts({ location }) {
         clone = contacts,
         edit = contacts[index];
         
-        this.forceUpdate() //force the re-rendering of state.
-        
+        update();
+
         for (let key of Object.keys(edit)) {
 
             if (key === name) {
