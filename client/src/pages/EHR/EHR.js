@@ -21,9 +21,8 @@ export default function EHR({ location }) {
 
     
     let { patientId } = useContext(PatientContext);
-     patientId = patientId ? patientId : location.state.patient;
+     patientId = patientId ? patientId : location.state.patientId;
      patientId = patientId ? patientId : '';
-     console.log("EHR -> patientId", patientId)
 
 
     const [ patient, setPatient ] = useState(patientId),

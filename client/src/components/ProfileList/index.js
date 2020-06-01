@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom';
 
 
 export default function Profiles({ patient, context, id }) {
+    if(!patient) return
+    
     let name,
-      { patientData } = patient;
+    { patientData } = patient;
 
   if (!patientData || (patientData.firstName === null && patientData.nickName === null)) {
       name = "name this patient"
@@ -15,7 +17,7 @@ export default function Profiles({ patient, context, id }) {
     return (
         <Link to={{
             pathname:'/ehr',
-            state: { patient: id }
+            state: { patientId: id }
         }}
             onClick={()=>{context({ patientId: id, name })}}  //set patientContext as universal variable.  
             style={{textDecoration: 'none'}}

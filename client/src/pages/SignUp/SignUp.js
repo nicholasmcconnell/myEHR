@@ -22,7 +22,7 @@ export default function SignUp() {
 
     authorize = () => {
         Auth.login(() => {
-            history.push("/signin")
+            history.push("/profiles")
         })
         }
 

@@ -1,4 +1,5 @@
 import React, { useState, useContext, useRef, useEffect } from 'react';
+import { Container, Row, Col } from '../../components/Grid';
 import { Contacts as ForwardThis } from '../../components/Contacts';
 import PatientContext from '../../utils/PatientContext';
 import API from '../../utils/API';
@@ -6,7 +7,7 @@ import API from '../../utils/API';
 export default function Contacts({ location }) {
 
     let { patientId, name } = useContext(PatientContext);
-      patientId = patientId ? patientId : location.state.patient;
+      patientId = patientId ? patientId : location.state.patientId;
       console.log("Contacts -> patientId", patientId)
 
     const [ otherData, setOtherData ] = useState(),
@@ -125,17 +126,21 @@ export default function Contacts({ location }) {
     };
 
     return (
-        <div>
-            <ForwardThis
-            toggleNew={() => setAddContact(!addContact)}
-            toggleState={toggleContactEdit}
-            newContact={addContact}
-            data={contacts}
-            target={onContactChange}
-            remove={removeContact}
-            newTarget={newContactInputChange}
-            formSubmit={addNewContact}
-             />
-        </div>
+        <Container>
+            <Row classes="my-5">
+                <Col size={'md-8'} classes={'offset-md-2'}>
+                    <ForwardThis
+                    toggleNew={() => setAddContact(!addContact)}
+                    toggleState={toggleContactEdit}
+                    newContact={addContact}
+                    data={contacts}
+                    target={onContactChange}
+                    remove={removeContact}
+                    newTarget={newContactInputChange}
+                    formSubmit={addNewContact}
+                    />
+                </Col>
+             </Row>
+        </Container>
     )
 }

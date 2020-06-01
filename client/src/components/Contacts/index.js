@@ -87,7 +87,7 @@ export function Contacts({
                   <Input
                     value={contact.contact}
                     name="contact"
-                    placeholder="e.g. 'Dr, Pharmacist, Daughter, etc.."
+                    placeholder="Dr, Pharmacy, etc.."
                     style={input}
                     onChange={target(i)}
                   />
