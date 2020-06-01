@@ -124,6 +124,7 @@ export default function Contacts({ location }) {
                     remove={removeContact}
                     newTarget={newContactInputChange}
                     formSubmit={addNewContact}
+                    name={name}
                     />
                 </Col>
              </Row>

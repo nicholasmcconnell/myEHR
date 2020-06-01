@@ -3,12 +3,13 @@ import { Col } from '../Grid';
 import { Input, Button } from '../Forms';
 
 
-export function GeneralInfo({ data, target, editState, toggleState, formSubmit }) {
+export function GeneralInfo({ data, target, editState, toggleState, formSubmit, name }) {
 
 if (editState) {
     return (
         <div className={'my-5'}>
-        <em><h5 style={{textDecoration: "underline"}}>Contact Information:</h5></em>
+        <em><h5 style={{textDecoration: "underline"}}>
+            {name ? `${name}'s` : ''} Contact Information:</h5></em>
         
           <Col size={'md-12'} classes={"mt-5"}>
                 <Button className="fas fa-backspace fa-2x" 
@@ -113,7 +114,8 @@ if (editState) {
     } else {
         return (
             <div className={'my-5 gen-info'}>
-                <em><h5 style={{textDecoration: "underline"}}>Contact Information:</h5></em>
+                <em><h5 style={{textDecoration: "underline"}}>
+                {name ? `${name}'s` : ''} Contact Information:</h5></em>
 
                 <Col size={'md-12'} classes={'gen-edit mt-5'}>
                     <Button className="fas fa-user-edit fa-2x" style={toggleBtn} 

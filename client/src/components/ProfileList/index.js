@@ -10,14 +10,14 @@ export default function Profiles({ patient, context, id }) {
 
   if (!patientData || (patientData.firstName === null && patientData.nickName === null)) {
       name = "name this patient"
-} else {
+  } else {
     name = patientData.nickname ? patientData.nickname : patientData.firstName;
     }
     
     return (
         <Link to={{
             pathname:'/ehr',
-            state: { patientId: id }
+            state: { patientId: id, name }
         }}
             onClick={()=>{context({ patientId: id, name })}}  //set patientContext as universal variable.  
             style={{textDecoration: 'none'}}

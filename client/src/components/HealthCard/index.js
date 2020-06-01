@@ -3,7 +3,7 @@ import { Col } from '../Grid';
 import { Input, Button, TextArea } from '../Forms';
 
 
-export function HealthCard({ data, target, editState, toggleState, formSubmit }) {
+export function HealthCard({ data, target, editState, toggleState, formSubmit, name }) {
 
     const getAge = DOB => {
 
@@ -12,9 +12,8 @@ export function HealthCard({ data, target, editState, toggleState, formSubmit })
           month = today.getMonth() - birthDate.getMonth();
         let age = today.getFullYear() - birthDate.getFullYear();
 
-          if(isNaN(age)) {
-              return '??'
-            }
+          if(isNaN(age)) return '??'
+            
     return month < 0 || (month === 0 && today.getDate() < birthDate.getDate()) ? age - 1 : age;
     },
 
@@ -35,7 +34,8 @@ export function HealthCard({ data, target, editState, toggleState, formSubmit })
 if (editState) {
     return (
         <div className={'my-5'}>
-            <em><h5 style={{textDecoration: "underline"}}>Basic Information:</h5></em>
+            <em><h5 style={{textDecoration: "underline"}}>
+            {name ? `${name}'s` : ''} Basic Health Information:</h5></em>
 
           <Col size={'md-12'} classes={"mt-5"}>
                 <Button className="fas fa-backspace fa-2x" style={{...toggleBtn, color: "tomato"}} 
@@ -141,7 +141,8 @@ if (editState) {
     } else {
         return (
             <div className={'my-5 health-info'}>
-                <em><h5 style={{textDecoration: "underline"}}>Basic Information:</h5></em>
+                <em><h5 style={{textDecoration: "underline"}}>
+                {name ? `${name}'s` : ''} Basic Health Information:</h5></em>
 
                 <Col size={'md-12'} classes={'gen-edit mt-5'}>
                     <Button className="fas fa-user-edit fa-2x" style={toggleBtn} 

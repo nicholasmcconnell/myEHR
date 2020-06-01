@@ -4,6 +4,7 @@ import { Input, Button, TextArea } from '../Forms';
 
 export function Conditions({
 	data,
+	name,
 	target,
 	areaTarget,
 	editState,
@@ -81,7 +82,8 @@ export function Conditions({
 		return (
 			<div className={'my-5'}>
 				<em>
-					<h5 style={{ textDecoration: 'underline' }}>Health Conditions:</h5>
+					<h5 style={{ textDecoration: 'underline' }}>
+					{name ? `${name}'s` : ''} Health Conditions:</h5>
 				</em>
 
 				<Col size={'md-12'} classes="mt-5">
@@ -119,7 +121,8 @@ export function Conditions({
 		return (
 			<div className={'my-5'}>
 				<em>
-					<h5 style={{ textDecoration: 'underline' }}>Health Conditions:</h5>
+					<h5 style={{ textDecoration: 'underline' }}>
+					{name ? `${name}'s` : ''} Health Conditions:</h5>
 				</em>
 
 				<Col size={'md-12 mt-5'}>
@@ -157,7 +160,8 @@ export function Conditions({
 		return (
 			<div className={'mt-5 condition-info'}>
 				<em>
-					<h5 style={{ textDecoration: 'underline' }}>Health Conditions:</h5>
+					<h5 style={{ textDecoration: 'underline' }}>
+					{name ? `${name}'s` : ''} Health Conditions:</h5>
 				</em>
 
 				<Col size={'md-12'} classes={'condition-edit mt-5'}>

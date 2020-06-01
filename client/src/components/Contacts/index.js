@@ -5,6 +5,7 @@ import { Input, Button } from "../../components/Forms";
 
 export function Contacts({
   data,
+  name,
   target,
   remove,
   newContact,
@@ -350,7 +351,7 @@ export function Contacts({
     <div className={"my-5"}>
       <em>
         <h5 style={{ textDecoration: "underline" }}>
-          Emergency or other contact Info:
+          Emergency or other contact Info {name ? `for ${name}` : ''}:
         </h5>
       </em>
 

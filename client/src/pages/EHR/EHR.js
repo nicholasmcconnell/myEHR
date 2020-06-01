@@ -22,9 +22,9 @@ export default function EHR({ location }) {
 Globals
 */ 
 
-    let { patientId } = useContext(PatientContext);
+    let { patientId, name } = useContext(PatientContext);
         patientId = patientId ? patientId : location.state.patientId;
-        console.log('location', location.state.patientId,"patientId", patientId)
+        console.log(name)
 
     const [ patient, setPatient ] = useState(patientId),
         [generalInfo, setGeneralInfo] = useState({}),
@@ -373,6 +373,7 @@ Features Management
                         data={generalInfo}
                         target={onGenInfoInputChange}
                         formSubmit={updateDB}
+                        name={name}
                     />
                 </Col>
             </Row>
@@ -384,6 +385,7 @@ Features Management
                         data={healthInfo}
                         target={onHealthInfoInputChange}
                         formSubmit={updateDB}
+                        name={name}
                     />
                 </Col>
             </Row>
@@ -403,6 +405,7 @@ Features Management
                         renderSuggestions={renderConditSuggestions}
                         text={conditSuggestions.text}
                         formSubmit={addCondition}
+                        name={name}
                       />
                 </Col>
             </Row>
@@ -420,6 +423,7 @@ Features Management
                         addDoses={addDoses}
                         doseChoices={doses}
                         formSubmit={addMeds}
+                        name={name}
                       />
                 </Col>
             </Row>
@@ -434,6 +438,7 @@ Features Management
                         remove={removeContact}
                         newTarget={newContactInputChange}
                         formSubmit={addNewContact}
+                        name={name}
                     />
                 </Col>
             </Row>

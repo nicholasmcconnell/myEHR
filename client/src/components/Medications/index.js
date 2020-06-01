@@ -7,6 +7,7 @@ import { Input, Button } from '../Forms';
 export function Medications({ 
     data, 
     text, 
+    name,
     target, 
     remove, 
     addDoses, 
@@ -74,7 +75,8 @@ export function Medications({
     if ((editState || data.length === 0)) {
         return (
             <div className={'my-5'}>
-                <em><h5 style={{ textDecoration: "underline" }}>Medications:</h5></em>
+                <em><h5 style={{ textDecoration: "underline" }}>
+                {name ? `${name}'s` : ''} Medications:</h5></em>
 
                 <Col size={'md-12'} classes="mt-5">
                     <Button className="fas fa-backspace fa-2x"
@@ -129,7 +131,8 @@ export function Medications({
     else {
         return (
             <div className={'my-5 med-info'}>
-                <em><h5 style={{ textDecoration: "underline" }}>Medications:</h5></em>
+                <em><h5 style={{ textDecoration: "underline" }}>
+                {name ? `${name}'s` : ''} Medications:</h5></em>
 
                 <Col size={'md-12'} classes={"mt-5"}>
                     <Button className="fas fa-user-edit fa-2x"
