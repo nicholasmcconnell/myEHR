@@ -9,7 +9,7 @@ export default function Profiles({ patient, context, id }) {
   if (!patientData || (patientData.firstName === null && patientData.nickName === null)) {
       name = "name this patient"
 } else {
-    name = patientData.nickName ? patientData.nickName : patientData.firstName;
+    name = patientData.nickname ? patientData.nickname : patientData.firstName;
     }
     
     return (

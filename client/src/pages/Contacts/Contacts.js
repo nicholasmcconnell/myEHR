@@ -9,7 +9,7 @@ export default function Contacts({ location }) {
       patientId = patientId ? patientId : location.state.patient;
       console.log("Contacts -> patientId", patientId)
 
-    const [ patientData, setPatientData ] = useState(),
+    const [ otherData, setOtherData ] = useState(),
       [ contacts, setContacts ] = useState([
         //   {  contact: 'Primary Care',
         //     office: 'Medical Center',
@@ -28,10 +28,15 @@ export default function Contacts({ location }) {
         ]),
         [ newContact, setNewContact ] = useState({}),
         [ addContact, setAddContact ] = useState(false),
+        [generalInfo, setGeneralInfo] = useState({}),
+        [ healthInfo, setHealthInfo ] = useState({}),
+        [ conditions, setConditions ] = useState([]),
+        [ meds, setMeds ] = useState([]),
 
         
     //Use this effect to only load patient on initial mount. And update db only on subsequent mounts. 
     isInitialMount = useRef(true);
+    console.log(otherData)
     useEffect(() => {   
         if (isInitialMount.current) {
             isInitialMount.current = false;
@@ -48,8 +53,11 @@ export default function Contacts({ location }) {
         } else {
         const { data } = await API.fetchPatient(patientId)
             
-            setPatientData(data)
-            setContacts(data.contacts)
+        setGeneralInfo(data.patientData)
+        setHealthInfo(data.healthData)
+        setConditions(data.healthConditions)
+        setMeds(data.medications)
+        setContacts(data.contacts)
         } 
     },
 
@@ -57,9 +65,12 @@ export default function Contacts({ location }) {
         if(e) {
         e.preventDefault()
         }
-        const data = {...patientData, contacts}
+        const data = {generalInfo, healthInfo, conditions, meds, contacts}
+
         API.updateEHR(patientId, data)
-            .catch(err => console.log(err))             
+            .then(res => console.log(res))
+            .catch(err => console.log(err))
+        console.log(data.healthData)             
     },
 
     newContactInputChange = e => {
