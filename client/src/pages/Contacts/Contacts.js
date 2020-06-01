@@ -20,7 +20,7 @@ export default function Contacts({ location }) {
         [ conditions, setConditions ] = useState([]),
         [ meds, setMeds ] = useState([]),
 
-        update = useForceUpdate(), 
+        forceUpdate = useForceUpdate(), 
         isInitialMount = useRef(true);
 
         let { patientId, name } = useContext(PatientContext);
@@ -38,10 +38,8 @@ export default function Contacts({ location }) {
     }, [contacts]);
 
     const getPatient = async() => {
-
-        if (!patientId) {
-            return
-        } else {
+        if (!patientId) return
+       
         const { data } = await API.fetchPatient(patientId)
             
         setGeneralInfo(data.patientData)
@@ -49,7 +47,7 @@ export default function Contacts({ location }) {
         setConditions(data.healthConditions)
         setMeds(data.medications)
         setContacts(data.contacts)
-        } 
+        
     },
 
     updateDB = e => {
@@ -72,7 +70,7 @@ export default function Contacts({ location }) {
         clone = contacts,
         edit = contacts[index];
         
-        update();
+        forceUpdate();
 
         for (let key of Object.keys(edit)) {
 

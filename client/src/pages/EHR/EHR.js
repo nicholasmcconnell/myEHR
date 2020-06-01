@@ -46,6 +46,7 @@ Globals
 
         let { patientId } = useContext(PatientContext);
         patientId = patientId ? patientId : location.state.patientId;
+        console.log("EHR -> patientId", patientId)
 /*
 EHR Setup and Initialization
 */ 
@@ -86,7 +87,9 @@ EHR Setup and Initialization
         patientId = data._id;
     },
 
-/*                              State and database management                               */ 
+/*
+State and database management
+*/ 
 
     updateDB = e => {
         if(e) {
@@ -215,13 +218,12 @@ EHR Setup and Initialization
         let { text } = conditSuggestions;
         setConditSuggestions([]);
 
-        if (!text) {
-            return;
-        }
+        if (!text) return;
+        
         const [ search ]  = text.split('-'),
             { data } = await API.fetchCondition(search),
     
-        description = data[0].shortdef ? data[0].shortdef.join('\n') : '',
+        description = (data[0] && data[0].shortdef) ? data[0].shortdef.join('\n') : '',
 
                 newCondition = { 
                     name: text, 
@@ -285,7 +287,9 @@ EHR Setup and Initialization
         setContacts([...clone])
     },
 
-/*                              Features Management                                 */ 
+/*
+Features Management
+*/ 
 
     getConditionNames = async(search) => {
         const { data } = await API.getConditionNames(search);
@@ -318,9 +322,7 @@ EHR Setup and Initialization
         setMedSuggestions({ suggestions: [], text: value})
 
         //populate dosage choices with suggestions when autocomplete option is clicked
-        if (!value) {
-            return;
-        }
+        if (!value) return;
         try {
             const  { data } = await API.fetchMeds(value),
               doses = data.drugGroup.conceptGroup[1].conceptProperties.map(x => x.synonym).filter(x => x !== '')
@@ -347,9 +349,8 @@ EHR Setup and Initialization
         e.preventDefault();
 
         const { text } = medSuggestions;
-        if (!text) {
-            return;
-        }
+        
+        if (!text) return;
         try {
             const  { data } = await API.fetchMeds(text),
               doses = data.drugGroup.conceptGroup[1].conceptProperties.map(x => x.synonym).filter(x => x !== '')
