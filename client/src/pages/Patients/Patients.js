@@ -14,6 +14,7 @@ export default function Patients({ setContext }) {
 
     const [ patients, setPatients ] = useState([]),
       [removeState, setRemoveState] = useState(false),
+      [confirmed, isConfirmed] = useState(false),
       forceUpdate = useForceUpdate();
 
     useEffect(() => {
@@ -33,6 +34,20 @@ export default function Patients({ setContext }) {
         
         clone[index].removable = !clone[index].removable
         
+        isConfirmed(true)
+        setPatients(clone)
+        forceUpdate()
+    },
+
+    cancelPatientRemoval = () => {
+        const clone = patients;
+        
+        clone.forEach( item => {
+            item.removable = false
+        })
+        
+        isConfirmed(false)
+        setRemoveState(false)
         setPatients(clone)
         forceUpdate()
     }
@@ -54,8 +69,10 @@ export default function Patients({ setContext }) {
                             />)
                     }
                     <PatientHandler 
-                        confirmed={removeState}
-                        isConfirmed={() => {setRemoveState(!removeState)}} 
+                        removeState={removeState}
+                        confirmed={confirmed}
+                        cancel={cancelPatientRemoval}
+                        toggleRemoveState={() => {setRemoveState(!removeState)}} 
                         />
                 </Col>
            </Row>
