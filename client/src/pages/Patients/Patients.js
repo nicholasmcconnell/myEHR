@@ -1,25 +1,26 @@
 import React, { useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col } from '../../components/Grid';
+import { PatientHandler }  from '../../components/PatientHandler'; 
 import Profiles from '../../components/ProfileList'; 
 import API from "../../utils/API";
 
 export default function Patients({ setContext }) {
 
-    const [patients, setPatients] = useState([])
+    const [ patients, setPatients ] = useState([]),
+     [confirmed, isConfirmed] = useState(false)
 
     useEffect(() => {
         getUser()
     }, [])
 
     const getUser = async () => {
-        const { data }= await API.getUser(),
+        const { data } = await API.getUser(),
    
-          patients  = await API.fetchPatients(data.user);
+          patients = await API.fetchPatients(data.user);
 
         setPatients(patients.data);
     }
-
     return (
         <Container>
             <Row>
@@ -33,17 +34,12 @@ export default function Patients({ setContext }) {
                             key={patient._id} 
                             />)
                     }
+                    <PatientHandler 
+                        confirmed={confirmed}
+                        isConfirmed={() => {isConfirmed(!confirmed)}} 
+                        />
                 </Col>
            </Row>
-            <br/>
-            <div>
-            <Link  to={{
-                 pathname:'/ehr',
-                 state: { patientId: "" }
-            }} 
-            >+ patients</Link>
-
-            </div>
         </Container>
     )
 }
