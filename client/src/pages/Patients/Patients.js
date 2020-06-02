@@ -2,7 +2,7 @@ import React, { useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col } from '../../components/Grid';
 import { PatientHandler }  from '../../components/PatientHandler'; 
-import Profiles from '../../components/ProfileList'; 
+import { Profiles } from '../../components/ProfileList'; 
 import API from "../../utils/API";
 
 export default function Patients({ setContext }) {
@@ -21,6 +21,7 @@ export default function Patients({ setContext }) {
 
         setPatients(patients.data);
     }
+    console.log(patients)
     return (
         <Container>
             <Row>
@@ -30,8 +31,8 @@ export default function Patients({ setContext }) {
                             <Profiles 
                             patient={patient} 
                             context={setContext}  
-                            id={patient._id} 
-                            key={patient._id} 
+                            // id={patient._id} 
+                            // key={patient._id} 
                             />)
                     }
                     <PatientHandler 
