@@ -4,29 +4,30 @@ import { PatientList } from '../../components/PatientList';
 import { PatientHandler }  from '../../components/PatientHandler'; 
 import API from "../../utils/API";
 
-//force the re-rendering of state.
-function useForceUpdate(){
-    const [value, setValue] = useState(0); // integer state
-    return () => setValue(value => ++value); // update the state to force render
-}
 
 export default function Patients({ setContext }) {
 
     const [ patients, setPatients ] = useState([]),
       [removeState, setRemoveState] = useState(false),
-      [confirmed, isConfirmed] = useState(false),
-      forceUpdate = useForceUpdate();
+      [confirmed, isConfirmed] = useState(false);
 
     useEffect(() => {
-        getUser()
+        getPatients()
     }, [])
 
-    const getUser = async () => {
+    const getPatients = async () => {
         const { data } = await API.getUser(),
    
           patients = await API.fetchPatients(data.user);
 
         setPatients(patients.data);
+    },
+
+    removePatient = async _id => {
+       await API.removePatient(_id)
+
+       setRemoveState(false)
+       getPatients()
     },
 
     togglePatientAsRemovable = index => {
@@ -36,7 +37,6 @@ export default function Patients({ setContext }) {
         
         isConfirmed(true)
         setPatients(clone)
-        forceUpdate()
     },
 
     cancelPatientRemoval = () => {
@@ -45,11 +45,9 @@ export default function Patients({ setContext }) {
         clone.forEach( item => {
             item.removable = false
         })
-        
         isConfirmed(false)
         setRemoveState(false)
         setPatients(clone)
-        forceUpdate()
     }
 
 
@@ -65,6 +63,7 @@ export default function Patients({ setContext }) {
                             context={setContext}  
                             removeState={removeState}
                             confirmRemoval={togglePatientAsRemovable}
+                            remove={removePatient}
                             key={patient._id} 
                             />)
                     }

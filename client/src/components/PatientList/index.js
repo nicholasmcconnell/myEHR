@@ -1,10 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import { Col, Row } from '../Grid';
-import { Button } from '../Forms';
 
 
-export function PatientList({ patient, context, removeState, confirmRemoval, index }) {
+export function PatientList({ patient, context, removeState, confirmRemoval, remove, index }) {
     if(!patient) return
 
     const { patientData } = patient,
@@ -22,7 +21,7 @@ export function PatientList({ patient, context, removeState, confirmRemoval, ind
     return (
         <div className={'patient-remove'}>
         <Link to='/patients'
-            onClick={confirmRemoval.bind(this, index)}  
+            onClick={remove.bind(this, _id)}  
             style={{textDecoration: 'none'}}
             >
             <div className="card box-shadow mt-5">

@@ -40,8 +40,9 @@ export default {
         return axios.post("/api/patients/add", data);
     },
 
-    removeEHR: function(data) {
-        return axios.delete("/api/patients", data);
+    removePatient: function(id) {
+        console.log(id)
+        return axios.delete(`/api/patients/${id}`);
     },
 
     updateEHR: function(id, data) {
@@ -49,19 +50,19 @@ export default {
     },
 
     getUser: function() {
-        return axios.get('/api/users').then(data => data)
+        return axios.get('/api/users').then(data => data);
     },
 
     register: function(credentials) {
         // console.log("in API.register");
         // console.log(credentials);
         const { email, password } = credentials
-        return axios.post('api/users/register', { email, password })
+        return axios.post('api/users/register', { email, password });
     },
 
     login: function(credentials) {
         const { email, password } = credentials;
-        return axios.post('/api/users/login', { email, password })
+        return axios.post('/api/users/login', { email, password });
     }
 
 }
