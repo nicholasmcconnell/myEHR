@@ -43,9 +43,6 @@ export function PatientHandler({ removeState, toggleRemoveState, confirmed, canc
                 }} 
                     className="btn plus"
                     style={{ float: "right" }}
-                    onClick={() => {
-                      toggleRemoveState(!removeState);
-                    }}
                   >
                     <i class="fas fa-user-plus"></i> New Patient
                   </Link>

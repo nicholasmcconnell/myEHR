@@ -4,12 +4,15 @@ import { Col, Row } from '../Grid';
 
 
 export function PatientList({ patient, context, removeState, confirmRemoval, remove, index }) {
-    if(!patient) return
 
     const { patientData } = patient,
+          { healthData } = patient,
              { _id } = patient;
-    
+        
     let name;
+    // if (!patientData || !healthData) return
+
+
     if (!patientData || (patientData.firstName === null && patientData.nickName === null)) {
         name = "name this patient"
     } else {
