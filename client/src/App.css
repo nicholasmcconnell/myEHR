@@ -32,8 +32,12 @@ button:focus {
 
 /* Used to show the edit/rmv buttons on form hover */
 
-.patient-remove:hover .fa-user-times {
-  color: tomato !important;
+.patient-remove:hover .rm-sm-user {
+  color: #d9534f !important;
+}
+
+.patient-remove:hover .rm-lg-user {
+  color: white !important;
 }
 
 .gen-info:hover .fa-user-edit {
@@ -69,5 +73,4 @@ textarea.desc {
 	direction:rtl;
 	display:block;
 	max-width:100%;
-
 }
