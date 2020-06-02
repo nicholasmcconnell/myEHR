@@ -30,7 +30,11 @@ button:focus {
   outline: none;
 }
 
-/* Used to show the edit buttons on form hover */
+/* Used to show the edit/rmv buttons on form hover */
+
+.patient-remove:hover .fa-user-times {
+  color: tomato !important;
+}
 
 .gen-info:hover .fa-user-edit {
   color: green !important;

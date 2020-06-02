@@ -117,7 +117,7 @@ if (editState) {
                 <em><h5 style={{textDecoration: "underline"}}>
                 {name ? `${name}'s` : ''} Contact Information:</h5></em>
 
-                <Col size={'md-12'} classes={'gen-edit mt-5'}>
+                <Col size={'md-12'} classes={'mt-5'}>
                     <Button className="fas fa-user-edit fa-2x" style={toggleBtn} 
                         onClick={toggleState} 
                     />   

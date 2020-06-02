@@ -10,7 +10,7 @@ export function PatientHandler({ confirmed, isConfirmed }) {
               <div className={"remove"}>
                 <Button
                   className="btn minus"
-                  style={{ float: "left" }}
+                  style={confirmed ? { float: "left", color: "tomato"} : {float: "left"}}
                   onClick={() => {
                     isConfirmed(!confirmed);
                   }}
@@ -43,7 +43,7 @@ export function PatientHandler({ confirmed, isConfirmed }) {
                         isConfirmed(!confirmed);
                     }}
                    >
-                    <i className="fas fa-user-minus"/> Remove Patient
+                    <i className="fas fa-user-minus"/> Remove Patients
                   </Button>
                 </div>
               </div>

@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
+import { Col, Row } from '../Grid';
 import { Button } from '../Forms';
 
 
@@ -18,19 +19,32 @@ export function PatientList({ patient, context, removeState, confirmRemoval, ind
     console.log(patient)
     if (removeState) {
     return (
+        <div className={'patient-remove'}>
         <Link to='/patients'
             onClick={confirmRemoval.bind(this, index)}  //set patientContext as universal variable.  
             style={{textDecoration: 'none'}}
             >
+      
             <div className="card box-shadow mt-5">
                 <div className="card-body text-center">
-                    <h2 className="card-title">{name}</h2>
+                    <Row >
+                <Col size ={"md-2"}></Col>
+                <Col size ={"md-8"}> 
+                    <h2 className="card-title">Remove {name !== 'name this patient' ? name : 'this patient'}</h2>
                     <p className="card-text"> 
-                        Remove {name !== 'name this patient' ? name : 'this patient'} from your patient list
+                        Remove {name !== 'name this patient' ? name : 'this patient'} from your patient list?
                     </p>
+                    </Col>
+                    <Col size={"md-2"}>
+                    <Button className="fas fa-user-times fa-2x" style={toggleBtn} 
+                        onClick={confirmRemoval.bind(this, index)} 
+                    />   
+                    </Col>
+                    </Row>
                 </div>
             </div>
         </Link>
+         </div>
     )
     }
     return (
@@ -51,4 +65,12 @@ export function PatientList({ patient, context, removeState, confirmRemoval, ind
             </div>
         </Link>
     )
+}
+
+const toggleBtn = {
+    float: 'right',
+    border: 'none',
+    margin: '0',
+    color: 'white',
+    backgroundColor: 'white'
 }
