@@ -1,14 +1,13 @@
 import React, { useState, useEffect} from 'react';
-import { Link } from 'react-router-dom';
 import { Container, Row, Col } from '../../components/Grid';
+import { PatientList } from '../../components/PatientList'; 
 import { PatientHandler }  from '../../components/PatientHandler'; 
-import { Profiles } from '../../components/ProfileList'; 
 import API from "../../utils/API";
 
 export default function Patients({ setContext }) {
 
     const [ patients, setPatients ] = useState([]),
-     [confirmed, isConfirmed] = useState(false)
+      [removeState, setRemoveState] = useState(false)
 
     useEffect(() => {
         getUser()
@@ -20,24 +19,35 @@ export default function Patients({ setContext }) {
           patients = await API.fetchPatients(data.user);
 
         setPatients(patients.data);
+    },
+
+    togglePatientAsRemovable = index => {
+        const clone = patients;
+        
+        clone[index].removable = !clone[index].removable
+        
+        setPatients(clone)
     }
-    console.log(patients)
+
+
     return (
         <Container>
             <Row>
                 <Col size={'md-8'} classes={'offset-md-2'}>
                     {
-                        patients.map( patient => 
-                            <Profiles 
+                        patients.map( (patient, i) => 
+                            <PatientList 
                             patient={patient} 
+                            index={i} 
                             context={setContext}  
-                            // id={patient._id} 
-                            // key={patient._id} 
+                            removeState={removeState}
+                            confirmRemoval={togglePatientAsRemovable}
+                            key={patient._id} 
                             />)
                     }
                     <PatientHandler 
-                        confirmed={confirmed}
-                        isConfirmed={() => {isConfirmed(!confirmed)}} 
+                        confirmed={removeState}
+                        isConfirmed={() => {setRemoveState(!removeState)}} 
                         />
                 </Col>
            </Row>

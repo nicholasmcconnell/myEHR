@@ -48,8 +48,7 @@ router.post('/login', function(req, res, next) {
     }
 )
 
-router.get('/', (req, res, next) => {
-        console.log(req.user)
+router.get('/', (req, res ) => {
     if (req.user) {
         res.json({ user: req.user })
     } else {

@@ -24,7 +24,6 @@ Globals
 
     let { patientId, name } = useContext(PatientContext);
         patientId = patientId ? patientId : location.state.patientId;
-        console.log(name)
 
     const [ patient, setPatient ] = useState(patientId),
         [generalInfo, setGeneralInfo] = useState({}),

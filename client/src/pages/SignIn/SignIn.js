@@ -17,7 +17,7 @@ export default function SignIn() {
 
         authorize = () => {
             Auth.login(() => {
-                history.push("/profiles")
+                history.push("/patients")
             })
         },
 

@@ -59,9 +59,9 @@ export default function navBar() {
                         Home
                     </Link>
                 </li>
-                <li className={pathname === "/profiles" ? "nav-item active" : "nav-item"}
+                <li className={pathname === "/patients" ? "nav-item active" : "nav-item"}
                     style={Auth.isAuthenticated() ? {display: 'block'} : {display: 'none'}} >
-                    <Link to="/profiles" className={'nav-link'}>
+                    <Link to="/patients" className={'nav-link'}>
                         Saved health records
                     </Link>
                 </li>
