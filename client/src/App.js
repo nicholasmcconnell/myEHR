@@ -25,7 +25,10 @@ function App() {
           <Route exact path="/"> <Landing /> </Route>
           <Route exact path="/signin"> <SignIn /> </Route>
           <Route exact path="/signup"> <SignUp /> </Route>
-          <ProtectedRoute exact path="/patients" > <Patients setContext={patient => setPatient(patient)} /> </ProtectedRoute>
+          <ProtectedRoute exact path="/patients" 
+          component={Patients} 
+          setContext={patient => setPatient(patient)}  
+          /> 
           <ProtectedRoute exact path="/ehr" component={EHR} />
           <ProtectedRoute exact path="/contacts" component={Contacts} />
         </Provider>

@@ -41,7 +41,6 @@ export default {
     },
 
     removePatient: function(id) {
-        console.log(id)
         return axios.delete(`/api/patients/${id}`);
     },
 

@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { Patient } = require("../../models");
 
-// gets all patients
+//gets all patients
 router.get('/load', async(req, res) => {
     try {
         const email = req.user.email;
@@ -24,7 +24,6 @@ router.post('/add', async({ body }, res) => {
         contacts: body.contacts
     });
 
-    //promise
     try {
         const savedPatient = await patient.save();
         res.json(savedPatient);
@@ -43,7 +42,7 @@ router.get("/:patientId", async(req, res) => {
     }
 });
 
-//delete
+//remove
 router.delete("/:patientId", async(req, res) => {
     try {
         const removedPatient = await Patient.remove({
