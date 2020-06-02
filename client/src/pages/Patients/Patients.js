@@ -4,10 +4,17 @@ import { PatientList } from '../../components/PatientList';
 import { PatientHandler }  from '../../components/PatientHandler'; 
 import API from "../../utils/API";
 
+//force the re-rendering of state.
+function useForceUpdate(){
+    const [value, setValue] = useState(0); // integer state
+    return () => setValue(value => ++value); // update the state to force render
+}
+
 export default function Patients({ setContext }) {
 
     const [ patients, setPatients ] = useState([]),
-      [removeState, setRemoveState] = useState(false)
+      [removeState, setRemoveState] = useState(false),
+      forceUpdate = useForceUpdate();
 
     useEffect(() => {
         getUser()
@@ -27,6 +34,7 @@ export default function Patients({ setContext }) {
         clone[index].removable = !clone[index].removable
         
         setPatients(clone)
+        forceUpdate()
     }
 
 

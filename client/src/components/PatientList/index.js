@@ -18,6 +18,7 @@ export function PatientList({ patient, context, removeState, confirmRemoval, ind
     }
     console.log(patient)
     if (removeState) {
+        if(patient.removable) {
     return (
         <div className={'patient-remove'}>
         <Link to='/patients'
@@ -26,26 +27,53 @@ export function PatientList({ patient, context, removeState, confirmRemoval, ind
             >
       
             <div className="card box-shadow mt-5">
-                <div className="card-body text-center">
-                    <Row >
-                <Col size ={"md-2"}></Col>
-                <Col size ={"md-8"}> 
-                    <h2 className="card-title">Remove {name !== 'name this patient' ? name : 'this patient'}</h2>
-                    <p className="card-text"> 
-                        Remove {name !== 'name this patient' ? name : 'this patient'} from your patient list?
-                    </p>
+                <div className="card-body text-center btn btn-outline-danger">
+                <Row >
+                    <Col size ={"md-2"}></Col>
+                    <Col size ={"md-8"}> 
+                        <h2 className="card-title">Remove {name !== 'name this patient' ? name : 'this patient'}</h2>
+                        <p className="card-text"> 
+                            Delete {name !== 'name this patient' ? name : 'this patient'} from your patient list?
+                        </p>
                     </Col>
                     <Col size={"md-2"}>
-                    <Button className="fas fa-user-times fa-2x" style={toggleBtn} 
-                        onClick={confirmRemoval.bind(this, index)} 
-                    />   
+                        <Button className="fas fa-user-times fa-2x" style={toggleBtn} 
+                            onClick={confirmRemoval.bind(this, index)} 
+                        />   
                     </Col>
-                    </Row>
+                </Row>
                 </div>
             </div>
         </Link>
          </div>
-    )
+    )}
+        else {
+    return (
+        <div className={'patient-remove'}>
+        <Link to='/patients'
+            onClick={confirmRemoval.bind(this, index)}  //set patientContext as universal variable.  
+            style={{textDecoration: 'none'}}
+            >
+            <div className="card box-shadow mt-5">
+                <div className="card-body text-center">
+                <Row >
+                    <Col size ={"md-2"}></Col>
+                    <Col size ={"md-8"}> 
+                        <h2 className="card-title">Remove {name !== 'name this patient' ? name : 'this patient'}</h2>
+                        <p className="card-text"> 
+                            Delete {name !== 'name this patient' ? name : 'this patient'} from your patient list?
+                        </p>
+                    </Col>
+                    <Col size={"md-2"}>
+                        <Button className="fas fa-user-times fa-2x" style={toggleBtn} 
+                        />   
+                    </Col>
+                </Row>
+                </div>
+            </div>
+        </Link>
+         </div>
+    )}
     }
     return (
         <Link to={{
