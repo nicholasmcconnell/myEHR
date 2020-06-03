@@ -39,7 +39,7 @@ export function PatientHandler({ removeState, toggleRemoveState, confirmed, canc
                 <div className={"add"}>
                   <Link to={{
                  pathname:'/ehr',
-                 state: { patientId: "" }
+                 state: { patientId:"" }
                 }} 
                     className="btn plus"
                     style={{ float: "right" }}

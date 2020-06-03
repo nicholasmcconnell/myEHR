@@ -15,7 +15,7 @@ export function Contacts({
   formSubmit
 }) {
 
-  const [confirmed, isConfirmed] = useState(false),
+  const [ confirmed, isConfirmed ] = useState(false),
   
     getNewContact = nextContact => {
       if (nextContact) {

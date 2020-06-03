@@ -16,7 +16,7 @@ export function NewContact({ target, toggleState, formSubmit }) {
                 <Col size={'md-4'} classes={'form-group'}>
                     <label>Contact for</label>
                     <Input name="contact" 
-                    placeholder="e.g. 'Dr, Pharmacist, Daughter, etc.."
+                    placeholder="PCP, Pharmacy, etc.."
                     style={input}
                     onChange={target} 
                     />

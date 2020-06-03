@@ -5,7 +5,7 @@ import { Input, Button } from '../Forms';
 
 export function GeneralInfo({ data, target, editState, toggleState, formSubmit, name }) {
 
-if (editState || (!data.firstName && !data.nickname)) {
+if (editState) {
     return (
         <div className={'my-5'}>
         <em><h5 style={{textDecoration: "underline"}}>

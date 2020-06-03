@@ -24,6 +24,8 @@ Globals
 
     let { patientId, name } = useContext(PatientContext);
         patientId = patientId ? patientId : location.state.patientId;
+        console.log("EHR -> patientId", patientId)
+        console.log(location.state.patientId)
   
     const [ patient, setPatient ] = useState(patientId),
         [generalInfo, setGeneralInfo] = useState({}),
@@ -64,7 +66,7 @@ EHR Setup and Initialization
     }, [generalInfo, healthInfo, conditions, meds, contacts]);
 
     async function getPatient() {
-        if (patientId === "") {
+        if (location.state.patientId === "") {
             newPatient()
         } else {
         const { data } = await API.fetchPatient(patient)
@@ -85,6 +87,8 @@ EHR Setup and Initialization
          { data } = await API.addPatient(newPatient);
 
         setPatient(data._id);
+        setGenState(true)
+        setHealthState(true)
     },
 
 /*
