@@ -10,7 +10,7 @@ export const Col = ({ size, classes, children }) => {
         className={size.split(' ').map( size => `col-${size}`).join(' ')
         +" "+ classes}>{children}</div>
     )
-    }
+}
 
 export const Collapse = ({ navState, children, id }) => { 
     const classes = navState ? 'navbar-collapse collapse show' : 'navbar-collapse collapse';

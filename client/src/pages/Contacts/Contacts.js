@@ -1,14 +1,10 @@
 import React, { useState, useContext, useRef, useEffect } from 'react';
 import { Container, Row, Col } from '../../components/Grid';
 import { Contacts as ForwardThis } from '../../components/Contacts';
+import { useForceUpdate } from '../../utils/CustomHooks';
 import PatientContext from '../../utils/PatientContext';
 import API from '../../utils/API';
 
-//force the re-rendering of state.
-function useForceUpdate(){
-    const [value, setValue] = useState(0); // integer state
-    return () => setValue(value => ++value); // update the state to force render
-}
 
 export default function Contacts({ location }) {
 

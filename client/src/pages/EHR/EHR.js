@@ -6,16 +6,9 @@ import { HealthCard } from '../../components/HealthCard';
 import { Conditions } from '../../components/Conditions';
 import { Medications } from '../../components/Medications';
 import { Contacts } from '../../components/Contacts';
+import { usePrevious, useForceUpdate } from '../../utils/CustomHooks';
 import API from '../../utils/API';
 
-//Custom hook to track previous states for comparison purposes.
-const usePrevious = value => {
-    const ref = useRef();
-    useEffect(() => {
-      ref.current = value;
-    }, [value]);
-    return ref.current;
-}
 
 export default function EHR({ location, setContext }) {
 /*
@@ -46,6 +39,7 @@ Globals
         [ query, setQuery ] = useState(''),
 
         previousMed = usePrevious(medInput.medication),
+        forceUpdate = useForceUpdate(), 
         isInitialMount = useRef(true);
 
 /*
@@ -172,7 +166,7 @@ State and database management
         clone = contacts,
         edit = contacts[index];
         
-        setContactEdit(value) //force the re-rendering of state.
+        forceUpdate();
         
         for (let key of Object.keys(edit)) {
 
@@ -190,7 +184,7 @@ State and database management
         const { value } = e.target,
           clone = conditions;
 
-        setConditText(value) //force a re-rendering of state.
+        forceUpdate();
 
          const newDescription = {
             name: conditions[index].name,
