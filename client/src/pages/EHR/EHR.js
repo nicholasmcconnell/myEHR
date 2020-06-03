@@ -10,8 +10,9 @@ import { Contacts } from '../../components/Contacts';
 import API from '../../utils/API';
 
 export default function EHR({ location, setContext }) {
+    
 /*
-Globals
+    Globals
 */ 
     let { patientId, name } = useContext(PatientContext);
         patientId = patientId ? patientId : location.state.patientId;
@@ -39,7 +40,7 @@ Globals
         isInitialMount = useRef(true);
 
 /*
-EHR Setup and Initialization
+    EHR Setup and Initialization
 */ 
     //Use this effect to only load patient on initial mount. And update db only on subsequent mounts. 
     useEffect(() => {  
@@ -78,7 +79,7 @@ EHR Setup and Initialization
     },
 
 /*
-State and database management
+    State and database management
 */ 
     updateDB = e => {
         if(e) {
@@ -288,7 +289,7 @@ State and database management
     },
 
 /*
-Features Management
+    Features Management
 */ 
     capitalizeWord = word => word.replace(/\b[a-z]/g, char => char.toUpperCase()),
 

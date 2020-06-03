@@ -2,65 +2,30 @@ import axios from "axios";
 const apiKey = process.env.REACT_APP_API_KEY;
 
 export default {
-    fetchPatient: function(id) {
-        return axios.get(`/api/patients/${id}`);
-    },
+    fetchPatient: id => axios.get(`/api/patients/${id}`),
 
-    getDrugInfo: function() {
-        return axios.get(`https://www.dictionaryapi.com/api/v3/references/medical/json/cetirizine?key=${apiKey}`);
-    },
+    fetchPatients: email => axios.get("/api/patients/load", email),
 
-    getConditionNames: function(search) {
-        return axios.get(`https://clinicaltables.nlm.nih.gov/api/conditions/v3/search?terms=${search}&sf=primary_name,consumer_name&df=primary_name,consumer_name,info_link_data`)
-            .catch(err => console.log(err))
-    },
+    addPatient: data => axios.post("/api/patients/add", data),
 
-    fetchMeds: function(search) {
-        return axios.get(`https://rxnav.nlm.nih.gov/REST/drugs.json?name=${search}`)
-            .catch(err => console.log(err))
-    },
+    removePatient: id => axios.delete(`/api/patients/${id}`),
 
-    getMedNames: function() {
-        return axios.get('https://rxnav.nlm.nih.gov/REST/displaynames')
-            .catch(err => console.log(err))
-    },
+    updateEHR: (id, data) => axios.patch(`/api/patients/${id}`, data),
 
-    fetchCondition: function(search) {
-        console.log(apiKey)
-        return axios.get(`https://www.dictionaryapi.com/api/v3/references/medical/json/${search}?key=${apiKey}`)
-            .catch(err => console.log(err))
-    },
+    getUser: () => axios.get('/api/users').then(data => data),
 
-    fetchPatients: function(email) {
-        return axios.get("/api/patients/load", email);
-    },
+    register: credentials => axios.post('api/users/register', credentials),
 
-    addPatient: function(data) {
-        return axios.post("/api/patients/add", data);
-    },
+    login: credentials => axios.post('/api/users/login', credentials),
 
-    removePatient: function(id) {
-        return axios.delete(`/api/patients/${id}`);
-    },
+/*
+    External APIs
+*/ 
+    getConditionNames: search => axios.get(`https://clinicaltables.nlm.nih.gov/api/conditions/v3/search?terms=${search}&sf=primary_name,consumer_name&df=primary_name,consumer_name,info_link_data`),
+    
+    fetchCondition: search => axios.get(`https://www.dictionaryapi.com/api/v3/references/medical/json/${search}?key=${apiKey}`),
 
-    updateEHR: function(id, data) {
-        return axios.patch(`/api/patients/${id}`, data);
-    },
+    getMedNames: () => axios.get('https://rxnav.nlm.nih.gov/REST/displaynames'),
 
-    getUser: function() {
-        return axios.get('/api/users').then(data => data);
-    },
-
-    register: function(credentials) {
-        // console.log("in API.register");
-        // console.log(credentials);
-        const { email, password } = credentials
-        return axios.post('api/users/register', { email, password });
-    },
-
-    login: function(credentials) {
-     
-        return axios.post('/api/users/login', credentials);
-    }
-
+    fetchMeds: search => axios.get(`https://rxnav.nlm.nih.gov/REST/drugs.json?name=${search}`)
 }
