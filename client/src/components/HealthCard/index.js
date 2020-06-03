@@ -31,7 +31,7 @@ export function HealthCard({ data, target, editState, toggleState, formSubmit, n
     return types.map( type => type === gender ? <option value={gender} selected>{gender}</option> : <option>{type}</option>)
      };
     
-if (editState || !data.dob) {
+if (editState) {
     return (
         <div className={'my-5'}>
             <em><h5 style={{textDecoration: "underline"}}>
