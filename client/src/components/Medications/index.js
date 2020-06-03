@@ -2,8 +2,6 @@ import React from 'react'
 import { Col } from '../Grid';
 import { Input, Button } from '../Forms';
 
-
-
 export function Medications({ 
     data, 
     text, 

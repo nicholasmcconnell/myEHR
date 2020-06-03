@@ -17,7 +17,7 @@ export function Contacts({
 
   const [ confirmed, isConfirmed ] = useState(false),
 
-    formatPhoneNumberLink = number => number.replace(/[^\d]/g, ''),
+    formatPhoneNumberLink = number => number ? number.replace(/[^\d]/g, '') : "",
   
     getNewContact = nextContact => {
       if (nextContact) {
