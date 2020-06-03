@@ -16,6 +16,8 @@ export function Contacts({
 }) {
 
   const [ confirmed, isConfirmed ] = useState(false),
+
+    formatPhoneNumberLink = number => number.replace(/[^\d]/g, ''),
   
     getNewContact = nextContact => {
       if (nextContact) {
@@ -311,7 +313,9 @@ export function Contacts({
               <div className="form-row">
                 <Col size={"md-4"} classes={"form-group"}>
                   <label>Primary Phone:</label>
-                  <div style={fieldText}>{contact.primaryPhone}</div>
+                  <div style={{...fieldText, textDecoration: 'underline'}}>
+                  <a href={`tel:${formatPhoneNumberLink(contact.primaryPhone)}`}>{contact.primaryPhone}</a>
+                  </div>
                 </Col>
                 <Col size={"md-2"} classes={"form-group"}>
                   <label>Ext:</label>
@@ -319,7 +323,9 @@ export function Contacts({
                 </Col>
                 <Col size={"md-4"} classes={"form-group"}>
                   <label>Another Phone:</label>
-                  <div style={fieldText}>{contact.secondaryPhone}</div>
+                  <div style={{...fieldText, textDecoration: 'underline'}}>
+                  <a href={`tel:${formatPhoneNumberLink(contact.secondaryPhone)}`}>{contact.secondaryPhone}</a>
+                  </div>
                 </Col>
                 <Col size={"md-2"} classes={"form-group"}>
                   <label>Ext:</label>
@@ -333,11 +339,16 @@ export function Contacts({
                 </Col>
                 <Col size={"md-4"} classes={"form-group"}>
                   <label>Email:</label>
-                  <div style={fieldText}>{contact.email}</div>
+                  <div style={{...fieldText, textDecoration: 'underline'}}>
+                    <a href={`mailto:${contact.email}`}>{contact.email}</a>
+                    </div>
                 </Col>
                 <Col size={"md-4"} classes={"form-group"}>
                   <label>Website:</label>
-                  <div style={fieldText}>{contact.website}</div>
+                  <div style={{...fieldText, textDecoration: 'underline'}}> 
+                  <a target="_blank" rel="noreferrer noopener" 
+                    href={`https://${contact.website}`}>{contact.website}</a>
+                  </div>
                 </Col>
               </div>
             </form>
