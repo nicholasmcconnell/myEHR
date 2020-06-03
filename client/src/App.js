@@ -15,7 +15,9 @@ import "./App.css";
 
 function App() {
   const [ patient, setPatient ] = useState({}),
-    { Provider } = PatientContext;
+    { Provider } = PatientContext,
+
+  setPatientContext = patient => setPatient(patient)
 
   return (
     <Router>
@@ -27,9 +29,12 @@ function App() {
           <Route exact path="/signup"> <SignUp /> </Route>
           <ProtectedRoute exact path="/patients" 
           component={Patients} 
-          setContext={patient => setPatient(patient)}  
+          setContext={setPatientContext}  
           /> 
-          <ProtectedRoute exact path="/ehr" component={EHR} />
+          <ProtectedRoute exact path="/ehr" 
+          component={EHR} 
+          setContext={setPatientContext}
+          />
           <ProtectedRoute exact path="/contacts" component={Contacts} />
         </Provider>
       </div>

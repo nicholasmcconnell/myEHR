@@ -17,7 +17,7 @@ const usePrevious = value => {
     return ref.current;
   }
 
-export default function EHR({ location }) {
+export default function EHR({ location, setContext }) {
 /*
 Globals
 */ 
@@ -104,6 +104,17 @@ State and database management
         const data = {generalInfo, healthInfo, conditions, meds, contacts}
         API.updateEHR(patient, data)
             .catch(err => console.log(err))             
+    }
+
+    useEffect(() => {
+        setNameInNavbar()
+    }, [generalInfo])
+
+    const setNameInNavbar = () => {
+        let { firstName, nickname } = generalInfo,
+        name = nickname ? nickname : firstName;
+
+        setContext({ patientId: patient, name })
     },
 
     onGenInfoInputChange = e => {
