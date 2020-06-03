@@ -5,18 +5,20 @@ import { Col, Row } from '../Grid';
 
 export function PatientList({ patient, context, removeState, confirmRemoval, remove, index }) {
 
-    const { patientData } = patient,
-          { healthData } = patient,
+    const { patientData, healthData } = patient
+     
+    //keep invalid or corrupt data away from the EHR page.
+    if(!patientData || !healthData){
+        return <div></div>
+    }
+    const { firstName, nickname } = patientData,
              { _id } = patient;
-        
+
     let name;
-    // if (!patientData || !healthData) return
-
-
-    if (!patientData || (patientData.firstName === null && patientData.nickName === null)) {
-        name = "name this patient"
-    } else {
-        name = patientData.nickname ? patientData.nickname : patientData.firstName;
+      if (firstName || nickname) {
+          name = (nickname && nickname !== '') ? nickname : firstName;
+        } else {
+            name = ""
     }
 
     if (removeState) {
@@ -36,7 +38,7 @@ export function PatientList({ patient, context, removeState, confirmRemoval, rem
                     <Col size ={"md-8"}> 
                         <h2 className="card-title">Please Confirm</h2>
                         <p className="card-text"> 
-                            This will remove {name !== 'name this patient' ? name : 'this patient'} from your list.
+                            This will remove {name !== '' ? name : 'this patient'} from your list.
                         </p>
                     </Col>
                 </Row>
@@ -57,9 +59,9 @@ export function PatientList({ patient, context, removeState, confirmRemoval, rem
                 <Row >
                     <Col size ={"md-2"}></Col>
                     <Col size ={"md-8"}> 
-                        <h2 className="card-title">Remove {name !== 'name this patient' ? name : 'this patient'}</h2>
+                        <h2 className="card-title">Remove {name === '' ? 'this patient' : name}</h2>
                         <p className="card-text"> 
-                            Delete {name !== 'name this patient' ? name : 'this patient'} from your patient list?
+                            Delete {name !== '' ? name : 'this patient'} from your patient list?
                         </p>
                     </Col>
                     <Col size={"md-2"}>
@@ -83,9 +85,9 @@ export function PatientList({ patient, context, removeState, confirmRemoval, rem
             >
             <div className="card box-shadow mt-5">
                 <div className="card-body text-center">
-                    <h2 className="card-title">{name}</h2>
+                    <h2 className="card-title">{name === '' ? 'name this patient' : name}</h2>
                     <p className="card-text"> 
-                        Access {name !== 'name this patient' ? name : 'this patient'}'s information here.
+                        Access {name !== '' ? name : 'this patient'}'s information here.
                     </p>
                 </div>
             </div>

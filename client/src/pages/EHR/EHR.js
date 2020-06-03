@@ -24,7 +24,7 @@ Globals
 
     let { patientId, name } = useContext(PatientContext);
         patientId = patientId ? patientId : location.state.patientId;
-
+    console.log(patientId, name, location.state.patientId)
     const [ patient, setPatient ] = useState(patientId),
         [generalInfo, setGeneralInfo] = useState({}),
         [ healthInfo, setHealthInfo ] = useState({}),
@@ -54,7 +54,7 @@ EHR Setup and Initialization
 */ 
     
     //Use this effect to only load patient on initial mount. And update db only on subsequent mounts. 
-    useEffect(() => {   
+    useEffect(() => {  
         if (isInitialMount.current) {
             isInitialMount.current = false;
             getPatient()
@@ -63,23 +63,23 @@ EHR Setup and Initialization
          }
     }, [generalInfo, healthInfo, conditions, meds, contacts]);
 
-    const getPatient = async() => {
-
+    async function getPatient() {
         if (patientId === "") {
             newPatient()
         } else {
         const { data } = await API.fetchPatient(patient)
+
             setGeneralInfo(data.patientData)
             setHealthInfo(data.healthData)
             setConditions(data.healthConditions)
             setMeds(data.medications)
             setContacts(data.contacts)
         } 
-    },
+    }
 
      //if no patient is passed in, create a new one on the server.
-     newPatient = async() => {
-    
+     const newPatient = async() => {
+        console.log('test')
         const user  = await API.getUser(),
             email = user.data.user.email;
    

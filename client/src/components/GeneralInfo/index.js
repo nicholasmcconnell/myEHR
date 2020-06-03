@@ -5,7 +5,7 @@ import { Input, Button } from '../Forms';
 
 export function GeneralInfo({ data, target, editState, toggleState, formSubmit, name }) {
 
-if (editState) {
+if (editState || (!data.firstName && !data.nickname)) {
     return (
         <div className={'my-5'}>
         <em><h5 style={{textDecoration: "underline"}}>
@@ -20,21 +20,21 @@ if (editState) {
                 <div className={"form-row"}>
                     <Col size={'md-4'} classes={'form-group'}>
                         <label>First Name</label>
-                        <Input value={data.firstName} name="firstName"
+                        <Input value={data ? data.firstName : ''} name="firstName"
                         style={input}
                         onChange={target} 
                         />
                     </Col>
                     <Col size={'md-4'} classes={'form-group'}>
                         <label>Last Name</label>
-                        <Input value={data.lastName} name="lastName"
+                        <Input value={data ? data.lastName : ''} name="lastName"
                         style={input}
                         onChange={target} 
                         />
                     </Col>
                     <Col size={'md-4'} classes={'form-group'}>
                         <label>Nickname</label>
-                        <Input value={data.nickname} name="nickname"
+                        <Input value={data ? data.nickname : ''} name="nickname"
                         style={input}
                         placeholder={"e.g. 'Mom'"} 
                         onChange={target} 
@@ -44,13 +44,13 @@ if (editState) {
                 <div className="form-row">
                     <Col size={'md-6'} classes={'form-group'}>
                         <label>Address Line 1</label>
-                        <Input value={data.addressOne} name="addressOne"
+                        <Input value={data ? data.addressOne : ''} name="addressOne"
                         style={input}
                         onChange={target} 
                         />                    </Col>
                     <Col size={'md-6'} classes={'form-group'}>
                         <label>Address Line 2</label>
-                        <Input value={data.addressTwo} name="addressTwo"
+                        <Input value={data ? data.addressTwo : ''} name="addressTwo"
                         style={input}
                         onChange={target} 
                         />                    
@@ -59,28 +59,28 @@ if (editState) {
                 <div className="form-row">
                     <Col size={'md-3'} classes={'form-group'}>
                         <label>City</label>
-                        <Input value={data.city} name="city"
+                        <Input value={data ? data.city : ''} name="city"
                         style={input}
                         onChange={target} 
                         />
                     </Col>
                     <Col size={'md-3'} classes={'form-group'}>
                         <label>State/Providence</label>
-                        <Input value={data.state} name="state"
+                        <Input value={data ? data.state : ''} name="state"
                         style={input}
                         onChange={target} 
                         />
                     </Col>
                     <Col size={'md-3'} classes={'form-group'}>
                         <label>Zip/Postal Code</label>
-                        <Input value={data.zip} name="zip"
+                        <Input value={data ? data.zip : ''} name="zip"
                         style={input}
                         onChange={target} 
                         />
                     </Col>
                     <Col size={'md-3'} classes={'form-group'}>
                         <label>Country</label>
-                        <Input value={data.country} name="country"
+                        <Input value={data ? data.country : ''} name="country"
                         style={input}
                         onChange={target} 
                         />
@@ -89,14 +89,14 @@ if (editState) {
                     <div className="form-row">
                     <Col size={'md-4'} classes={'form-group'}>
                         <label>Phone Number</label>
-                        <Input value={data.phone} name="phone"
+                        <Input value={data ? data.phone : ''} name="phone"
                         style={input}
                         onChange={target} 
                         />
                     </Col>
                     <Col size={'md-4'} classes={'form-group'}>
                         <label>Email</label>
-                        <Input value={data.email} name="email"
+                        <Input value={data ? data.email : ''} name="email"
                         style={input}
                         onChange={target} 
                         />

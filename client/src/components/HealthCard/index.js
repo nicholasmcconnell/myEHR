@@ -19,19 +19,19 @@ export function HealthCard({ data, target, editState, toggleState, formSubmit, n
 
      getBloodTypes = bloodType => {
     
-        const types = ['Unknown', 'A-Positive', 'A-Negative', 'B-Positive', 'B-Negative', 'AB-Positive', 'AB-Negative', 'O-Positive', 'O-Negative']
+        const types = ['Select', 'Unknown', 'A-Positive', 'A-Negative', 'B-Positive', 'B-Negative', 'AB-Positive', 'AB-Negative', 'O-Positive', 'O-Negative']
     
     return types.map( type => type === bloodType ? <option value={bloodType} selected>{bloodType}</option> : <option>{type}</option>)
      },
 
      getGenders = gender => {
     
-        const types = ['Male', 'Female', 'Transgender Male', 'Transgender Female']
+        const types = ['Select', 'Male', 'Female', 'Transgender Male', 'Transgender Female']
     
     return types.map( type => type === gender ? <option value={gender} selected>{gender}</option> : <option>{type}</option>)
      };
     
-if (editState) {
+if (editState || !data.dob) {
     return (
         <div className={'my-5'}>
             <em><h5 style={{textDecoration: "underline"}}>

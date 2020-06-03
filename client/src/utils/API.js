@@ -1,5 +1,4 @@
 import axios from "axios";
-require('dotenv').config();
 const apiKey = process.env.REACT_APP_API_KEY;
 
 export default {
@@ -60,8 +59,8 @@ export default {
     },
 
     login: function(credentials) {
-        const { email, password } = credentials;
-        return axios.post('/api/users/login', { email, password });
+     
+        return axios.post('/api/users/login', credentials);
     }
 
 }
