@@ -15,13 +15,12 @@ const usePrevious = value => {
       ref.current = value;
     }, [value]);
     return ref.current;
-  }
+}
 
 export default function EHR({ location, setContext }) {
 /*
 Globals
 */ 
-
     let { patientId, name } = useContext(PatientContext);
         patientId = patientId ? patientId : location.state.patientId;
   
@@ -63,7 +62,7 @@ EHR Setup and Initialization
          }
     }, [generalInfo, healthInfo, conditions, meds, contacts]);
 
-    async function getPatient() {
+    const getPatient = async() => {
         if (location.state.patientId === "") {
             newPatient()
         } else {
@@ -74,10 +73,10 @@ EHR Setup and Initialization
             setMeds(data.medications)
             setContacts(data.contacts)
         } 
-    }
+    },
 
      //if no patient is passed in, create a new one on the server.
-     const newPatient = async() => {
+    newPatient = async() => {
         const user  = await API.getUser(),
             email = user.data.user.email;
    
@@ -315,8 +314,25 @@ Features Management
         return !data.displayTermsList ? "??" : data.displayTermsList.term       
     },
 
-    selectSuggestedCondit = value => {
+    selectSuggestedCondit = async value => {
         setConditSuggestions({ suggestions: [], text: value })
+
+        //auto add condition when selected autocomplete value is clicked.    
+        if (!value) return;
+        
+        const [ search ]  = value.split('-'),
+            { data } = await API.fetchCondition(search),
+    
+        description = (data[0] && data[0].shortdef) ? data[0].shortdef.join('\n') : '',
+
+                newCondition = { 
+                    name: capitalizeWord(value), 
+                    description, 
+                    edit: false, 
+                    createdAt: Date.now()
+                }
+        setConditions([...conditions, newCondition])
+        setConditSuggestions({text: ''})
     },
 
     renderConditSuggestions = () => {
