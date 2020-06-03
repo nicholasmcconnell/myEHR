@@ -252,14 +252,13 @@ State and database management
         e.target.reset();
 
         let { text } = medSuggestions;
-        if (!text) {
-            return
-        }
+        if (!text) return
+        
         try {
-           text = text.split(' ');
+           text = text.split(' ')
 
             const newMed = {
-                medication: text[0],
+                medication: capitalizeWord(text[0]),
                 dosage: medInput.dosage,
                 edit : false,
                 createdAt: Date.now()
@@ -304,6 +303,7 @@ State and database management
 /*
 Features Management
 */ 
+    capitalizeWord = word => word.replace(/\b[a-z]/g, char => char.toUpperCase()),
 
     getConditionNames = async(search) => {
         const { data } = await API.getConditionNames(search);
@@ -334,7 +334,7 @@ Features Management
 
     selectSuggestedMed = async value => {
         setMedSuggestions({ suggestions: [], text: value})
-
+        
         //populate dosage choices with suggestions when autocomplete option is clicked
         if (!value) return;
         try {
