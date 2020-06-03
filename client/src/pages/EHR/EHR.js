@@ -24,8 +24,6 @@ Globals
 
     let { patientId, name } = useContext(PatientContext);
         patientId = patientId ? patientId : location.state.patientId;
-        console.log("EHR -> patientId", patientId)
-        console.log(location.state.patientId)
   
     const [ patient, setPatient ] = useState(patientId),
         [generalInfo, setGeneralInfo] = useState({}),
@@ -268,6 +266,7 @@ State and database management
             }
         setMeds([...meds, newMed])
         setDoses('')
+        setQuery('')
         setMedSuggestions([])
         } catch(err) {return}
     },
@@ -342,7 +341,7 @@ Features Management
             const  { data } = await API.fetchMeds(value),
               doses = data.drugGroup.conceptGroup[1].conceptProperties.map(x => x.synonym).filter(x => x !== '')
            
-            setDoses(doses)   
+            setDoses(doses)
         } catch(err) {return}
     },
 
@@ -369,7 +368,7 @@ Features Management
         try {
             const  { data } = await API.fetchMeds(text),
               doses = data.drugGroup.conceptGroup[1].conceptProperties.map(x => x.synonym).filter(x => x !== '')
-           
+            
             setDoses(doses)   
         } catch(err) {return}
     }

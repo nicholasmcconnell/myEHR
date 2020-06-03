@@ -33,9 +33,9 @@ export function Medications({
                 <select name="dosage" style={input}
                     onChange={target}
                     className="form-control">
-                    <option selected>Which Dose?</option>
+                    <option defaultValue>Which Dose?</option>
 
-                    {clone.map(dose => <option>{dose}</option>)}
+                    {clone.map((dose, i) => <option key={i} >{dose}</option>)}
 
                 </select>
             )
