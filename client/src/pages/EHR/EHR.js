@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef, useContext } from 'react';
+import { useForceUpdate } from '../../utils/CustomHooks';
 import PatientContext from '../../utils/PatientContext';
 import { Container, Row, Col } from '../../components/Grid';
 import { GeneralInfo } from '../../components/GeneralInfo';
@@ -6,9 +7,7 @@ import { HealthCard } from '../../components/HealthCard';
 import { Conditions } from '../../components/Conditions';
 import { Medications } from '../../components/Medications';
 import { Contacts } from '../../components/Contacts';
-import { usePrevious, useForceUpdate } from '../../utils/CustomHooks';
 import API from '../../utils/API';
-
 
 export default function EHR({ location, setContext }) {
 /*
@@ -30,22 +29,18 @@ Globals
         [ editHealthState, setHealthState ] = useState(false),
         [ editConditState, setConditState ] = useState(false),
         [ editMedsState, setMedsState ] = useState(false),
-        [ , setContactEdit ] = useState(''),
-        [ , setConditText ] = useState(''),
         [ descEditState, setDescEditState ] = useState(false),
         [ conditSuggestions, setConditSuggestions ] = useState([]),
         [ medSuggestions, setMedSuggestions ] = useState([]),
         [ doses, setDoses ] = useState(''),
         [ query, setQuery ] = useState(''),
 
-        previousMed = usePrevious(medInput.medication),
         forceUpdate = useForceUpdate(), 
         isInitialMount = useRef(true);
 
 /*
 EHR Setup and Initialization
 */ 
-    
     //Use this effect to only load patient on initial mount. And update db only on subsequent mounts. 
     useEffect(() => {  
         if (isInitialMount.current) {
@@ -85,7 +80,6 @@ EHR Setup and Initialization
 /*
 State and database management
 */ 
-
     updateDB = e => {
         if(e) {
         e.preventDefault()
@@ -146,8 +140,8 @@ State and database management
             const { name, value } = e.target; 
             setQuery({ ...query, [name]: value })
             
-        //Uses custom hook to only run this code when medication name changes. ignore dosage.
-        if (previousMed !== query.medication) {
+        //only run this code when medication changes. ignore dosage.
+        if (name === 'medication') {
         try {           
         const items = await getMedNames(value)
         let suggestions = [];

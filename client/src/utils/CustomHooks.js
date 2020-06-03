@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 
 
-//used track previous states for comparison purposes.
+//used track previous states for comparison purposes. ex use:  previousItem = usePrevious(itemInput.property),
  export const usePrevious = value => {
 
         const ref = useRef();
