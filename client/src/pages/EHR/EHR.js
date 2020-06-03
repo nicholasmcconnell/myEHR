@@ -238,7 +238,7 @@ State and database management
         description = (data[0] && data[0].shortdef) ? data[0].shortdef.join('\n') : '',
 
                 newCondition = { 
-                    name: text, 
+                    name: capitalizeWord(text), 
                     description, 
                     edit: false, 
                     createdAt: Date.now()
