@@ -97,7 +97,7 @@ export default function SignUp() {
     );
 }
 const  background = {
-    backgroundImage: "url(" + require("../../assets/img/backgroundImage2.jpg") + ")",
+    backgroundImage: `url(${require("../../assets/img/backgroundImage2.jpg")}`,
     backgroundPosition: 'center',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',

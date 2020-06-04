@@ -30,7 +30,6 @@ export default function EHR({ location, setContext }) {
         [ editHealthState, setHealthState ] = useState(false),
         [ editConditState, setConditState ] = useState(false),
         [ editMedsState, setMedsState ] = useState(false),
-        [ descEditState, setDescEditState ] = useState(false),
         [ conditSuggestions, setConditSuggestions ] = useState([]),
         [ medSuggestions, setMedSuggestions ] = useState([]),
         [ doses, setDoses ] = useState(''),
@@ -444,7 +443,6 @@ export default function EHR({ location, setContext }) {
                     <Conditions
                         toggleState={() => setConditState(!editConditState)}
                         editState={editConditState} 
-                        editDescState={descEditState} 
                         toggleDescState={toggleDescriptionEdit}
                         remove={removeCondition}
                         areaTarget={onConditDescChange}

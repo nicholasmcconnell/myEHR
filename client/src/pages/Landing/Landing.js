@@ -11,7 +11,7 @@ export default function Landing() {
             <Container>
                 <Row>
                     <Col size={'md-8'} classes={'offset-md-2'}>
-                        <div class="jumbotron mt-5">
+                        <div className="jumbotron mt-5">
                                  <img
                                     style={logo}
                                     src={require("../../assets/img/Logo.png")}
@@ -31,7 +31,7 @@ export default function Landing() {
 }
 
 const background = {
-    backgroundImage: "url(" + require("../../assets/img/backgroundImage2.jpg") + ")",
+    backgroundImage: `url(${require("../../assets/img/backgroundImage2.jpg")}`,
     backgroundPosition: 'center',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',

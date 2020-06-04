@@ -24,6 +24,7 @@ export function NewContact({ target, toggleState, formSubmit }) {
                 <Col size={'md-4'} classes={'form-group'}>
                     <label>Office or Business Name</label>
                     <Input name="office"
+                    placeholder="Vandelay Industries"
                     style={input}
                     onChange={target} 
                     />
@@ -31,7 +32,7 @@ export function NewContact({ target, toggleState, formSubmit }) {
                 <Col size={'md-4'} classes={'form-group'}>
                     <label>Contact Name</label>
                     <Input name="name" 
-                    placeholder="Dr. Smith"
+                    placeholder="Art Vandelay"
                     style={input}
                     onChange={target} 
                     />

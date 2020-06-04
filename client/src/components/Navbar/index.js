@@ -7,7 +7,7 @@ import Auth from '../../Auth';
 
 export default function navBar() {
 
-    const [navLinks, showNavLinks] = useState(false),
+    let [navLinks, showNavLinks] = useState(false),
     history = useHistory(),
     { pathname } = useLocation(),
     { patientId, name } = useContext(PatientContext),
