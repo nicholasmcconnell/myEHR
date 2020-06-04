@@ -14,8 +14,8 @@ export default {
 
     getUser: () => axios.get('/api/users').then(data => data),
 
-    register: credentials => axios.post('api/users/register', credentials),
-
+    register: credentials =>  axios.post('api/users/register', credentials),
+  
     login: credentials => axios.post('/api/users/login', credentials),
 
 /*

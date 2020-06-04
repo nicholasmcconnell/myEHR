@@ -27,9 +27,7 @@ router.post('/register', (req, res) => {
 	});
 });
 
-router.post(
-	'/login',
-	function(req, res, next) {
+router.post('/login', (req, res, next) => {
 		console.log(`Route for user login hit: ${req.body}`);
 		next();
 	},

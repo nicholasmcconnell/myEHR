@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useContext } from 'react';
-import { useForceUpdate } from '../../utils/CustomHooks';
+import { usePrevious, useForceUpdate } from '../../utils/CustomHooks';
 import PatientContext from '../../utils/PatientContext';
 import { Container, Row, Col } from '../../components/Grid';
 import { GeneralInfo } from '../../components/GeneralInfo';
@@ -37,6 +37,9 @@ export default function EHR({ location, setContext }) {
         [ query, setQuery ] = useState(''),
 
         forceUpdate = useForceUpdate(), 
+        hasConditions = useRef(), 
+        hasMeds = useRef(), 
+        hasContacts = useRef(false), 
         isInitialMount = useRef(true);
 
 /*
@@ -62,6 +65,7 @@ export default function EHR({ location, setContext }) {
             setConditions(data.healthConditions)
             setMeds(data.medications)
             setContacts(data.contacts)
+            setParity(data)
         } 
     },
 
@@ -76,6 +80,7 @@ export default function EHR({ location, setContext }) {
         setPatient(data._id);
         setGenState(true)
         setHealthState(true)
+        setParity()
     },
 
 /*
@@ -89,9 +94,26 @@ export default function EHR({ location, setContext }) {
         }
         const data = {generalInfo, healthInfo, conditions, meds, contacts}
         console.log(contacts)
-        if(contacts.length === 0) return
+        if(parity()){
         API.updateEHR(patient, data)
-            .catch(err => console.log(err))             
+            .catch(err => console.log(err))        
+        }     
+    }, 
+
+    setParity = ({contacts}) => {
+        console.log(contacts.length)
+        if (contacts && contacts.length > 0) {
+            hasContacts.current = true
+        }  
+        console.log(hasContacts.current)
+    },
+
+    parity = () => {
+        console.log('hit')
+        if(hasContacts.current && contacts.length === 0) {
+            return false;
+        }
+        return true;
     }
 
     useEffect(() => {
@@ -264,6 +286,7 @@ export default function EHR({ location, setContext }) {
         e.preventDefault();
         setAddContact(false)
         
+        hasContacts.current = true;
         setContacts([...contacts, newContact])
     },
 
@@ -285,6 +308,8 @@ export default function EHR({ location, setContext }) {
         const clone = contacts;
 
         clone.splice(index, 1)
+
+        hasContacts.current = clone.length === 0 ? false : true
         setContacts([...clone])
     },
 
@@ -293,14 +318,14 @@ export default function EHR({ location, setContext }) {
 */ 
     capitalizeWord = word => word.replace(/\b[a-z]/g, char => char.toUpperCase()),
 
-    getConditionNames = async(search) => {
+    getConditionNames = async search => {
         const { data } = await API.getConditionNames(search);
         return  data[3].map( x => x[0]);
     },
 
-     getMedNames = async(search) => {
+     getMedNames = async search => {
         const { data }  = await API.getMedNames(search);
-        return !data.displayTermsList ? "??" : data.displayTermsList.term       
+        return !data.displayTermsList ? "??" : data.displayTermsList.term;  
     },
 
     selectSuggestedCondit = async value => {
