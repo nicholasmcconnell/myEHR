@@ -40,7 +40,7 @@ export function Conditions({
 								{condition.name} {' '}
 								<Button
 									className="fas fa-pen"
-									style={{ border: 'none' }}
+									style={editBtn}
 									onClick={toggleDescState.bind(this, i)}
 								/>
 								<Button
@@ -66,7 +66,7 @@ export function Conditions({
 							{condition.name} {' '}
 							<Button
 								className="fas fa-pen"
-								style={{ border: 'none' }}
+								style={editBtn}
 								onClick={toggleDescState.bind(this, i)}
 							/>
 							<Button className="fas fa-times" style={removeBtn} onClick={remove.bind(this, i)} />
@@ -204,11 +204,17 @@ const fieldText = {
 		focus: 'none',
 		size: '10em'
 	},
+	editBtn = { 
+		border: 'none', 
+		backgroundColor: 'white' 
+	},
 	littleEditBtn = {
+		backgroundColor: 'white',
 		border: 'none',
 		color: '#214c91'
 	},
 	removeBtn = {
+		backgroundColor: 'white',
 		border: 'none',
 		color: 'red'
 	};

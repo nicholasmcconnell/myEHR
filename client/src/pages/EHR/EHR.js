@@ -444,9 +444,7 @@ export default function EHR({ location, setContext }) {
                     <Conditions
                         toggleState={() => setConditState(!editConditState)}
                         editState={editConditState} 
-                        toggleDescState={() => setDescEditState(!descEditState)}
                         editDescState={descEditState} 
-                        editState={editConditState}
                         toggleDescState={toggleDescriptionEdit}
                         remove={removeCondition}
                         areaTarget={onConditDescChange}
