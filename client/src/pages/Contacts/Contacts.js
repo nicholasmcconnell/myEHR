@@ -43,13 +43,9 @@ export default function Contacts({ location }) {
         setConditions(data.healthConditions)
         setMeds(data.medications)
         setContacts(data.contacts)
-        
     },
 
-    updateDB = e => {
-        if(e) {
-        e.preventDefault()
-        }
+    updateDB = () => {
         const data = {generalInfo, healthInfo, conditions, meds, contacts}
 
         API.updateEHR(patientId, data)
