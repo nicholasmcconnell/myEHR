@@ -39,7 +39,7 @@ export default function EHR({ location, setContext }) {
         forceUpdate = useForceUpdate(), 
         hasConditions = useRef(), 
         hasMeds = useRef(), 
-        hasContacts = useRef(false), 
+        hasContacts = useRef(), 
         isInitialMount = useRef(true);
 
 /*
@@ -92,9 +92,9 @@ export default function EHR({ location, setContext }) {
             setGenState(false)
             setHealthState(false)
         }
+        if(parity()) {
         const data = {generalInfo, healthInfo, conditions, meds, contacts}
-        console.log(contacts)
-        if(parity()){
+        
         API.updateEHR(patient, data)
             .catch(err => console.log(err))        
         }     
@@ -259,6 +259,7 @@ export default function EHR({ location, setContext }) {
                     edit: false, 
                     createdAt: Date.now()
                 }
+        hasConditions.current = true;
         setConditions([...conditions, newCondition])
     },
 
@@ -278,6 +279,7 @@ export default function EHR({ location, setContext }) {
                 edit : false,
                 createdAt: Date.now()
             }
+        hasMeds.current = true;
         setMeds([...meds, newMed])
         setDoses('')
         setQuery('')
@@ -297,6 +299,8 @@ export default function EHR({ location, setContext }) {
         const clone = conditions;
 
         clone.splice(index, 1)
+
+        hasConditions.current = clone.length === 0 ? false : true
         setConditions([...clone])
     },
 
@@ -304,6 +308,8 @@ export default function EHR({ location, setContext }) {
         const clone = meds;
         
         clone.splice(index, 1)
+
+        hasMeds.current = clone.length === 0 ? false : true
         setMeds([...clone])
     },
 

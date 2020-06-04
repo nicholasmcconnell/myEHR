@@ -39,7 +39,7 @@ export function Contacts({
               type="button"
               className="btn btn-danger"
               style={{ float: "right" }}
-              onClick={remove.bind(this, i)}
+              onClick={remove.bind(this, i, () => {isConfirmed(!confirmed)})}
             >
               <i className="fas fa-user-times"> </i> Confirm Delete
             </Button>
@@ -264,7 +264,10 @@ export function Contacts({
               <Button
                 className="fas fa-user-edit fa-2x"
                 style={editBtn}
-                onClick={toggleState.bind(this, i)}
+                onClick={ ()=>{
+                  isConfirmed(false); 
+                  toggleState(i)
+                }}
               />
             </Col>
             <form>

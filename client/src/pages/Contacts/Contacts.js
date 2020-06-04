@@ -16,7 +16,8 @@ export default function Contacts({ location }) {
         [ conditions, setConditions ] = useState([]),
         [ meds, setMeds ] = useState([]),
 
-        forceUpdate = useForceUpdate(), 
+        hasContacts = useRef(),  
+        forceUpdate = useForceUpdate(),
         isInitialMount = useRef(true);
 
         let { patientId, name } = useContext(PatientContext);
@@ -43,21 +44,26 @@ export default function Contacts({ location }) {
         setConditions(data.healthConditions)
         setMeds(data.medications)
         setContacts(data.contacts)
+        hasContacts.current = setParity(data)
     },
 
     updateDB = () => { 
-        console.log(contacts)
-        if(contacts.length === 0) return
+        if (parity()) {
         const data = {generalInfo, healthInfo, conditions, meds, contacts}
 
         API.updateEHR(patientId, data)
             .catch(err => console.log(err))         
+        }
     },
 
     newContactInputChange = e => {
         const { name, value } = e.target;
         setNewContact({...newContact, [name]: value})
     }, 
+
+    setParity = data => (data && data.contacts.length > 0) ? true : false,
+
+    parity = () => (hasContacts.current && contacts.length === 0) ? false : true,
 
     onContactChange = index => e => {
         const { name, value } = e.target,
