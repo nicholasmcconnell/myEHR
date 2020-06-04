@@ -88,9 +88,9 @@ export default function EHR({ location, setContext }) {
 */ 
     updateDB = e => {
         if(e) {
-        e.preventDefault()
-        setGenState(false)
-        setHealthState(false)
+            e.preventDefault()
+            setGenState(false)
+            setHealthState(false)
         }
         const data = {generalInfo, healthInfo, conditions, meds, contacts}
         console.log(contacts)
@@ -100,16 +100,19 @@ export default function EHR({ location, setContext }) {
         }     
     }, 
 
-    setParity = ({contacts}) => {
-        console.log(contacts.length)
-        if (contacts && contacts.length > 0) {
-            hasContacts.current = true
-        }  
-        console.log(hasContacts.current)
+    setParity = (data) => {
+        hasConditions.current = (data && data.healthConditions.length > 0) ? true : false;     
+        hasMeds.current = (data && data.medications.length > 0) ? true : false;     
+        hasContacts.current = (data && data.contacts.length > 0) ? true : false;     
     },
 
     parity = () => {
-        console.log('hit')
+        if(hasConditions.current && conditions.length === 0) {
+            return false;
+        }
+        if(hasMeds.current && meds.length === 0) {
+            return false;
+        }
         if(hasContacts.current && contacts.length === 0) {
             return false;
         }
