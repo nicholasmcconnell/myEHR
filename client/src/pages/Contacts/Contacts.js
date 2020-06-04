@@ -45,7 +45,9 @@ export default function Contacts({ location }) {
         setContacts(data.contacts)
     },
 
-    updateDB = () => {
+    updateDB = () => { 
+        console.log(contacts)
+        if(contacts.length === 0) return
         const data = {generalInfo, healthInfo, conditions, meds, contacts}
 
         API.updateEHR(patientId, data)

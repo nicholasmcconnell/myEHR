@@ -10,7 +10,7 @@ import { Contacts } from '../../components/Contacts';
 import API from '../../utils/API';
 
 export default function EHR({ location, setContext }) {
-    
+
 /*
     Globals
 */ 
@@ -88,6 +88,8 @@ export default function EHR({ location, setContext }) {
         setHealthState(false)
         }
         const data = {generalInfo, healthInfo, conditions, meds, contacts}
+        console.log(contacts)
+        if(contacts.length === 0) return
         API.updateEHR(patient, data)
             .catch(err => console.log(err))             
     }
@@ -261,10 +263,8 @@ export default function EHR({ location, setContext }) {
     addNewContact = e => {
         e.preventDefault();
         setAddContact(false)
-
-        const list = contacts.concat(newContact);
         
-        setContacts(list)
+        setContacts([...contacts, newContact])
     },
 
     removeCondition = index => {
