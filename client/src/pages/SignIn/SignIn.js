@@ -46,7 +46,10 @@ export default function SignIn() {
                     <Row>
                         <div className={'mt-5'}>
                             <h5 style={text}>
-                                <img style={logo} src={require('../../assets/img/Logo.png')} alt={'Logo'} />
+                                <img 
+                                style={logo} 
+                                src={require('../../assets/img/Logo.png')} 
+                                alt={'Logo'} />
                                 Log-in to your account
                             </h5>
                         </div>
@@ -92,7 +95,8 @@ const  background = {
 
 logo = {
     width: "60px",
-    height: "auto"
+    height: "auto",
+    margin: "15px"
 },
 
 text = {

@@ -5,14 +5,13 @@ import { Col, Row } from '../Grid';
 
 export function PatientList({ patient, context, removeState, confirmRemoval, remove, index }) {
 
-    const { patientData, healthData } = patient
+    const { patientData, healthData, _id } = patient
      
     //keep invalid or corrupt data away from the EHR page.
     if(!patientData || !healthData){
         return <div></div>
     }
-    const { firstName, nickname } = patientData,
-             { _id } = patient;
+    const { firstName, nickname } = patientData;
 
     let name;
       if (firstName || nickname) {

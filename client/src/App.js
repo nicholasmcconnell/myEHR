@@ -13,33 +13,30 @@ import './assets/css/bootstrap.min.css';
 import "./App.css";
 
 
-function App() {
+export default function App() {
+  
   const [ patient, setPatient ] = useState({}),
     { Provider } = PatientContext,
 
-  setPatientContext = patient => setPatient(patient)
+  setPatientContext = patient => setPatient(patient);
 
   return (
     <Router>
-      <div>
-        <Provider value={patient} >
-          <Route path="/"><NavBar /> </Route>
-          <Route exact path="/"> <Landing /> </Route>
-          <Route exact path="/signin"> <SignIn /> </Route>
-          <Route exact path="/signup"> <SignUp /> </Route>
-          <ProtectedRoute exact path="/patients" 
-          component={Patients} 
-          setContext={setPatientContext}  
-          /> 
-          <ProtectedRoute exact path="/ehr" 
-          component={EHR} 
-          setContext={setPatientContext}
-          />
-          <ProtectedRoute exact path="/contacts" component={Contacts} />
-        </Provider>
-      </div>
+      <Provider value={patient} >
+        <Route path="/"><NavBar /> </Route>
+        <Route exact path="/"> <Landing /> </Route>
+        <Route exact path="/signin"> <SignIn /> </Route>
+        <Route exact path="/signup"> <SignUp /> </Route>
+        <ProtectedRoute exact path="/patients" 
+        component={Patients} 
+        setContext={setPatientContext}  
+        /> 
+        <ProtectedRoute exact path="/ehr" 
+        component={EHR} 
+        setContext={setPatientContext}
+        />
+        <ProtectedRoute exact path="/contacts" component={Contacts} />
+      </Provider>
     </Router>
   )
 }
-
-export default App;

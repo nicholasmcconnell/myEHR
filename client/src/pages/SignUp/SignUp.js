@@ -107,7 +107,8 @@ const  background = {
 
 logo = {
     width: "60px",
-    height: "auto"
+    height: "auto",
+    margin: '15px'
 },
 
 text = {

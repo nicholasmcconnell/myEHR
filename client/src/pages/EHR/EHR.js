@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useContext } from 'react';
-import { usePrevious, useForceUpdate } from '../../utils/CustomHooks';
+import { useForceUpdate } from '../../utils/CustomHooks';
 import PatientContext from '../../utils/PatientContext';
 import { Container, Row, Col } from '../../components/Grid';
 import { GeneralInfo } from '../../components/GeneralInfo';

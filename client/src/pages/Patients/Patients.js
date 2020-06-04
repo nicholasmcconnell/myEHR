@@ -8,8 +8,8 @@ import API from "../../utils/API";
 export default function Patients({ setContext }) {
 
     const [ patients, setPatients ] = useState([]),
-      [removeState, setRemoveState] = useState(false),
-      [confirmed, isConfirmed] = useState(false);
+      [ removeState, setRemoveState ] = useState(false),
+      [ confirmed, isConfirmed ] = useState(false);
 
     useEffect(() => {
         getPatients()
