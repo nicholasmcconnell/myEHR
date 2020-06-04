@@ -40,10 +40,13 @@ export default function SignUp() {
         } catch (err) { console.log(err) }
     }
     return (
-        <Container classes={"box-shadow sign"}>
-            <Row>
-                <Col size={"md-12"}>
-                    <Row>
+        <div
+            style={background}
+        >
+        <Container>
+            <Row classes="justify-content-center">
+                <Col size={"md-12"} classes={"box-shadow sign"}>
+                    <Row >
                         <div className={"mt-5"}>
                             <h5 style={text}>
                                 <img
@@ -51,8 +54,8 @@ export default function SignUp() {
                                     src={require("../../assets/img/Logo.png")}
                                     alt={"Logo"}
                                 />
-                Create your account
-              </h5>
+                                Create your account
+                            </h5>
                         </div>
                     </Row>
                     <Row>
@@ -83,21 +86,31 @@ export default function SignUp() {
                     </Row>
                     <Row classes={"justify-content-center"}>
                         <p>
-                            {" "}
-              Already have an account?
-              <Link to="/SignIn"> Log In.</Link>
+                            Already have an account?
+                            <Link to="/SignIn"> Log In.</Link>
                         </p>
                     </Row>
                 </Col>
             </Row>
         </Container>
+    </div>
     );
 }
-const logo = {
+const  background = {
+    backgroundImage: "url(" + require("../../assets/img/backgroundImage2.jpg") + ")",
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    width: '100vw',
+    height: '100vh'
+},
+
+logo = {
     width: "60px",
     height: "auto"
 },
-    text = {
-        color: "#0099ff",
-        textShadow: "1px 1px #000"
-    };
+
+text = {
+    color: "#0099ff",
+    textShadow: "1px 1px #000"
+}

@@ -36,10 +36,13 @@ export default function SignIn() {
         }
 
     return (
+        <div
+            style={background}
+        >
 
-        <Container classes={'box-shadow sign'}>
-            <Row>
-                <Col size={'md-12'} >
+        <Container>
+            <Row classes="justify-content-center">
+                <Col size={'md-12'} classes='box-shadow sign' >
                     <Row>
                         <div className={'mt-5'}>
                             <h5 style={text}>
@@ -74,15 +77,25 @@ export default function SignIn() {
                 </Col>
             </Row>
         </Container>
+
+        </div>
     )
 }
+const  background = {
+    backgroundImage: "url(" + require("../../assets/img/backgroundImage2.jpg") + ")",
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    width: '100vw',
+    height: '100vh'
+},
 
-const logo = {
+logo = {
     width: "60px",
     height: "auto"
 },
 
-    text = {
-        color: "#0099ff",
-        textShadow: "1px 1px #000"
-    }
+text = {
+    color: "#0099ff",
+    textShadow: "1px 1px #000"
+}

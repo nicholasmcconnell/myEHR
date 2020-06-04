@@ -20,6 +20,7 @@
 .sign {
   max-width: 400px;
   margin-top: 50px;
+  background-color: white;
 }
 
 .box-shadow:hover, .box-shadow:focus {
