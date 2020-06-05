@@ -4,7 +4,7 @@ MERN Stack Web Application used for keeping track of personal health records.
 ## Description
 This full-stack web application follows the MVC design pattern for users to input and save their personal medical health records in a database (MongoDB). In addition to general information, users can add/update medications, conditions, and contact information (doctor, pharmacy, emergency contact) for themselves and others. The application utilizes several APIs allowing users to search for their prescription and/or condition and view their descriptions. 
 
-The user, also known as the caregiver, might not be professionally trained and may not know all of the caree's information in order to effectively communicate with medical professionals. The value of this application is that it allows the user to have all necessary information on hand to be able to provide the utmost care for their caree/dependent, and even for themself. 
+The user, also known as the caregiver, might not be professionally trained and may not know all of the care recipient's information in order to effectively communicate with medical professionals. The value of this application off hand is that it allows the user to have all necessary information on hand to be able to provide the utmost care for their recipients/dependent, and even for themselves. 
 
 Users will only have access to profiles that are associated with their account and will not have access to other users' data. This application utilizes protected routes so that the information cannot be access unless an authorized user is logged in. Sensitive information, including API keys and passwords are protected using NPM packages Dotenv and Bcrypt, respectively, to prevent the data from being compromised. 
 
@@ -30,17 +30,17 @@ Users will only have access to profiles that are associated with their account a
 
 ![myEHR-optimize](https://user-images.githubusercontent.com/48693333/81631559-1b635300-93d6-11ea-9de1-5181f3211ffd.gif)
 
-
 ## Tools Used
 * Merriam Webster Medical Dictionary API 
 * Clinical Table Search Service API 
 * RxNav National Library of Medication API
-* React.js
-* Node.js
+* Reactjs
+* Nodejs
 * Express
 * MongoDB
 * Mongoose ORM
-* Passport.js
+* Passport
+* axios
 * Bootstrap 
 * Photoshop
 * MLab

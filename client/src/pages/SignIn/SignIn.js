@@ -2,55 +2,54 @@ import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Container, Row, Col } from '../../components/Grid';
 import { LoggerBtn, Input } from '../../components/Forms';
-
 import API from '../../utils/API';
 import Auth from '../../Auth'
 
 export default function SignIn() {
 
-    const [user, setUser] = useState({  email: '' }),
-    [credentials, setCredentials] = useState({});
+    let history = useHistory();
+    const [credentials, setCredentials] = useState({}),
 
-     let history = useHistory();
-     
-    const onInputChange = e => {
+        onInputChange = e => {
+            const { name, value } = e.target;
+            setCredentials({ ...credentials, [name]: value })
+        },
 
-        const { name, value } = e.target;
-        setCredentials({...credentials, [name]: value })
-    },
+        authorize = () => {
+            Auth.login(() => {
+                history.push("/patients")
+            })
+        },
 
-     authorize = () => {
-        Auth.login(() => {
-          history.push("/profiles")
-        })
-      },
-       
-     handleSubmit = e => {
-        e.preventDefault();
-        e.target.reset();
-        
-        API.login(credentials)
-            .then(({ data }) => { 
-              if(data.status === 'success') {
+        handleSubmit = e => {
+            e.preventDefault();
+            e.target.reset();
 
-                setUser({  user: data.email });
-                authorize()
-                console.log(data)
-              } else {
-                console.log('Login failed.  Please try again.')
-                }
-          }).catch( err => err)
-    }
-    
+            API.login(credentials)
+                .then(({ data }) => {
+                    if (data.status === 'success') {
+                        authorize()
+                    } else {
+                        console.log('Login failed.  Please try again.')
+                    }
+                }).catch(err => err)
+        }
+
     return (
+        <div
+            style={background}
+        >
 
-        <Container classes={'box-shadow sign'}>
-            <Row>
-                <Col size={'md-12'} >
+        <Container>
+            <Row classes="justify-content-center">
+                <Col size={'md-12'} classes='box-shadow sign' >
                     <Row>
                         <div className={'mt-5'}>
                             <h5 style={text}>
-                                <img style={logo} src={require('../../assets/img/Logo.png')} alt={'Logo'} />
+                                <img 
+                                style={logo} 
+                                src={require('../../assets/img/Logo.png')} 
+                                alt={'Logo'} />
                                 Log-in to your account
                             </h5>
                         </div>
@@ -70,11 +69,8 @@ export default function SignIn() {
                                     name="password" type="password" placeholder="Password" />
                             </div>
 
-
                             <LoggerBtn btnType={'log in'} />
-
                         </form>
-
                     </Row>
                     <Row classes={'justify-content-center'}>
                         <p> New here?
@@ -82,15 +78,25 @@ export default function SignIn() {
                         </p>
                     </Row>
                 </Col>
-
             </Row>
         </Container>
+
+        </div>
     )
 }
+const  background = {
+    backgroundImage: `url(${require("../../assets/img/backgroundImage2.jpg")}`,
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    width: '100vw',
+    height: '100vh'
+},
 
-const logo = {
+logo = {
     width: "60px",
-    height: "auto"
+    height: "auto",
+    margin: "15px"
 },
 
 text = {

@@ -3,7 +3,7 @@ import { Col } from '../Grid';
 import { Input, Button, TextArea } from '../Forms';
 
 
-export function HealthCard({ data, target, editState, toggleState, formSubmit, setBlood }) {
+export function HealthCard({ data, target, editState, toggleState, formSubmit, name }) {
 
     const getAge = DOB => {
 
@@ -12,29 +12,38 @@ export function HealthCard({ data, target, editState, toggleState, formSubmit, s
           month = today.getMonth() - birthDate.getMonth();
         let age = today.getFullYear() - birthDate.getFullYear();
 
-          if(isNaN(age)) {
-              return '??'
-            }
+          if(isNaN(age)) return '??'
+            
     return month < 0 || (month === 0 && today.getDate() < birthDate.getDate()) ? age - 1 : age;
     },
 
-     bloodTypes = bloodType => {
+     getBloodTypes = bloodType => {
     
-        const types = ['Unknown', 'A-Positive', 'A-Negative', 'B-Positive', 'B-Negative', 'AB-Positive', 'AB-Negative', 'O-Positive', 'O-Negative']
+        const types = ['Select', 'Unknown', 'A-Positive', 'A-Negative', 'B-Positive', 'B-Negative', 'AB-Positive', 'AB-Negative', 'O-Positive', 'O-Negative']
     
     return types.map( type => type === bloodType ? <option value={bloodType} selected>{bloodType}</option> : <option>{type}</option>)
+     },
+
+     getGenders = gender => {
+    
+        const types = ['Select', 'Male', 'Female', 'Transgender Male', 'Transgender Female']
+    
+    return types.map( type => type === gender ? <option value={gender} selected>{gender}</option> : <option>{type}</option>)
      };
     
 if (editState) {
     return (
         <div className={'my-5'}>
-          <Col size={'md-12'}>
-                <Button className="fas fa-backspace fa-2x" style={cancelBtn} 
+            <em><h5 style={{textDecoration: "underline"}}>
+            {name ? `${name}'s` : ''} Basic Health Information:</h5></em>
+
+          <Col size={'md-12'} classes={"mt-5"}>
+                <Button className="fas fa-backspace fa-2x" style={{...toggleBtn, color: "tomato"}} 
                 onClick={toggleState} />
             </Col>
             <form onSubmit={formSubmit} >
                 <div className={"form-row"}>
-                    <Col size={'md-4'} classes={'form-group'}>
+                    <Col size={'md-3'} classes={'form-group'}>
                         <label>Date of Birth</label>
                         <Input name="dob" placeholder="MM/DD/YYYY"
                         value={data.dob}
@@ -48,10 +57,20 @@ if (editState) {
                             {getAge(data.dob)}
                         </div>
                     </Col>
+                    <Col size={'md-3'} classes={'form-group'}>
+                    <label>Gender</label>
+                        <select name="gender" className="form-control"
+                        style={input}
+                        onChange={target} >
+                            {getGenders(data.gender)}    
+                        </select>
+                    </Col>
                     <Col size={'md-4'} classes={'form-group'}>
                         <label>Blood Type</label>
-                        <select onChange={target} style={input} name="bloodType" className="form-control">
-                            {bloodTypes(data.bloodType)}
+                        <select name="bloodType" className="form-control"
+                        style={input} 
+                        onChange={target} >
+                            {getBloodTypes(data.bloodType)}
                         </select>
                     </Col>
                 </div>
@@ -79,7 +98,7 @@ if (editState) {
                     </Col>
                     <Col size={'md-2'} classes={'form-group'}>
                         <label>Rx PCN</label>
-                        <Input value={data.rxPcn} name="rcPcn"
+                        <Input value={data.rxPcn} name="rxPcn"
                         style={input}
                         onChange={target} 
                         />
@@ -112,7 +131,7 @@ if (editState) {
                 </div>
                 <Col size={'md-12'}>
                 <Button className="btn" style={updtBtn} 
-                    type="submit" > <i className="fas fa-sync-alt fa-2x mr-2"/> {' '}  
+                    type="submit" > <i className="fas fa-sync-alt mr-2"/> {' '}  
                         {' '} update 
                     </Button>
                 </Col>
@@ -122,14 +141,17 @@ if (editState) {
     } else {
         return (
             <div className={'my-5 health-info'}>
-                <Col size={'md-12'} classes={'gen-edit'}>
-                    <Button className="fas fa-user-edit fa-2x" style={editBtn} 
+                <em><h5 style={{textDecoration: "underline"}}>
+                {name ? `${name}'s` : ''} Basic Health Information:</h5></em>
+
+                <Col size={'md-12'} classes={'gen-edit mt-5'}>
+                    <Button className="fas fa-user-edit fa-2x" style={toggleBtn} 
                         onClick={toggleState} 
                     />   
                 </Col>
             <form>
                 <div className={"form-row"}>
-                    <Col size={'md-4'} classes={'form-group'}>
+                    <Col size={'md-3'} classes={'form-group'}>
                         <label>Date of Birth:</label>
                         <div style={fieldText}>{data.dob}</div>
                     </Col>
@@ -138,6 +160,10 @@ if (editState) {
                         <div style={fieldText}>
                             {getAge(data.dob)}
                         </div>
+                    </Col>
+                    <Col size={'md-3'} classes={'form-group'}>
+                        <label>Gender:</label>
+                        <div style={fieldText}>{data.gender}</div>
                     </Col>
                     <Col size={'md-4'} classes={'form-group'}>
                         <label>Blood Type:</label>
@@ -188,30 +214,22 @@ if (editState) {
 const fieldText = {
     fontStyle: 'italic',
     fontWeight: '1000',
-    fontSize: '100%',
-    padding: '10px',
-    paddingLeft: '0',
+    padding: '10px 10px 10px 0',
     color: 'black'
 },
-editBtn = {
+toggleBtn = {
     float: 'right',
     border: 'none',
     margin: '0',
     color: 'white',
     backgroundColor: 'white'
 },
-cancelBtn = {
-    float: 'right',
-    border: 'none',
-    margin: '0',
-    color: 'tomato',
-    backgroundColor: 'white'
-},
 updtBtn = {
     float: 'right',
     margin: '0',
     backgroundColor: '#214c91',
-    color: 'white'
+    color: 'white',
+    padding: ".4rem .75rem"
 },
 input = {
     borderBottom: '1px solid rgba(0, 0, 0, .2)',

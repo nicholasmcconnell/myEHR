@@ -20,6 +20,7 @@
 .sign {
   max-width: 400px;
   margin-top: 50px;
+  background-color: white;
 }
 
 .box-shadow:hover, .box-shadow:focus {
@@ -30,7 +31,15 @@ button:focus {
   outline: none;
 }
 
-/* Used to show the edit buttons on form hover */
+/* Used to show the edit/rmv buttons on form hover */
+
+.patient-remove:hover .rm-sm-user {
+  color: #d9534f !important;
+}
+
+.patient-remove:hover .rm-lg-user {
+  color: white !important;
+}
 
 .gen-info:hover .fa-user-edit {
   color: green !important;
@@ -52,11 +61,17 @@ button:focus {
   color: green !important;
 }
 
+.add:hover .plus {
+  color: #499cf5;
+}
+.remove:hover .minus {
+  color: tomato;
+}
+
 textarea.desc {
 	width:100%;
 	box-sizing:border-box;
 	direction:rtl;
 	display:block;
 	max-width:100%;
-
 }
