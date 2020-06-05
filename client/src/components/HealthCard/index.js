@@ -21,15 +21,15 @@ export function HealthCard({ data, target, editState, toggleState, formSubmit, n
     
         const types = ['Select', 'Unknown', 'A-Positive', 'A-Negative', 'B-Positive', 'B-Negative', 'AB-Positive', 'AB-Negative', 'O-Positive', 'O-Negative']
     
-    return types.map( type => type === bloodType ? <option value={bloodType} selected>{bloodType}</option> : <option>{type}</option>)
+    return types.map( (type, i) => type === bloodType ? <option key={i} value={bloodType} defaultValue>{bloodType}</option> : <option key={i}>{type}</option>)
      },
 
      getGenders = gender => {
     
         const types = ['Select', 'Male', 'Female', 'Transgender Male', 'Transgender Female']
     
-    return types.map( type => type === gender ? <option value={gender} selected>{gender}</option> : <option>{type}</option>)
-     };
+    return types.map( (type, i) => type === gender ? <option key={i} value={gender} defaultValue>{gender}</option> : <option key={i}>{type}</option>)
+     }; 
     
 if (editState) {
     return (

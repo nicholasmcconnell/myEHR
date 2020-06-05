@@ -145,8 +145,9 @@ export default function EHR({ location, setContext }) {
     }, 
     
     onConditInputChange = async e => {
+    try {
       const { value } = e.target,
-       items = await getConditionNames(value);
+        items = await getConditionNames(value);
 
       let suggestions = [];
        
@@ -155,6 +156,7 @@ export default function EHR({ location, setContext }) {
           suggestions = items.sort().filter( x => regex.test(x));
         } 
         setConditSuggestions({ suggestions, text: value })
+     } catch (err) {return}
      }
 
      //I'm using this effect, along with the query state to create a 1/2 second delay after typing finishes before API and other code is executed to resolve performance issues.  
@@ -193,7 +195,7 @@ export default function EHR({ location, setContext }) {
 
             if (key === name) {
                 edit[key] = value;
-            } else if (!edit.hasOwnProperty(name)) {
+            } else if (!(name in edit)) {
                 edit[name] = value;
             }
         }
@@ -405,7 +407,7 @@ export default function EHR({ location, setContext }) {
         if (!text) return;
         try {
             const  { data } = await API.fetchMeds(text),
-              doses = data.drugGroup.conceptGroup[1].conceptProperties.map(x => x.synonym).filter(x => x !== '')
+              doses = data.drugGroup.conceptGroup[1].conceptProperties.map( x => x.synonym).filter( x => x !== '')
             
             setDoses(doses)   
         } catch(err) {return}
