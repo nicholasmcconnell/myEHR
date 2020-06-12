@@ -9,7 +9,7 @@ export default function SignIn() {
 
     let history = useHistory();
     const [credentials, setCredentials] = useState({}),
-     [errorMsg, setErrorMsg] = useState(' '),
+     [errorMsg, setErrorMsg] = useState(''),
 
         onInputChange = e => {
             const { name, value } = e.target;
