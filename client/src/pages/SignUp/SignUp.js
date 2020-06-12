@@ -34,8 +34,7 @@ export default function SignUp() {
 
         try {
             API.register(credentials)
-                .then((res) => {
-                console.log("SignUp -> res", res)
+                .then( res => {
                     if (res.statusText === 'OK') {
                         if (res.data.error){
                             setErrorMsg(res.data.error)
@@ -46,7 +45,6 @@ export default function SignUp() {
                         } else {
                         API.login(credentials)
                             .then(({ data }) => {
-                          
                                 if (data.status === 'success') {
                                     authorize()
                                 }

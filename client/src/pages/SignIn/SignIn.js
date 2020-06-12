@@ -14,18 +14,18 @@ export default function SignIn() {
         onInputChange = e => {
             const { name, value } = e.target;
             setCredentials({ ...credentials, [name]: value })
-        },
+    },
 
         authorize = () => {
             Auth.login(() => {
                 history.push("/patients")
             })
-        },
+    },
 
         timeoutMsg = () => {
             const clearMsg = () => setErrorMsg('')
             setTimeout(clearMsg, 3500);
-        },
+    },
 
         handleSubmit = e => {
             e.preventDefault();
@@ -40,7 +40,7 @@ export default function SignIn() {
                     setErrorMsg('Login failed.  Please try again.')
                     timeoutMsg()
                 })
-        }
+    }
 
     return (
         <div
