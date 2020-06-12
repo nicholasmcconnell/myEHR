@@ -36,9 +36,6 @@ export default function EHR({ location, setContext }) {
         [ query, setQuery ] = useState(''),
 
         forceUpdate = useForceUpdate(), 
-        hasConditions = useRef(), 
-        hasMeds = useRef(), 
-        hasContacts = useRef(), 
         isInitialMount = useRef(true);
 
 /*
@@ -64,7 +61,6 @@ export default function EHR({ location, setContext }) {
             setConditions(data.healthConditions)
             setMeds(data.medications)
             setContacts(data.contacts)
-            setParity(data)
         } 
     },
 
@@ -79,7 +75,6 @@ export default function EHR({ location, setContext }) {
         setPatient(data._id);
         setGenState(true)
         setHealthState(true)
-        setParity()
     },
 
 /*
@@ -91,31 +86,10 @@ export default function EHR({ location, setContext }) {
             setGenState(false)
             setHealthState(false)
         }
-        if(parity()) {
         const data = {generalInfo, healthInfo, conditions, meds, contacts}
         
         API.updateEHR(patient, data)
             .catch(err => console.log(err))        
-        }     
-    }, 
-
-    setParity = (data) => {
-        hasConditions.current = (data && data.healthConditions.length > 0) ? true : false;     
-        hasMeds.current = (data && data.medications.length > 0) ? true : false;     
-        hasContacts.current = (data && data.contacts.length > 0) ? true : false;     
-    },
-
-    parity = () => {
-        if(hasConditions.current && conditions.length === 0) {
-            return false;
-        }
-        if(hasMeds.current && meds.length === 0) {
-            return false;
-        }
-        if(hasContacts.current && contacts.length === 0) {
-            return false;
-        }
-        return true;
     }
 
     useEffect(() => {
@@ -260,7 +234,6 @@ export default function EHR({ location, setContext }) {
                     edit: false, 
                     createdAt: Date.now()
                 }
-        hasConditions.current = true;
         setConditions([...conditions, newCondition])
     },
 
@@ -280,7 +253,6 @@ export default function EHR({ location, setContext }) {
                 edit : false,
                 createdAt: Date.now()
             }
-        hasMeds.current = true;
         setMeds([...meds, newMed])
         setDoses('')
         setQuery('')
@@ -292,7 +264,6 @@ export default function EHR({ location, setContext }) {
         e.preventDefault();
         setAddContact(false)
         
-        hasContacts.current = true;
         setContacts([...contacts, newContact])
     },
 
@@ -301,7 +272,6 @@ export default function EHR({ location, setContext }) {
 
         clone.splice(index, 1)
 
-        hasConditions.current = clone.length === 0 ? false : true
         setConditions([...clone])
     },
 
@@ -310,7 +280,6 @@ export default function EHR({ location, setContext }) {
         
         clone.splice(index, 1)
 
-        hasMeds.current = clone.length === 0 ? false : true
         setMeds([...clone])
     },
 
@@ -319,7 +288,6 @@ export default function EHR({ location, setContext }) {
 
         clone.splice(index, 1)
 
-        hasContacts.current = clone.length === 0 ? false : true
         setContacts([...clone])
     },
 
