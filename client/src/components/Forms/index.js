@@ -12,7 +12,7 @@ export function TextArea(props) {
     return (
         <textarea className="form-control" {...props} />
     );
-  }
+}
 
 export function Button(props) {
     return (
@@ -20,7 +20,7 @@ export function Button(props) {
           {props.children}
         </button>
     );
-  }
+}
   export function LoggerBtn({ btnType }) { 
     
       return (
@@ -29,4 +29,6 @@ export function Button(props) {
           {btnType}
         </Button>
       )
-  }
+}
+
+  export const Messenger = ({ msg, color }) => <p style={{color: color}}>{msg}</p>
