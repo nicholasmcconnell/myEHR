@@ -24,7 +24,7 @@ self.__precacheManifest = [
     "url": "/static/media/backgroundImage2.f82817c2.jpg"
   },
   {
-    "revision": "30f72e003363e1ad009611e9af82d396",
+    "revision": "422aaed04df70afd58f88e419bfaf36d",
     "url": "/index.html"
   }
 ];
