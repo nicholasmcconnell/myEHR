@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Container, Row, Col } from '../../components/Grid';
-import { LoggerBtn, Input } from '../../components/Forms';
+import { LoggerBtn, Input, Messenger } from '../../components/Forms';
 import API from '../../utils/API';
 import Auth from '../../Auth'
 
@@ -9,17 +9,23 @@ export default function SignIn() {
 
     let history = useHistory();
     const [credentials, setCredentials] = useState({}),
+     [errorMsg, setErrorMsg] = useState(''),
 
         onInputChange = e => {
             const { name, value } = e.target;
             setCredentials({ ...credentials, [name]: value })
-        },
+    },
 
         authorize = () => {
             Auth.login(() => {
                 history.push("/patients")
             })
-        },
+    },
+
+        timeoutMsg = () => {
+            const clearMsg = () => setErrorMsg('')
+            setTimeout(clearMsg, 3500);
+    },
 
         handleSubmit = e => {
             e.preventDefault();
@@ -29,11 +35,12 @@ export default function SignIn() {
                 .then(({ data }) => {
                     if (data.status === 'success') {
                         authorize()
-                    } else {
-                        console.log('Login failed.  Please try again.')
                     }
-                }).catch(err => err)
-        }
+                }).catch( err => {
+                    setErrorMsg('Login failed.  Please try again.')
+                    timeoutMsg()
+                })
+    }
 
     return (
         <div
@@ -53,7 +60,12 @@ export default function SignIn() {
                                 Log-in to your account
                             </h5>
                         </div>
-                    </Row>
+                    </Row> 
+
+                    <div className="text-center err-msg">
+                    <Messenger msg={errorMsg} color='#d9534f' />
+                    </div>
+
                     <Row >
                         <form onSubmit={handleSubmit} className={'card-body'}>
                             <div className={'form-group usr-inpt'}>

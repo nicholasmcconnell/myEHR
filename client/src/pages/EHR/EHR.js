@@ -493,4 +493,3 @@ export default function EHR({ location, setContext }) {
         </Container>
     )
 }
-
