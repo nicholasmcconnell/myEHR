@@ -1,47 +1,80 @@
 import React, { useState, useEffect} from 'react';
-import { Link } from 'react-router-dom';
 import { Container, Row, Col } from '../../components/Grid';
-import Profiles from '../../components/ProfileList'; 
+import { PatientList } from '../../components/PatientList'; 
+import { PatientHandler }  from '../../components/PatientHandler'; 
 import API from "../../utils/API";
 
-export default function Patients() {
 
-    const [patients, setPatients] = useState([])
+export default function Patients({ setContext }) {
+
+    const [ patients, setPatients ] = useState([]),
+      [ removeState, setRemoveState ] = useState(false),
+      [ confirmed, isConfirmed ] = useState(false);
 
     useEffect(() => {
-        getUser()
-       
+        getPatients()
     }, [])
 
-    const getUser = async () => {
-        const { data }= await API.getUser();
-        console.log("getUser -> data", data)
+    const getPatients = async () => {
+        const { data } = await API.getUser(),
    
-         let patients  = await API.fetchPatients(data.user)
-        patients = patients.data
-        setPatients(patients)
-        console.log("getUser -> patients", patients)
+          patients = await API.fetchPatients(data.user);
+
+        setPatients(patients.data);
+    },
+
+    removePatient = async _id => {
+       await API.removePatient(_id)
+
+       setRemoveState(false)
+       getPatients()
+    },
+
+    togglePatientAsRemovable = index => {
+        const clone = patients;
+        
+        clone[index].removable = !clone[index].removable
+        
+        isConfirmed(true)
+        setPatients(clone)
+    },
+
+    cancelPatientRemoval = () => {
+        const clone = patients;
+        
+        clone.forEach( item => {
+            item.removable = false
+        })
+        isConfirmed(false)
+        setRemoveState(false)
+        setPatients(clone)
     }
+
 
     return (
         <Container>
             <Row>
                 <Col size={'md-8'} classes={'offset-md-2'}>
                     {
-                        patients.map(patient => <Profiles key={patient._id} patient={patient} id={patient._id} />)
+                        patients.map( (patient, i) => 
+                            <PatientList 
+                            patient={patient} 
+                            index={i} 
+                            context={setContext}  
+                            removeState={removeState}
+                            confirmRemoval={togglePatientAsRemovable}
+                            remove={removePatient}
+                            key={patient._id} 
+                            />)
                     }
+                    <PatientHandler 
+                        removeState={removeState}
+                        confirmed={confirmed}
+                        cancel={cancelPatientRemoval}
+                        toggleRemoveState={() => {setRemoveState(!removeState)}} 
+                        />
                 </Col>
            </Row>
-        
-            <br/>
-            <div>
-            <Link  to={{
-                 pathname:'/ehr',
-                 state: { patientId: "" }
-            }} 
-            >+ patients</Link>
-
-            </div>
         </Container>
     )
 }

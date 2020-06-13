@@ -1,22 +1,23 @@
-import React, {useState} from 'react'
-import { Link, useLocation as location, useHistory } from 'react-router-dom'
-import { Button } from '../Forms'
-import { Collapse } from '../Grid'
-import Auth from '../../Auth'
+import React, { useState, useContext } from 'react';
+import { Link, useLocation, useHistory } from 'react-router-dom';
+import PatientContext from '../../utils/PatientContext';
+import { Button } from '../Forms';
+import { Collapse } from '../Grid';
+import Auth from '../../Auth';
 
 export default function navBar() {
 
-    let history = useHistory(),
-      [navLinks, showNavLinks] = useState(false)
+    let [navLinks, showNavLinks] = useState(false),
+    history = useHistory(),
+    { pathname } = useLocation(),
+    { patientId, name } = useContext(PatientContext),
+        
 
-     const toggleNav = () => showNavLinks(navLinks = !navLinks),
+    // hide or show links when screen width is small
+     toggleNav = () => showNavLinks(navLinks = !navLinks),  
 
-     logout = () => {
-        Auth.logout(() => {history.push("/")})
-    },
+     logout = () => Auth.logout(() => {history.push("/")}),
     
-     { pathname } = location(),
-
      getButtons = () => {
         if(Auth.isAuthenticated()) {
             return (
@@ -26,7 +27,7 @@ export default function navBar() {
                 </Button>
         )
         } else {
-            return(
+            return (
                 <div>
                     <Link to='/signin' >
                                 <Button className={'btn btn-outline-primary m-2'} type='button'>
@@ -50,26 +51,32 @@ export default function navBar() {
             <button onClick={toggleNav} className={'navbar-toggler'} type="button" data-toggle="collapse" data-target="#target-collapse" >
             <span className="navbar-toggler-icon"></span>
             </button>
-                
 
             <Collapse navState={navLinks} id={'target-collapse'}>
               <ul className="navbar-nav mr-auto">
                 <li className={pathname === "/" ? "nav-item active" : "nav-item"}>
                     <Link to="/" className={'nav-link'}>
                         Home
-                    </Link>    
+                    </Link>
                 </li>
-                <li className={pathname === "/profiles" ? "nav-item active" : "nav-item"}
+                <li className={pathname === "/patients" ? "nav-item active" : "nav-item"}
                     style={Auth.isAuthenticated() ? {display: 'block'} : {display: 'none'}} >
-                    <Link to="/profiles" className={'nav-link'}>
+                    <Link to="/patients" className={'nav-link'}>
                         Saved health records
-                    </Link>    
+                    </Link>
                 </li>
                 <li className={pathname === "/ehr" ? "nav-item active" : "nav-item"}
-                    style={Auth.isAuthenticated() ? {display: 'block'} : {display: 'none'}} >
+                    style={pathname === "/ehr" || pathname === "/contacts" ? {display: 'block'} : {display: 'none'}} >
 
-                    <Link to="/ehr" className={'nav-link'}>
-                        New health record
+                    <Link to={{pathname:"/ehr", state: { patientId, name }}} className={'nav-link'} >
+                       {name ? `${name}'s` : ''} EHR
+                    </Link>    
+                </li>
+                <li className={pathname === "/contacts" ? "nav-item active" : "nav-item"}
+                    style={pathname === "/ehr" || pathname === "/contacts" ? {display: 'block'} : {display: 'none'}}  >
+
+                    <Link to={{pathname:"/contacts", state: { patientId, name }}} className={'nav-link'} >
+                    {name ? `${name}'s` : ''} Contacts
                     </Link>    
                 </li>
               </ul>

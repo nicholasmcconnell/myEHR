@@ -1,97 +1,117 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import { Container, Row, Col } from '../../components/Grid';
-import { LoggerBtn, Input } from '../../components/Forms';
-
-import API from '../../utils/API';
-import Auth from '../../Auth'
+import React, { useState } from "react";
+import { Link, useHistory } from "react-router-dom";
+import { Container, Row, Col } from "../../components/Grid";
+import { LoggerBtn, Input } from "../../components/Forms";
+import API from "../../utils/API";
+import Auth from "../../Auth";
 
 export default function SignUp() {
 
-   
-    const [user, setUser] = useState(''),
-    [credentials, setCredentials] = useState({});
+    let history = useHistory();
+    const [credentials, setCredentials] = useState({}),
 
-     let history = useHistory();
-     
-    const onInputChange = e => {
-
+    onInputChange = e => {
         const { name, value } = e.target;
-        setCredentials({...credentials, [name]: value })
+        setCredentials({ ...credentials, [name]: value });
     },
 
     authorize = () => {
         Auth.login(() => {
-            history.push("/signin")
-        })
-        }
+            history.push("/patients");
+        });
+    },
 
-        const handleSubmit = e => {
+    handleSubmit = e => {
         e.preventDefault();
         e.target.reset();
 
-        API.register(credentials)
-        .then(({ data }) => { 
-    
-            if(data) {
-                console.log(data.email)
-            setUser({  email: data }); 
-            authorize()
-
-            } else {
-            console.log('response'+ data)
-            }
-        }).catch((err) => err)
-        }
-
+        try {
+            API.register(credentials)
+                .then(({ statusText }) => {
+                    if (statusText === 'OK') {
+                        API.login(credentials)
+                            .then(({ data }) => {
+                                if (data.status === 'success') {
+                                    authorize()
+                                }
+                            })
+                    }
+                })
+        } catch (err) { console.log(err) }
+    }
     return (
-    
-        <Container classes={'box-shadow sign'}>
-            <Row>
-                <Col size={'md-12'} >
-                    <Row>
-                        <div className={'mt-5'}>
+        <div
+            style={background}
+        >
+        <Container>
+            <Row classes="justify-content-center">
+                <Col size={"md-12"} classes={"box-shadow sign"}>
+                    <Row >
+                        <div className={"mt-5"}>
                             <h5 style={text}>
-                                <img style={logo} src={require('../../assets/img/Logo.png')} alt={'Logo'} />
-                            Create your account
-                        </h5>
+                                <img
+                                    style={logo}
+                                    src={require("../../assets/img/Logo.png")}
+                                    alt={"Logo"}
+                                />
+                                Create your account
+                            </h5>
                         </div>
                     </Row>
-                    <Row >
-                        <form onSubmit={handleSubmit} className={'card-body'}>
-                            <div className={'form-group usr-inpt'}>
+                    <Row>
+                        <form onSubmit={handleSubmit} className={"card-body"}>
+                            <div className={"form-group usr-inpt"}>
                                 <label>Email:</label>
                                 <span className="fa fa-user" />
-                                <Input onChange={onInputChange}
-                                    name="email" type="email" placeholder="E-mail address" />
+                                <Input
+                                    onChange={onInputChange}
+                                    name="email"
+                                    type="email"
+                                    placeholder="E-mail address"
+                                />
                             </div>
-                            <div className={'form-group usr-inpt'}>
+                            <div className={"form-group usr-inpt"}>
                                 <label>Password:</label>
                                 <span className="fa fa-lock" />
-                                <Input onChange={onInputChange}
-                                    name="password" type="password" placeholder="Password" />
+                                <Input
+                                    onChange={onInputChange}
+                                    name="password"
+                                    type="password"
+                                    placeholder="Password"
+                                />
                             </div>
-                    
-                            <LoggerBtn btnType={'Sign Up'} />
 
+                            <LoggerBtn btnType={"Sign Up"} />
                         </form>
                     </Row>
-                    <Row classes={'justify-content-center'}>
-                        <p> Already have an account?
-                        <Link to="/SignIn" > Log In.</Link>
+                    <Row classes={"justify-content-center"}>
+                        <p>
+                            Already have an account?
+                            <Link to="/SignIn"> Log In.</Link>
                         </p>
                     </Row>
                 </Col>
             </Row>
         </Container>
-    )
+    </div>
+    );
 }
-const logo = {
-    width: "60px",
-    height: "auto"
+const  background = {
+    backgroundImage: `url(${require("../../assets/img/backgroundImage2.jpg")}`,
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    width: '100vw',
+    height: '100vh'
 },
 
-    text = {
-        color: "#0099ff",
-        textShadow: "1px 1px #000"
-    }
+logo = {
+    width: "60px",
+    height: "auto",
+    margin: '15px'
+},
+
+text = {
+    color: "#0099ff",
+    textShadow: "1px 1px #000"
+}

@@ -29,12 +29,8 @@
     "express-session": "^1.17.1",
     "if-env": "^1.0.4",
     "is-empty": "^1.2.0",
-    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.10",
     "passport": "^0.4.1",
-    "passport-jwt": "^4.0.0",
-    "passport-local": "^1.0.0",
-    "react-router-dom": "^5.1.2",
-    "validator": "^13.0.0"
+    "passport-local": "^1.0.0"
   }
 }

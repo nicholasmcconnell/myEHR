@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+const mongoose = require("mongoose"),
+ Schema = mongoose.Schema,
 
-const PatientSchema = new Schema({
+ PatientSchema = new Schema({
     userEmail: { 
         type: String, 
         required: true
@@ -12,23 +12,27 @@ const PatientSchema = new Schema({
      },
     healthData: { 
         type: Object, 
-        default: false 
+        required: false 
     },
     healthConditions: { 
         type: Array, 
-        default: false 
+        required: false 
     },
     medications: { 
         type: Array, 
-        default: false 
+        required: false 
     },
     contacts: { 
-        type: Object, 
+        type: Array, 
+        required: false 
+    },
+    removable: { 
+        type: Boolean, 
         default: false 
     },
-    
-})
-
-const Patient = mongoose.model("Patient", PatientSchema);
-
-module.exports = Patient;
+    date: {
+        type: Date,
+        default: Date.now
+    }
+});
+module.exports = mongoose.model("Patient", PatientSchema);;

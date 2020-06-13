@@ -7,3 +7,4 @@ node_modules/
 client/package-lock.json
 package-lock.json
 .client/build
+/client/package-lock.json
