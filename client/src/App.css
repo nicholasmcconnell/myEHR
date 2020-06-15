@@ -32,7 +32,6 @@ button:focus {
 }
 
 /* Used to show the edit/rmv buttons on form hover */
-
 .patient-remove:hover .rm-sm-user {
   color: #d9534f !important;
 }
@@ -64,6 +63,7 @@ button:focus {
 .add:hover .plus {
   color: #499cf5;
 }
+
 .remove:hover .minus {
   color: tomato;
 }
@@ -74,4 +74,14 @@ textarea.desc {
 	direction:rtl;
 	display:block;
 	max-width:100%;
+}
+
+/* Keep hover buttons on with smaller screens where there may not be a mouse */
+@media (max-width: 992px) {
+  .fa-user-edit {
+    color: green !important;
+  }
+  .rm-sm-user {
+    color: #d9534f !important;
+  }
 }
