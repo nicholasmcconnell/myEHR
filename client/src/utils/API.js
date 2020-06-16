@@ -17,7 +17,6 @@ export default {
     register: credentials =>  axios.post('api/users/register', credentials),
   
     login: credentials => axios.post('/api/users/login', credentials),
-
 /*
     External APIs
 */ 
