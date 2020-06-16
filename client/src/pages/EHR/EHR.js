@@ -261,6 +261,8 @@ export default function EHR({ location, setContext }) {
         hasConditions.current = true;
         setConditions([...conditions, newCondition])
     },
+                   
+
 
     addMeds = e => {
         e.preventDefault();
@@ -491,4 +493,3 @@ export default function EHR({ location, setContext }) {
         </Container>
     )
 }
-

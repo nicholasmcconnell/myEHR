@@ -65,7 +65,7 @@ if (editState) {
                         />
                     </Col>
                     <Col size={'md-3'} classes={'form-group'}>
-                        <label>State/Providence</label>
+                        <label>{window.innerWidth > 992 ? 'State/Providence:' : 'State:'}</label>
                         <Input value={data ? data.state : ''} name="state"
                         style={input}
                         onChange={target} 
@@ -153,7 +153,7 @@ if (editState) {
                         <div style={fieldText}>{data.city}</div>
                     </Col>
                     <Col size={'md-3'} classes={'form-group'}>
-                        <label>State/Providence:</label>
+                        <label>{window.innerWidth > 992 ? 'State/Providence:' : 'State:'}</label>
                         <div style={fieldText}>{data.state}</div>
                     </Col>
                     <Col size={'md-3'} classes={'form-group'}>

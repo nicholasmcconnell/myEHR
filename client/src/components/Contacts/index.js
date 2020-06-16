@@ -146,7 +146,7 @@ export function Contacts({
                   />
                 </Col>
                 <Col size={"md-3"} classes={"form-group"}>
-                  <label>State/Providence</label>
+                  <label>{window.innerWidth > 992 ? 'State/Providence:' : 'State:'}</label>
                   <Input
                     value={contact.state}
                     name="state"
@@ -301,7 +301,7 @@ export function Contacts({
                   <div style={fieldText}>{contact.city}</div>
                 </Col>
                 <Col size={"md-3"} classes={"form-group"}>
-                  <label>State/Providence:</label>
+                  <label>{window.innerWidth > 992 ? 'State/Providence:' : 'State:'}</label>
                   <div style={fieldText}>{contact.state}</div>
                 </Col>
                 <Col size={"md-3"} classes={"form-group"}>
@@ -376,7 +376,7 @@ export function Contacts({
       <div className={"add"}>
         <Button
           className="btn plus"
-          style={newContact ? { display: "none" } : { display: "block" }}
+          style={newContact ? { display: "none" } : { display: "block", float: 'right' }}
           onClick={toggleNew}
         >
           <i className="fa fa-plus" /> New Contact

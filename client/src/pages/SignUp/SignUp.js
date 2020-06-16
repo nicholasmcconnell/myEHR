@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { Container, Row, Col } from "../../components/Grid";
-import { LoggerBtn, Input } from "../../components/Forms";
+import { LoggerBtn, Input, Messenger } from "../../components/Forms";
 import API from "../../utils/API";
 import Auth from "../../Auth";
 
@@ -9,6 +9,8 @@ export default function SignUp() {
 
     let history = useHistory();
     const [credentials, setCredentials] = useState({}),
+        [errorMsg, setErrorMsg] = useState(''),
+
 
     onInputChange = e => {
         const { name, value } = e.target;
@@ -21,23 +23,39 @@ export default function SignUp() {
         });
     },
 
+    timeoutMsg = () => {
+        const clearMsg = () => setErrorMsg('')
+        setTimeout(clearMsg, 3500);
+    },
+
     handleSubmit = e => {
         e.preventDefault();
         e.target.reset();
 
         try {
             API.register(credentials)
-                .then(({ statusText }) => {
-                    if (statusText === 'OK') {
+                .then( res => {
+                    if (res.statusText === 'OK') {
+                        if (res.data.error){
+                            setErrorMsg(res.data.error)
+                            timeoutMsg()
+                        } else if (res.data.errors) {
+                            setErrorMsg('A valid email and password are required')
+                            timeoutMsg()
+                        } else {
                         API.login(credentials)
                             .then(({ data }) => {
                                 if (data.status === 'success') {
                                     authorize()
                                 }
                             })
+                        }
                     }
                 })
-        } catch (err) { console.log(err) }
+                setCredentials('')
+        } catch (err) { 
+            setErrorMsg('Signup failed. Please try again.')
+            timeoutMsg() }
     }
     return (
         <div
@@ -58,6 +76,11 @@ export default function SignUp() {
                             </h5>
                         </div>
                     </Row>
+
+                    <div className="text-center err-msg">
+                    <Messenger msg={errorMsg} color='#d9534f' />
+                    </div>
+
                     <Row>
                         <form onSubmit={handleSubmit} className={"card-body"}>
                             <div className={"form-group usr-inpt"}>

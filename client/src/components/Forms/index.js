@@ -1,32 +1,23 @@
 import React from 'react'
 
 
+export const Input = props => <input className="form-control" {...props} />
 
-export function Input(props) {
-    return (
-        <input className="form-control" {...props} />
-    );
-  }
   
-export function TextArea(props) {
-    return (
-        <textarea className="form-control" {...props} />
-    );
-  }
-
-export function Button(props) {
-    return (
-        <button {...props} >
-          {props.children}
-        </button>
-    );
-  }
-  export function LoggerBtn({ btnType }) { 
+export const TextArea = props =>  <textarea className="form-control" {...props} />
     
-      return (
-        <Button className={'btn btn-primary btn-lg btn-block'} 
-        type="submit">
-          {btnType}
-        </Button>
-      )
-  }
+
+export const Button = props => <button {...props} >{props.children}</button>
+
+
+export const Messenger = ({ msg, color }) => <p style={{color: color}}>{msg}</p>
+
+
+export const LoggerBtn = ({ btnType }) => { 
+    return (
+      <Button className={'btn btn-primary btn-lg btn-block'} 
+      type="submit">
+        {btnType}
+      </Button>
+    )
+}
