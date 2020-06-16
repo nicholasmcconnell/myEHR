@@ -36,12 +36,9 @@ export default function EHR({ location, setContext }) {
         [ query, setQuery ] = useState(''),
 
         forceUpdate = useForceUpdate(), 
-<<<<<<< HEAD
-=======
         hasConditions = useRef(), 
         hasMeds = useRef(), 
         hasContacts = useRef(), 
->>>>>>> 9a641038306a8a3bff3182123046af125e035353
         isInitialMount = useRef(true);
 
 /*
@@ -67,63 +64,6 @@ export default function EHR({ location, setContext }) {
             setConditions(data.healthConditions)
             setMeds(data.medications)
             setContacts(data.contacts)
-<<<<<<< HEAD
-        } 
-    },
-
-     //if no patient is passed in, create a new one on the server.
-    newPatient = async() => {
-        const user  = await API.getUser(),
-            email = user.data.user.email;
-   
-        const newPatient = {email, generalInfo, healthInfo, conditions, meds, contacts},
-         { data } = await API.addPatient(newPatient);
-
-        setPatient(data._id);
-        setGenState(true)
-        setHealthState(true)
-    },
-
-/*
-    State and database management
-*/ 
-    updateDB = e => {
-        if(e) {
-            e.preventDefault()
-            setGenState(false)
-            setHealthState(false)
-        }
-        const data = {generalInfo, healthInfo, conditions, meds, contacts}
-        
-        API.updateEHR(patient, data)
-            .catch(err => console.log(err))        
-    }
-
-    useEffect(() => {
-        setNameInNavbar()
-    }, [generalInfo])
-
-    const setNameInNavbar = () => {
-        let { firstName, nickname } = generalInfo,
-        name = nickname ? nickname : firstName;
-
-        setContext({ patientId: patient, name })
-    },
-
-    onGenInfoInputChange = e => {
-        const { name, value } = e.target;
-        setGeneralInfo({ ...generalInfo, [name]: value })
-    }, 
-
-    onHealthInfoInputChange = e => {
-        const { name, value } = e.target;
-        setHealthInfo({ ...healthInfo, [name]: value })
-    },
-
-    newContactInputChange = e => {
-        const { name, value } = e.target;
-        setNewContact({...newContact, [name]: value})
-=======
             setParity(data)
         } 
     },
@@ -157,125 +97,18 @@ export default function EHR({ location, setContext }) {
         API.updateEHR(patient, data)
             .catch(err => console.log(err))        
         }     
->>>>>>> 9a641038306a8a3bff3182123046af125e035353
     }, 
-    
-    onConditInputChange = async e => {
-    try {
-      const { value } = e.target,
-        items = await getConditionNames(value);
 
-<<<<<<< HEAD
-      let suggestions = [];
-       
-      if (value.length > 0) {
-          const regex = new RegExp(`^${value}`, 'i');
-          suggestions = items.sort().filter( x => regex.test(x));
-        } 
-        setConditSuggestions({ suggestions, text: value })
-     } catch (err) {return}
-     }
-
-     //I'm using this effect, along with the query state to create a 1/2 second delay after typing finishes before API and other code is executed to resolve performance issues.  
-     useEffect(() => {
-        const timeOutId = setTimeout(() => setMedInput(query), 500);
-        return () => clearTimeout(timeOutId);
-      }, [query]);
-    
-    const onMedInputChange = async e => {
-            const { name, value } = e.target; 
-            setQuery({ ...query, [name]: value })
-            
-        //only run this code when medication changes. ignore dosage.
-        if (name === 'medication') {
-        try {           
-        const items = await getMedNames(value)
-        let suggestions = [];
-
-        if (value.length > 0) {
-            const regex = new RegExp(`^${value}`, 'i');
-            suggestions = items.sort().filter( x => regex.test(x)).slice(0, 8)
-            } 
-            setMedSuggestions({ suggestions, text: value })
-        } catch (err) {return}
-        } 
-    },
-
-    onContactChange = index => e => {
-        const { name, value } = e.target,
-        clone = contacts,
-        edit = contacts[index];
-        
-        forceUpdate();
-        
-        for (let key of Object.keys(edit)) {
-
-            if (key === name) {
-                edit[key] = value;
-            } else if (!(name in edit)) {
-                edit[name] = value;
-            }
-        }
-        clone.splice(index, 1, edit)
-        setContacts(clone)
-    }, 
-     
-     onConditDescChange = index => e => {
-        const { value } = e.target,
-          clone = conditions;
-
-        forceUpdate();
-=======
     setParity = (data) => {
         hasConditions.current = (data && data.healthConditions.length > 0) ? true : false;     
         hasMeds.current = (data && data.medications.length > 0) ? true : false;     
         hasContacts.current = (data && data.contacts.length > 0) ? true : false;     
     },
->>>>>>> 9a641038306a8a3bff3182123046af125e035353
 
     parity = () => {
         if(hasConditions.current && conditions.length === 0) {
             return false;
         }
-<<<<<<< HEAD
-        clone.splice(index, 1, newDescription)
-        setConditions(clone)
-    }, 
-
-    toggleDescriptionEdit = index => {
-        const arr = [];
-
-        conditions.forEach( (item, i) => {
-            
-            item.edit = i === index ? !item.edit : false;
-            arr.push(item)
-        })
-        setConditions(arr)
-    },
-
-    toggleContactEdit = index => {
-        const arr = [];
-
-        contacts.forEach( (item, i) => {
-            
-            item.edit = i === index ? !item.edit : false;
-            arr.push(item)
-        })
-        setContacts(arr)
-    },
-
-    addCondition = async e => {
-        e.preventDefault();
-        e.target.reset();
-        
-        let { text } = conditSuggestions;
-        setConditSuggestions([]);
-
-        if (!text) return;
-        
-        const [ search ]  = text.split('-'),
-            { data } = await API.fetchCondition(search),
-=======
         if(hasMeds.current && meds.length === 0) {
             return false;
         }
@@ -310,109 +143,11 @@ export default function EHR({ location, setContext }) {
         const { name, value } = e.target;
         setNewContact({...newContact, [name]: value})
     }, 
->>>>>>> 9a641038306a8a3bff3182123046af125e035353
     
-        description = (data[0] && data[0].shortdef) ? data[0].shortdef.join('\n') : '',
+    onConditInputChange = async e => {
+      const { value } = e.target,
+       items = await getConditionNames(value);
 
-                newCondition = { 
-                    name: capitalizeWord(text), 
-                    description, 
-                    edit: false, 
-                    createdAt: Date.now()
-                }
-        setConditions([...conditions, newCondition])
-    },
-
-<<<<<<< HEAD
-    addMeds = e => {
-        e.preventDefault();
-        e.target.reset();
-
-        let { text } = medSuggestions;
-        if (!text) return
-        
-        try {
-           text = text.split(' ')
-
-            const newMed = {
-                medication: capitalizeWord(text[0]),
-                dosage: medInput.dosage,
-                edit : false,
-                createdAt: Date.now()
-            }
-        setMeds([...meds, newMed])
-        setDoses('')
-        setQuery('')
-        setMedSuggestions([])
-        } catch(err) {return}
-    },
-
-    addNewContact = e => {
-        e.preventDefault();
-        setAddContact(false)
-        
-        setContacts([...contacts, newContact])
-    },
-
-    removeCondition = index => {
-        const clone = conditions;
-
-        clone.splice(index, 1)
-
-        setConditions([...clone])
-    },
-
-    removeMed = index => {
-        const clone = meds;
-        
-        clone.splice(index, 1)
-
-        setMeds([...clone])
-    },
-
-    removeContact = index => {
-        const clone = contacts;
-
-        clone.splice(index, 1)
-
-        setContacts([...clone])
-    },
-
-/*
-    Features Management
-*/ 
-    capitalizeWord = word => word.replace(/\b[a-z]/g, char => char.toUpperCase()),
-
-    getConditionNames = async search => {
-        const { data } = await API.getConditionNames(search);
-        return  data[3].map( x => x[0]);
-    },
-
-     getMedNames = async search => {
-        const { data }  = await API.getMedNames(search);
-        return !data.displayTermsList ? "??" : data.displayTermsList.term;  
-    },
-
-    selectSuggestedCondit = async value => {
-        setConditSuggestions({ suggestions: [], text: value })
-
-        //auto add condition when selected autocomplete value is clicked.    
-        if (!value) return;
-        
-        const [ search ]  = value.split('-'),
-            { data } = await API.fetchCondition(search),
-    
-        description = (data[0] && data[0].shortdef) ? data[0].shortdef.join('\n') : '',
-
-                newCondition = { 
-                    name: capitalizeWord(value), 
-                    description, 
-                    edit: false, 
-                    createdAt: Date.now()
-                }
-        setConditions([...conditions, newCondition])
-        setConditSuggestions({text: ''})
-=======
       let suggestions = [];
        
       if (value.length > 0) {
@@ -445,7 +180,6 @@ export default function EHR({ location, setContext }) {
             setMedSuggestions({ suggestions, text: value })
         } catch (err) {return}
         } 
->>>>>>> 9a641038306a8a3bff3182123046af125e035353
     },
 
     onContactChange = index => e => {
@@ -471,40 +205,17 @@ export default function EHR({ location, setContext }) {
         const { value } = e.target,
           clone = conditions;
 
-<<<<<<< HEAD
-    selectSuggestedMed = async value => {
-        setMedSuggestions({ suggestions: [], text: value})
-        
-        //populate dosage choices with suggestions when autocomplete option is clicked
-        if (!value) return;
-        try {
-            const  { data } = await API.fetchMeds(value),
-              doses = data.drugGroup.conceptGroup[1].conceptProperties.map(x => x.synonym).filter(x => x !== '')
-           
-            setDoses(doses)
-        } catch(err) {return}
-    },
-
-    renderMedSuggestions = () => {
-        const { suggestions } = medSuggestions;
-        
-        if (!suggestions || suggestions.length === 0) {
-            return;
-=======
         forceUpdate();
 
          const newDescription = {
             name: conditions[index].name,
             edit: conditions[index].edit,
             description: value
->>>>>>> 9a641038306a8a3bff3182123046af125e035353
         }
         clone.splice(index, 1, newDescription)
         setConditions(clone)
     }, 
 
-<<<<<<< HEAD
-=======
     toggleDescriptionEdit = index => {
         const arr = [];
 
@@ -687,7 +398,6 @@ export default function EHR({ location, setContext }) {
         )
     },
 
->>>>>>> 9a641038306a8a3bff3182123046af125e035353
     //populate dosage choices when finger button is clicked
     addDoses = async e => {
         e.preventDefault();
@@ -697,11 +407,7 @@ export default function EHR({ location, setContext }) {
         if (!text) return;
         try {
             const  { data } = await API.fetchMeds(text),
-<<<<<<< HEAD
-              doses = data.drugGroup.conceptGroup[1].conceptProperties.map( x => x.synonym).filter( x => x !== '')
-=======
               doses = data.drugGroup.conceptGroup[1].conceptProperties.map(x => x.synonym).filter(x => x !== '')
->>>>>>> 9a641038306a8a3bff3182123046af125e035353
             
             setDoses(doses)   
         } catch(err) {return}
