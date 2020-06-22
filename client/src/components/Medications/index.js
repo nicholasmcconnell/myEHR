@@ -78,7 +78,7 @@ export function Medications({
 
                 <Col size={'md-12'} classes="mt-5">
                     <Button className="fas fa-backspace fa-2x"
-                        style={{ ...toggleBtn, color: "tomato" }}
+                        style={{ ...toggleBtn, color: "#d9534f" }}
                         onClick={toggleState}
                     />
                 </Col>
@@ -134,7 +134,7 @@ export function Medications({
 
                 <Col size={'md-12'} classes={"mt-5"}>
                     <Button className="fas fa-user-edit fa-2x"
-                        style={toggleBtn}
+                        style={{...toggleBtn, color: "white"}}
                         onClick={toggleState}
                     />
                 </Col>
@@ -163,7 +163,6 @@ const fieldText = {
         float: 'right',
         border: 'none',
         margin: '0',
-        color: 'white',
         backgroundColor: 'white'
     },
     addBtn = {
