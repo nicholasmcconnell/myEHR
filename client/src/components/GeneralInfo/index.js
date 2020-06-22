@@ -13,7 +13,7 @@ if (editState) {
         
           <Col size={'md-12'} classes={"mt-5"}>
                 <Button className="fas fa-backspace fa-2x" 
-                style={{ ...toggleBtn, color: "tomato" }} 
+                style={{ ...toggleBtn, color: "#d9534f" }} 
                 onClick={toggleState} />
             </Col>
             <form onSubmit={formSubmit} >

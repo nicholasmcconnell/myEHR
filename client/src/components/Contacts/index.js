@@ -79,7 +79,7 @@ export function Contacts({
             <Col size={"md-12"}>
               <Button
                 className="fas fa-backspace fa-2x"
-                style={confirmed ? { ...cancelBtn, color: "white" } : cancelBtn}
+                style={confirmed ? { ...toggleBtn, color: "white" } : { ...toggleBtn, color: "#d9534f" }}
                 onClick={toggleState.bind(this, i)}
               />
             </Col>
@@ -263,7 +263,7 @@ export function Contacts({
             <Col size={"md-12"} classes={"contacts-edit"}>
               <Button
                 className="fas fa-user-edit fa-2x"
-                style={editBtn}
+                style={{...toggleBtn, color: 'white'}}
                 onClick={ ()=>{
                   isConfirmed(false); 
                   toggleState(i)
@@ -402,17 +402,9 @@ const fieldText = {
     backgroundColor: "#214c91",
     color: "white"
   },
-  editBtn = {
+  toggleBtn = {
     float: "right",
     border: "none",
     margin: "0",
-    color: "white",
-    backgroundColor: "white"
-  },
-  cancelBtn = {
-    float: "right",
-    border: "none",
-    margin: "0",
-    color: "tomato",
     backgroundColor: "white"
   };

@@ -38,7 +38,7 @@ if (editState) {
             {name ? `${name}'s` : ''} Basic Health Information:</h5></em>
 
           <Col size={'md-12'} classes={"mt-5"}>
-                <Button className="fas fa-backspace fa-2x" style={{...toggleBtn, color: "tomato"}} 
+                <Button className="fas fa-backspace fa-2x" style={{...toggleBtn, color: "#d9534f"}} 
                 onClick={toggleState} />
             </Col>
             <form onSubmit={formSubmit} >
