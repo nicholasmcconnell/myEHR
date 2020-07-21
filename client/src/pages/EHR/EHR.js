@@ -64,7 +64,6 @@ export default function EHR({ location, setContext }) {
             setConditions(data.healthConditions)
             setMeds(data.medications)
             setContacts(data.contacts)
-            setParity(data)
         } 
     },
 
@@ -79,7 +78,6 @@ export default function EHR({ location, setContext }) {
         setPatient(data._id);
         setGenState(true)
         setHealthState(true)
-        setParity()
     },
 
 /*
@@ -91,45 +89,23 @@ export default function EHR({ location, setContext }) {
             setGenState(false)
             setHealthState(false)
         }
-        if(parity()) {
         const data = {generalInfo, healthInfo, conditions, meds, contacts}
         
         API.updateEHR(patient, data)
-            .catch(err => console.log(err))        
-        }     
-    }, 
-
-    setParity = (data) => {
-        hasConditions.current = (data && data.healthConditions.length > 0) ? true : false;     
-        hasMeds.current = (data && data.medications.length > 0) ? true : false;     
-        hasContacts.current = (data && data.contacts.length > 0) ? true : false;     
-    },
-
-    parity = () => {
-        if(hasConditions.current && conditions.length === 0) {
-            return false;
-        }
-        if(hasMeds.current && meds.length === 0) {
-            return false;
-        }
-        if(hasContacts.current && contacts.length === 0) {
-            return false;
-        }
-        return true;
+            .catch(err => console.log(err))       
     }
 
     useEffect(() => {
+        const setNameInNavbar = () => {
+            let { firstName, nickname } = generalInfo,
+            name = nickname ? nickname : firstName;
+    
+            setContext({ patientId: patient, name })
+        }
         setNameInNavbar()
     }, [generalInfo])
 
-    const setNameInNavbar = () => {
-        let { firstName, nickname } = generalInfo,
-        name = nickname ? nickname : firstName;
-
-        setContext({ patientId: patient, name })
-    },
-
-    onGenInfoInputChange = e => {
+    const onGenInfoInputChange = e => {
         const { name, value } = e.target;
         setGeneralInfo({ ...generalInfo, [name]: value })
     }, 
@@ -157,7 +133,7 @@ export default function EHR({ location, setContext }) {
         setConditSuggestions({ suggestions, text: value })
      }
 
-     //I'm using this effect, along with the query state to create a 1/2 second delay after typing finishes before API and other code is executed to resolve performance issues.  
+     //I'm using this effect, to create a 1/2 second delay after typing finishes before API and other code is executed for performance purposes.  
      useEffect(() => {
         const timeOutId = setTimeout(() => setMedInput(query), 500);
         return () => clearTimeout(timeOutId);
@@ -297,7 +273,7 @@ export default function EHR({ location, setContext }) {
     },
 
     removeCondition = index => {
-        const clone = conditions;
+        const clone = [...conditions];
 
         clone.splice(index, 1)
 
@@ -306,7 +282,7 @@ export default function EHR({ location, setContext }) {
     },
 
     removeMed = index => {
-        const clone = meds;
+        const clone = [...meds];
         
         clone.splice(index, 1)
 
@@ -315,7 +291,7 @@ export default function EHR({ location, setContext }) {
     },
 
     removeContact = index => {
-        const clone = contacts;
+        const clone = [...contacts];
 
         clone.splice(index, 1)
 
