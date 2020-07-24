@@ -41,12 +41,12 @@ export function Conditions({
 								<Button
 									className="fas fa-pen"
 									style={editBtn}
-									onClick={toggleDescState.bind(this, i)}
+									onClick={toggleDescState.bind(null, i)}
 								/>
 								<Button
 									className="fas fa-sync-alt"
 									style={littleEditBtn}
-									onClick={toggleDescState.bind(this, i)}
+									onClick={toggleDescState.bind(null, i)}
 								/>
 							</label>
 
@@ -67,9 +67,9 @@ export function Conditions({
 							<Button
 								className="fas fa-pen"
 								style={editBtn}
-								onClick={toggleDescState.bind(this, i)}
+								onClick={toggleDescState.bind(null, i)}
 							/>
-							<Button className="fas fa-times" style={removeBtn} onClick={remove.bind(this, i)} />
+							<Button className="fas fa-times" style={removeBtn} onClick={remove.bind(null, i)} />
 						</label>
 						<div>{condition.description}</div>
 					</Col>

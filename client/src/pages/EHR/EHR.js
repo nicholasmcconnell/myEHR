@@ -160,8 +160,8 @@ export default function EHR({ location, setContext }) {
 
     onContactChange = index => e => {
         const { name, value } = e.target,
-        clone = contacts,
-        edit = contacts[index];
+        clone = [...contacts],
+        edit = clone[index];
         
         forceUpdate();
         
@@ -179,13 +179,14 @@ export default function EHR({ location, setContext }) {
      
      onConditDescChange = index => e => {
         const { value } = e.target,
-          clone = conditions;
+          clone = [...conditions];
 
         forceUpdate();
 
          const newDescription = {
             name: conditions[index].name,
             edit: conditions[index].edit,
+            createdAt: conditions[index].createdAt || Date.now(),
             description: value
         }
         clone.splice(index, 1, newDescription)
