@@ -39,7 +39,7 @@ export function Contacts({
               type="button"
               className="btn btn-danger"
               style={{ float: "right" }}
-              onClick={remove.bind(this, i, () => {isConfirmed(!confirmed)})}
+              onClick={remove.bind(null, i, () => {isConfirmed(!confirmed)})}
             >
               <i className="fas fa-user-times"> </i> Confirm Delete
             </Button>
@@ -80,7 +80,7 @@ export function Contacts({
               <Button
                 className="fas fa-backspace fa-2x"
                 style={confirmed ? { ...toggleBtn, color: "white" } : { ...toggleBtn, color: "#d9534f" }}
-                onClick={toggleState.bind(this, i)}
+                onClick={toggleState.bind(null, i)}
               />
             </Col>
             <form>
@@ -247,7 +247,7 @@ export function Contacts({
                   <Button
                     className="btn"
                     style={confirmed ? { display: "none" } : updtBtn}
-                    onClick={toggleState.bind(this, i)}
+                    onClick={toggleState.bind(null, i)}
                   >
                     <i className="fas fa-sync-alt mr-2" />
                     update

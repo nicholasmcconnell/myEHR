@@ -12,7 +12,7 @@ export function HealthCard({ data, target, editState, toggleState, formSubmit, n
           month = today.getMonth() - birthDate.getMonth();
         let age = today.getFullYear() - birthDate.getFullYear();
 
-          if(isNaN(age)) return '??'
+          if(age !== age) return '??'
             
     return month < 0 || (month === 0 && today.getDate() < birthDate.getDate()) ? age - 1 : age;
     },

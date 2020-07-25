@@ -26,7 +26,7 @@ export function Medications({
                 />
             )
         } else {
-            const clone = doses.includes('Other Dose') ? doses : doses.concat('Other Dose');
+            const clone = doses.includes('Other Dose') ? [...doses] : doses.concat('Other Dose');
             return (
                 <select name="dosage" style={input}
                     onChange={target}
@@ -59,7 +59,7 @@ export function Medications({
                         {med.medication}
                         {' '}
                         <Button className="fas fa-times" type='submit' style={removeBtn}
-                            onClick={remove.bind(this, i)}
+                            onClick={remove.bind(null, i)}
                         />
                     </label>
                     <div>

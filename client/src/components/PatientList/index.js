@@ -25,7 +25,7 @@ export function PatientList({ patient, context, removeState, confirmRemoval, rem
     return (
         <div className={'patient-remove'}>
         <Link to='/patients'
-            onClick={remove.bind(this, _id)}  
+            onClick={remove.bind(null, _id)}  
             style={{textDecoration: 'none'}}
             >
             <div className="card box-shadow mt-5">
@@ -50,7 +50,7 @@ export function PatientList({ patient, context, removeState, confirmRemoval, rem
     return (
         <div className={'patient-remove'}>
         <Link to='/patients'
-            onClick={confirmRemoval.bind(this, index)}  
+            onClick={confirmRemoval.bind(null, index)}  
             style={{textDecoration: 'none'}}
             >
             <div className="card box-shadow mt-5">
