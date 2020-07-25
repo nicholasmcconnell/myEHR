@@ -59,8 +59,8 @@ export default function Contacts({ location }) {
 
     onContactChange = index => e => {
         const { name, value } = e.target,
-        clone = contacts,
-        edit = contacts[index];
+        clone = [...contacts],
+        edit = clone[index];
         
         forceUpdate();
 
@@ -77,13 +77,12 @@ export default function Contacts({ location }) {
     },
 
     toggleContactEdit = index => {
-        const arr = [];
 
-        contacts.forEach( (item, i) => {
-            
-            item.edit = i === index ? !item.edit : false;
-            arr.push(item)
-        })
+        const arr = contacts.reduce( (acc, cur, i) => {
+            cur.edit = i === index ? !cur.edit : false;
+            acc.push(cur);
+            return acc;
+        }, [])
         setContacts(arr)
     },
 

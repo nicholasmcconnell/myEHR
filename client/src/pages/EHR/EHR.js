@@ -205,13 +205,12 @@ export default function EHR({ location, setContext }) {
     },
 
     toggleContactEdit = index => {
-        const arr = [];
-
-        contacts.forEach( (item, i) => {
-            
-            item.edit = i === index ? !item.edit : false;
-            arr.push(item)
-        })
+        
+        const arr = contacts.reduce( (acc, cur, i) => {
+            cur.edit = i === index ? !cur.edit : false;
+            acc.push(cur);
+            return acc;
+        }, [])
         setContacts(arr)
     },
 

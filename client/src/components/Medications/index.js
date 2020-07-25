@@ -78,7 +78,7 @@ export function Medications({
 
                 <Col size={'md-12'} classes="mt-5">
                     <Button className="fas fa-backspace fa-2x"
-                        style={{ ...toggleBtn, color: "#d9534f" }}
+                        style={{...toggleBtn, color: "#d9534f" }}
                         onClick={toggleState}
                     />
                 </Col>
@@ -155,30 +155,30 @@ const fieldText = {
     padding: '10px 10px 10px 0',
     color: 'black'
 },
-    input = {
-        borderBottom: '1px solid rgba(0, 0, 0, .2)',
-        transition: 'all 0.30s ease-in-out'
-    },
-    toggleBtn = {
-        float: 'right',
-        border: 'none',
-        margin: '0',
-        backgroundColor: 'white'
-    },
-    addBtn = {
-        marginTop: '30px',
-        color: '#214c91',
-        focus: 'none',
-        size: '10em'
-    },
-    littlePointBtn = {
-        border: 'none',
-        color: 'green',
-        float: 'right',
-        backgroundColor: 'white'
-    },
-    removeBtn = {
-        backgroundColor: 'white',
-        border: 'none',
-        color: 'red'
-    }
+input = {
+    borderBottom: '1px solid rgba(0, 0, 0, .2)',
+    transition: 'all 0.30s ease-in-out'
+},
+toggleBtn = {
+    float: 'right',
+    border: 'none',
+    margin: '0',
+    backgroundColor: 'white'
+},
+addBtn = {
+    marginTop: '30px',
+    color: '#214c91',
+    focus: 'none',
+    size: '10em'
+},
+littlePointBtn = {
+    border: 'none',
+    color: 'green',
+    float: 'right',
+    backgroundColor: 'white'
+},
+removeBtn = {
+    backgroundColor: 'white',
+    border: 'none',
+    color: 'red'
+}

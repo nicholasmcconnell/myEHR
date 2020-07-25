@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom';
-import {  Button } from "../../components/Forms";
+import { Button } from "../../components/Forms";
 
 
 export function PatientHandler({ removeState, toggleRemoveState, confirmed, cancel }) {
@@ -35,19 +35,19 @@ export function PatientHandler({ removeState, toggleRemoveState, confirmed, canc
           } 
         }else {
             return (
-              <div>
+            <Fragment>
                 <div className={"add"}>
                   <Link to={{
-                 pathname:'/ehr',
-                 state: { patientId:"" }
-                }} 
+                  pathname:'/ehr',
+                  state: { patientId:"" }
+                  }} 
                     className="btn plus"
                     style={{ float: "right" }}
                   >
                     <i className="fas fa-user-plus"></i> New Patient
                   </Link>
-                  </div>
-                  <div className={"remove"}>
+                </div>
+                 <div className={"remove"}>
                     <Button className="btn minus"
                       style={{ float: "left" }}
                       onClick={() => {
@@ -57,7 +57,7 @@ export function PatientHandler({ removeState, toggleRemoveState, confirmed, canc
                     <i className="fas fa-user-minus"/> Remove Patients
                   </Button>
                 </div>
-              </div>
+            </Fragment>
             );
     }
 }
