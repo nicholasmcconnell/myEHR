@@ -20,7 +20,7 @@ export default function Contacts({ location }) {
         isInitialMount = useRef(true);
 
         let { patientId, name } = useContext(PatientContext);
-        patientId = patientId ? patientId : location.state.patientId;
+        patientId = patientId || location.state.patientId;
 
 
     //Use this effect to only load patient on initial mount. And update db only on subsequent mounts. 
@@ -91,7 +91,6 @@ export default function Contacts({ location }) {
         setAddContact(false)
 
         const list = contacts.concat(newContact);
-        
         setContacts(list)
     },
 

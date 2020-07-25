@@ -15,7 +15,7 @@ export default function EHR({ location, setContext }) {
     Globals
 */ 
     let { patientId, name } = useContext(PatientContext);
-        patientId = patientId ? patientId : location.state.patientId;
+        patientId = patientId || location.state.patientId;
   
     const [ patient, setPatient ] = useState(patientId),
         [generalInfo, setGeneralInfo] = useState({}),
@@ -98,7 +98,7 @@ export default function EHR({ location, setContext }) {
     useEffect(() => {
         const setNameInNavbar = () => {
             let { firstName, nickname } = generalInfo,
-            name = nickname ? nickname : firstName;
+            name = nickname || firstName;
     
             setContext({ patientId: patient, name })
         }
@@ -133,7 +133,7 @@ export default function EHR({ location, setContext }) {
         setConditSuggestions({ suggestions, text: value })
      }
 
-     //I'm using this effect, to create a 1/2 second delay after typing finishes before API and other code is executed for performance purposes.  
+     //Create a 1/2 second delay after typing finishes before API and other code is executed.  
      useEffect(() => {
         const timeOutId = setTimeout(() => setMedInput(query), 500);
         return () => clearTimeout(timeOutId);
@@ -226,17 +226,15 @@ export default function EHR({ location, setContext }) {
 
         description = (suggest && suggest.shortdef) ? suggest.shortdef.join('\n') : '',
 
-                newCondition = { 
-                    name: capitalizeWord(text), 
-                    description, 
-                    edit: false, 
-                    createdAt: Date.now()
-                }
+            newCondition = { 
+                name: capitalizeWord(text), 
+                description, 
+                edit: false, 
+                createdAt: Date.now()
+            }
         hasConditions.current = true;
         setConditions([...conditions, newCondition])
     },
-                   
-
 
     addMeds = e => {
         e.preventDefault();
@@ -316,12 +314,12 @@ export default function EHR({ location, setContext }) {
     
         description = (suggest && suggest.shortdef) ? suggest.shortdef.join('\n') : '',
 
-                newCondition = { 
-                    name: capitalizeWord(value), 
-                    description, 
-                    edit: false, 
-                    createdAt: Date.now()
-                }
+            newCondition = { 
+                name: capitalizeWord(value), 
+                description, 
+                edit: false, 
+                createdAt: Date.now()
+            }
         setConditions([...conditions, newCondition])
         setConditSuggestions({text: ''})
     },
@@ -340,13 +338,13 @@ export default function EHR({ location, setContext }) {
     },
 
     selectSuggestedMed = async value => {
-        setMedSuggestions({ suggestions: [], text: value})
+        setMedSuggestions({ suggestions: [], text: value })
         
         //populate dosage choices with suggestions when autocomplete option is clicked
         if (!value) return;
         try {
             const  { data } = await API.fetchMeds(value),
-              doses = data.drugGroup.conceptGroup[1].conceptProperties.map(x => x.synonym).filter(x => x !== '')
+              doses = data.drugGroup.conceptGroup[1].conceptProperties.map(({ synonym })=> synonym).filter(x => x !== '')
            
             setDoses(doses)
         } catch(err) {return}
@@ -360,7 +358,7 @@ export default function EHR({ location, setContext }) {
         }
         return (
             <ul>
-                {suggestions.map( (suggestion, i) => <li onClick={() => selectSuggestedMed(suggestion)} key={i}>{suggestion}</li>)}
+                {suggestions.map((suggestion, i) => <li onClick={() => selectSuggestedMed(suggestion)} key={i}>{suggestion}</li>)}
             </ul>
         )
     },
@@ -373,8 +371,8 @@ export default function EHR({ location, setContext }) {
         
         if (!text) return;
         try {
-            const  { data } = await API.fetchMeds(text),
-              doses = data.drugGroup.conceptGroup[1].conceptProperties.map(x => x.synonym).filter(x => x !== '')
+            const { data } = await API.fetchMeds(text),
+              doses = data.drugGroup.conceptGroup[1].conceptProperties.map(({ synonym })=> synonym).filter(x => x !== '')
             
             setDoses(doses)   
         } catch(err) {return}
