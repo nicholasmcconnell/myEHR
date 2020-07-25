@@ -66,8 +66,8 @@ export default function EHR({ location, setContext }) {
 
      //if no patient is passed in, create a new one on the server.
     newPatient = async() => {
-        const user  = await API.getUser(),
-            email = user.data.user.email;
+        const { data: patient }  = await API.getUser(),
+            email = patient.user.email;
    
         const newPatient = {email, generalInfo, healthInfo, conditions, meds, contacts},
          { data } = await API.addPatient(newPatient);
@@ -221,7 +221,7 @@ export default function EHR({ location, setContext }) {
         const [ search ]  = text.split('-'),
         { data: [ suggest ] } = await API.fetchCondition(search),
 
-        description = (suggest && suggest.shortdef) ? suggest.shortdef.join('\n') : '',
+        description = (suggest && suggest.shortdef) ? suggest.shortdef.join('\n') : suggest,
 
             newCondition = { 
                 name: capitalizeWord(text), 
@@ -338,8 +338,8 @@ export default function EHR({ location, setContext }) {
         //populate dosage choices with suggestions when autocomplete option is clicked
         if (!value) return;
         try {
-            const  { data } = await API.fetchMeds(value),
-              doses = data.drugGroup.conceptGroup[1].conceptProperties.map(({ synonym })=> synonym).filter(x => x !== '')
+            const { data: { drugGroup } } = await API.fetchMeds(value),
+              doses = drugGroup.conceptGroup[1].conceptProperties.map(({ synonym })=> synonym).filter(x => x !== '')
            
             setDoses(doses)
         } catch(err) {return}
@@ -366,8 +366,8 @@ export default function EHR({ location, setContext }) {
         
         if (!text) return;
         try {
-            const { data } = await API.fetchMeds(text),
-              doses = data.drugGroup.conceptGroup[1].conceptProperties.map(({ synonym })=> synonym).filter(x => x !== '')
+            const { data: { drugGroup } } = await API.fetchMeds(text),
+              doses = drugGroup.conceptGroup[1].conceptProperties.map(({ synonym })=> synonym).filter(x => x !== '')
             
             setDoses(doses)   
         } catch(err) {return}
