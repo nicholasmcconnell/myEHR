@@ -165,7 +165,7 @@ export default function EHR({ location, setContext }) {
         
         forceUpdate();
         
-        for (let key of Object.keys(edit)) {
+        for (let key in edit) {
 
             if (key === name) {
                 edit[key] = value;

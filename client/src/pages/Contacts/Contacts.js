@@ -64,7 +64,7 @@ export default function Contacts({ location }) {
         
         forceUpdate();
 
-        for (let key of Object.keys(edit)) {
+        for (let key in edit) {
 
             if (key === name) {
                 edit[key] = value;
