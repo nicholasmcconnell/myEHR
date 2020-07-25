@@ -130,17 +130,17 @@ export default function EHR({ location, setContext }) {
         setConditSuggestions({ suggestions, text: value })
      }
 
-     //Create a 1/2 second delay after typing finishes before API and other code is executed.  
+     // 1/2 second delay after typing finishes before API and other code is executed.  
      useEffect(() => {
-        const timeOutId = setTimeout(() => setMedInput(query), 500);
-        return () => clearTimeout(timeOutId);
+        const timeThisOut = setTimeout(() => setMedInput(query), 500);
+        return () => clearTimeout(timeThisOut);
       }, [query]);
     
     const onMedInputChange = async e => {
             const { name, value } = e.target; 
             setQuery({ ...query, [name]: value })
             
-        //only run this code when medication changes. ignore dosage.
+        //only run this when medication changes. ignore dosage.
         if (name === 'medication') {
         try {           
         const items = await getMedNames(value)
@@ -294,8 +294,8 @@ export default function EHR({ location, setContext }) {
     },
 
      getMedNames = async search => {
-        const { data }  = await API.getMedNames(search);
-        return !data.displayTermsList ? "??" : data.displayTermsList.term;  
+        const { data: { displayTermsList} }  = await API.getMedNames(search);
+        return displayTermsList.term;  
     },
 
     selectSuggestedCondit = async value => {
@@ -307,7 +307,7 @@ export default function EHR({ location, setContext }) {
         const [ search ]  = value.split('-'),
             { data: [ suggest ] } = await API.fetchCondition(search),
     
-        description = (suggest && suggest.shortdef) ? suggest.shortdef.join('\n') : '',
+        description = (suggest && suggest.shortdef) ? suggest.shortdef.join('\n') : suggest,
 
             newCondition = { 
                 name: capitalizeWord(value), 
