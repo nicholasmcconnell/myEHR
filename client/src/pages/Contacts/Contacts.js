@@ -20,7 +20,7 @@ export default function Contacts({ location }) {
         isInitialMount = useRef(true);
 
         let { patientId, name } = useContext(PatientContext);
-        patientId = patientId ? patientId : location.state.patientId;
+        patientId = patientId || location.state.patientId;
 
 
     //Use this effect to only load patient on initial mount. And update db only on subsequent mounts. 
@@ -59,12 +59,12 @@ export default function Contacts({ location }) {
 
     onContactChange = index => e => {
         const { name, value } = e.target,
-        clone = contacts,
-        edit = contacts[index];
+        clone = [...contacts],
+        edit = clone[index];
         
         forceUpdate();
 
-        for (let key of Object.keys(edit)) {
+        for (let key in edit) {
 
             if (key === name) {
                 edit[key] = value;
@@ -77,13 +77,12 @@ export default function Contacts({ location }) {
     },
 
     toggleContactEdit = index => {
-        const arr = [];
 
-        contacts.forEach( (item, i) => {
-            
-            item.edit = i === index ? !item.edit : false;
-            arr.push(item)
-        })
+        const arr = contacts.reduce( (acc, cur, i) => {
+            cur.edit = i === index ? !cur.edit : false;
+            acc.push(cur);
+            return acc;
+        }, [])
         setContacts(arr)
     },
 
@@ -92,7 +91,6 @@ export default function Contacts({ location }) {
         setAddContact(false)
 
         const list = contacts.concat(newContact);
-        
         setContacts(list)
     },
 

@@ -12,7 +12,7 @@ export function HealthCard({ data, target, editState, toggleState, formSubmit, n
           month = today.getMonth() - birthDate.getMonth();
         let age = today.getFullYear() - birthDate.getFullYear();
 
-          if(isNaN(age)) return '??'
+          if(age !== age) return '??'
             
     return month < 0 || (month === 0 && today.getDate() < birthDate.getDate()) ? age - 1 : age;
     },
@@ -38,7 +38,7 @@ if (editState) {
             {name ? `${name}'s` : ''} Basic Health Information:</h5></em>
 
           <Col size={'md-12'} classes={"mt-5"}>
-                <Button className="fas fa-backspace fa-2x" style={{...toggleBtn, color: "tomato"}} 
+                <Button className="fas fa-backspace fa-2x" style={{...toggleBtn, color: "#d9534f"}} 
                 onClick={toggleState} />
             </Col>
             <form onSubmit={formSubmit} >

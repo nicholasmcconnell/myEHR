@@ -41,12 +41,12 @@ export function Conditions({
 								<Button
 									className="fas fa-pen"
 									style={editBtn}
-									onClick={toggleDescState.bind(this, i)}
+									onClick={toggleDescState.bind(null, i)}
 								/>
 								<Button
 									className="fas fa-sync-alt"
 									style={littleEditBtn}
-									onClick={toggleDescState.bind(this, i)}
+									onClick={toggleDescState.bind(null, i)}
 								/>
 							</label>
 
@@ -67,9 +67,9 @@ export function Conditions({
 							<Button
 								className="fas fa-pen"
 								style={editBtn}
-								onClick={toggleDescState.bind(this, i)}
+								onClick={toggleDescState.bind(null, i)}
 							/>
-							<Button className="fas fa-times" style={removeBtn} onClick={remove.bind(this, i)} />
+							<Button className="fas fa-times" style={removeBtn} onClick={remove.bind(null, i)} />
 						</label>
 						<div>{condition.description}</div>
 					</Col>
@@ -89,7 +89,7 @@ export function Conditions({
 				<Col size={'md-12'} classes="mt-5">
 					<Button
 						className="fas fa-backspace fa-2x"
-						style={{ ...toggleBtn, color: 'tomato' }}
+						style={{ ...toggleBtn, color: '#d9534f' }}
 						onClick={toggleState}
 					/>
 				</Col>
@@ -128,7 +128,7 @@ export function Conditions({
 				<Col size={'md-12 mt-5'}>
 					<Button
 						className="fas fa-backspace fa-2x"
-						style={{ ...toggleBtn, color: 'tomato' }}
+						style={{ ...toggleBtn, color: '#d9534f' }}
 						onClick={toggleState}
 					/>
 				</Col>
@@ -165,7 +165,7 @@ export function Conditions({
 				</em>
 
 				<Col size={'md-12'} classes={'condition-edit mt-5'}>
-					<Button className="fas fa-user-edit fa-2x" style={toggleBtn} 
+					<Button className="fas fa-user-edit fa-2x" style={{...toggleBtn, color: "white"}} 
 					onClick={toggleState}
 					/>
 				</Col>
@@ -195,7 +195,6 @@ const fieldText = {
 		float: 'right',
 		border: 'none',
 		margin: '0',
-		color: 'white',
 		backgroundColor: 'white'
 	},
 	addBtn = {

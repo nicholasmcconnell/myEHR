@@ -1,12 +1,12 @@
-const express = require("express");
-const session = require("express-session");
-const mongoose = require("mongoose");
-const cookieParser = require('cookie-parser');
-const { passport } = require('./passport');
-const routes = require("./routes");
+const express = require("express"),
+ session = require("express-session"),
+ mongoose = require("mongoose"),
+ cookieParser = require('cookie-parser'),
+ routes = require("./routes"),
+ { passport } = require('./passport'),
 
-const PORT = process.env.PORT || 3001;
-const app = express();
+ PORT = process.env.PORT || 3001,
+ app = express();
 
 //middleware
 app.use(express.urlencoded({ extended: true }));

@@ -15,7 +15,7 @@ export default function EHR({ location, setContext }) {
     Globals
 */ 
     let { patientId, name } = useContext(PatientContext);
-        patientId = patientId ? patientId : location.state.patientId;
+        patientId = patientId || location.state.patientId;
   
     const [ patient, setPatient ] = useState(patientId),
         [generalInfo, setGeneralInfo] = useState({}),
@@ -36,9 +36,6 @@ export default function EHR({ location, setContext }) {
         [ query, setQuery ] = useState(''),
 
         forceUpdate = useForceUpdate(), 
-        hasConditions = useRef(), 
-        hasMeds = useRef(), 
-        hasContacts = useRef(), 
         isInitialMount = useRef(true);
 
 /*
@@ -64,14 +61,13 @@ export default function EHR({ location, setContext }) {
             setConditions(data.healthConditions)
             setMeds(data.medications)
             setContacts(data.contacts)
-            setParity(data)
         } 
     },
 
      //if no patient is passed in, create a new one on the server.
     newPatient = async() => {
-        const user  = await API.getUser(),
-            email = user.data.user.email;
+        const { data: patient }  = await API.getUser(),
+            email = patient.user.email;
    
         const newPatient = {email, generalInfo, healthInfo, conditions, meds, contacts},
          { data } = await API.addPatient(newPatient);
@@ -79,7 +75,6 @@ export default function EHR({ location, setContext }) {
         setPatient(data._id);
         setGenState(true)
         setHealthState(true)
-        setParity()
     },
 
 /*
@@ -91,45 +86,23 @@ export default function EHR({ location, setContext }) {
             setGenState(false)
             setHealthState(false)
         }
-        if(parity()) {
         const data = {generalInfo, healthInfo, conditions, meds, contacts}
         
         API.updateEHR(patient, data)
-            .catch(err => console.log(err))        
-        }     
-    }, 
-
-    setParity = (data) => {
-        hasConditions.current = (data && data.healthConditions.length > 0) ? true : false;     
-        hasMeds.current = (data && data.medications.length > 0) ? true : false;     
-        hasContacts.current = (data && data.contacts.length > 0) ? true : false;     
-    },
-
-    parity = () => {
-        if(hasConditions.current && conditions.length === 0) {
-            return false;
-        }
-        if(hasMeds.current && meds.length === 0) {
-            return false;
-        }
-        if(hasContacts.current && contacts.length === 0) {
-            return false;
-        }
-        return true;
+            .catch(err => console.log(err))       
     }
 
     useEffect(() => {
+        const setNameInNavbar = () => {
+            let { firstName, nickname } = generalInfo,
+            name = nickname || firstName;
+    
+            setContext({ patientId: patient, name })
+        }
         setNameInNavbar()
     }, [generalInfo])
 
-    const setNameInNavbar = () => {
-        let { firstName, nickname } = generalInfo,
-        name = nickname ? nickname : firstName;
-
-        setContext({ patientId: patient, name })
-    },
-
-    onGenInfoInputChange = e => {
+    const onGenInfoInputChange = e => {
         const { name, value } = e.target;
         setGeneralInfo({ ...generalInfo, [name]: value })
     }, 
@@ -157,17 +130,17 @@ export default function EHR({ location, setContext }) {
         setConditSuggestions({ suggestions, text: value })
      }
 
-     //I'm using this effect, along with the query state to create a 1/2 second delay after typing finishes before API and other code is executed to resolve performance issues.  
+     // 1/2 second delay after typing finishes before API and other code is executed.  
      useEffect(() => {
-        const timeOutId = setTimeout(() => setMedInput(query), 500);
-        return () => clearTimeout(timeOutId);
+        const timeThisOut = setTimeout(() => setMedInput(query), 500);
+        return () => clearTimeout(timeThisOut);
       }, [query]);
     
     const onMedInputChange = async e => {
             const { name, value } = e.target; 
             setQuery({ ...query, [name]: value })
             
-        //only run this code when medication changes. ignore dosage.
+        //only run this when medication changes. ignore dosage.
         if (name === 'medication') {
         try {           
         const items = await getMedNames(value)
@@ -184,12 +157,12 @@ export default function EHR({ location, setContext }) {
 
     onContactChange = index => e => {
         const { name, value } = e.target,
-        clone = contacts,
-        edit = contacts[index];
+        clone = [...contacts],
+        edit = clone[index];
         
         forceUpdate();
         
-        for (let key of Object.keys(edit)) {
+        for (let key in edit) {
 
             if (key === name) {
                 edit[key] = value;
@@ -203,13 +176,14 @@ export default function EHR({ location, setContext }) {
      
      onConditDescChange = index => e => {
         const { value } = e.target,
-          clone = conditions;
+          clone = [...conditions];
 
         forceUpdate();
 
          const newDescription = {
             name: conditions[index].name,
             edit: conditions[index].edit,
+            createdAt: conditions[index].createdAt || Date.now(),
             description: value
         }
         clone.splice(index, 1, newDescription)
@@ -217,24 +191,22 @@ export default function EHR({ location, setContext }) {
     }, 
 
     toggleDescriptionEdit = index => {
-        const arr = [];
 
-        conditions.forEach( (item, i) => {
-            
-            item.edit = i === index ? !item.edit : false;
-            arr.push(item)
-        })
+        const arr = conditions.reduce((acc, cur, i) => {
+            cur.edit = i === index ? !cur.edit : false;
+            acc.push(cur);
+            return acc;
+        }, [])
         setConditions(arr)
     },
 
     toggleContactEdit = index => {
-        const arr = [];
 
-        contacts.forEach( (item, i) => {
-            
-            item.edit = i === index ? !item.edit : false;
-            arr.push(item)
-        })
+        const arr = contacts.reduce((acc, cur, i) => {
+            cur.edit = i === index ? !cur.edit : false;
+            acc.push(cur);
+            return acc;
+        }, [])
         setContacts(arr)
     },
 
@@ -246,23 +218,19 @@ export default function EHR({ location, setContext }) {
         setConditSuggestions([]);
 
         if (!text) return;
-        
         const [ search ]  = text.split('-'),
-            { data } = await API.fetchCondition(search),
-    
-        description = (data[0] && data[0].shortdef) ? data[0].shortdef.join('\n') : '',
+        { data: [ suggest ] } = await API.fetchCondition(search),
 
-                newCondition = { 
-                    name: capitalizeWord(text), 
-                    description, 
-                    edit: false, 
-                    createdAt: Date.now()
-                }
-        hasConditions.current = true;
+        description = (suggest && suggest.shortdef) ? suggest.shortdef.join('\n') : suggest,
+
+            newCondition = { 
+                name: capitalizeWord(text), 
+                description, 
+                edit: false, 
+                createdAt: Date.now()
+            }
         setConditions([...conditions, newCondition])
     },
-                   
-
 
     addMeds = e => {
         e.preventDefault();
@@ -280,7 +248,6 @@ export default function EHR({ location, setContext }) {
                 edit : false,
                 createdAt: Date.now()
             }
-        hasMeds.current = true;
         setMeds([...meds, newMed])
         setDoses('')
         setQuery('')
@@ -292,35 +259,28 @@ export default function EHR({ location, setContext }) {
         e.preventDefault();
         setAddContact(false)
         
-        hasContacts.current = true;
         setContacts([...contacts, newContact])
     },
 
     removeCondition = index => {
-        const clone = conditions;
+        const clone = [...conditions];
 
         clone.splice(index, 1)
-
-        hasConditions.current = clone.length === 0 ? false : true
-        setConditions([...clone])
+        setConditions(clone)
     },
 
     removeMed = index => {
-        const clone = meds;
+        const clone = [...meds];
         
         clone.splice(index, 1)
-
-        hasMeds.current = clone.length === 0 ? false : true
-        setMeds([...clone])
+        setMeds(clone)
     },
 
     removeContact = index => {
-        const clone = contacts;
+        const clone = [...contacts];
 
         clone.splice(index, 1)
-
-        hasContacts.current = clone.length === 0 ? false : true
-        setContacts([...clone])
+        setContacts(clone)
     },
 
 /*
@@ -334,8 +294,8 @@ export default function EHR({ location, setContext }) {
     },
 
      getMedNames = async search => {
-        const { data }  = await API.getMedNames(search);
-        return !data.displayTermsList ? "??" : data.displayTermsList.term;  
+        const { data: { displayTermsList} }  = await API.getMedNames(search);
+        return displayTermsList.term;  
     },
 
     selectSuggestedCondit = async value => {
@@ -345,16 +305,16 @@ export default function EHR({ location, setContext }) {
         if (!value) return;
         
         const [ search ]  = value.split('-'),
-            { data } = await API.fetchCondition(search),
+            { data: [ suggest ] } = await API.fetchCondition(search),
     
-        description = (data[0] && data[0].shortdef) ? data[0].shortdef.join('\n') : '',
+        description = (suggest && suggest.shortdef) ? suggest.shortdef.join('\n') : suggest,
 
-                newCondition = { 
-                    name: capitalizeWord(value), 
-                    description, 
-                    edit: false, 
-                    createdAt: Date.now()
-                }
+            newCondition = { 
+                name: capitalizeWord(value), 
+                description, 
+                edit: false, 
+                createdAt: Date.now()
+            }
         setConditions([...conditions, newCondition])
         setConditSuggestions({text: ''})
     },
@@ -373,13 +333,13 @@ export default function EHR({ location, setContext }) {
     },
 
     selectSuggestedMed = async value => {
-        setMedSuggestions({ suggestions: [], text: value})
+        setMedSuggestions({ suggestions: [], text: value })
         
         //populate dosage choices with suggestions when autocomplete option is clicked
         if (!value) return;
         try {
-            const  { data } = await API.fetchMeds(value),
-              doses = data.drugGroup.conceptGroup[1].conceptProperties.map(x => x.synonym).filter(x => x !== '')
+            const { data: { drugGroup } } = await API.fetchMeds(value),
+              doses = drugGroup.conceptGroup[1].conceptProperties.map(({ synonym })=> synonym).filter(x => x !== '')
            
             setDoses(doses)
         } catch(err) {return}
@@ -393,7 +353,7 @@ export default function EHR({ location, setContext }) {
         }
         return (
             <ul>
-                {suggestions.map( (suggestion, i) => <li onClick={() => selectSuggestedMed(suggestion)} key={i}>{suggestion}</li>)}
+                {suggestions.map((suggestion, i) => <li onClick={() => selectSuggestedMed(suggestion)} key={i}>{suggestion}</li>)}
             </ul>
         )
     },
@@ -406,8 +366,8 @@ export default function EHR({ location, setContext }) {
         
         if (!text) return;
         try {
-            const  { data } = await API.fetchMeds(text),
-              doses = data.drugGroup.conceptGroup[1].conceptProperties.map(x => x.synonym).filter(x => x !== '')
+            const { data: { drugGroup } } = await API.fetchMeds(text),
+              doses = drugGroup.conceptGroup[1].conceptProperties.map(({ synonym })=> synonym).filter(x => x !== '')
             
             setDoses(doses)   
         } catch(err) {return}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Row, Col } from '../../components/Grid';
 import { PatientList } from '../../components/PatientList'; 
 import { PatientHandler }  from '../../components/PatientHandler'; 
@@ -16,22 +16,22 @@ export default function Patients({ setContext }) {
     }, [])
 
     const getPatients = async () => {
-        const { data } = await API.getUser(),
-   
-          patients = await API.fetchPatients(data.user);
 
-        setPatients(patients.data);
+        const { data: user } = await API.getUser(),
+          { data } = await API.fetchPatients(user);
+
+        setPatients(data);
     },
 
     removePatient = async _id => {
-       await API.removePatient(_id)
 
+       await API.removePatient(_id)
        setRemoveState(false)
-       getPatients()
+       getPatients();
     },
 
     togglePatientAsRemovable = index => {
-        const clone = patients;
+        const clone = [...patients];
         
         clone[index].removable = !clone[index].removable
         
@@ -39,12 +39,12 @@ export default function Patients({ setContext }) {
         setPatients(clone)
     },
 
-    cancelPatientRemoval = () => {
-        const clone = patients;
-        
-        clone.forEach( item => {
-            item.removable = false
-        })
+    cancelPatientRemoval = () => {        
+        const clone = patients.reduce((acc, cur) => {
+            cur.removable = false
+            acc.push(cur)
+            return acc
+        }, [])
         isConfirmed(false)
         setRemoveState(false)
         setPatients(clone)

@@ -14,8 +14,8 @@ Users will only have access to profiles that are associated with their account a
 •	AS A caregiver, I WANT to have their information readily available, SO THAT it can be accessed during appointments or medical emergencies
 
 ## Navigating the Application 
-- Visit the deployed app on Heroku: [Here](https://myehr-app.herokuapp.com/ "Here")
-- View the repository: [Here](https://github.com/nicholasmcconnell/myEHR "Here")
+- Visit the deployed app on Heroku: [Here](https://myehrs.herokuapp.com/ "Here")  Use Login: "example@example.com" with password: "example123" for a seeded example.  
+- View the original project repository: [Here](https://github.com/nicholasmcconnell/myEHR "Here")
 - User is taken to the home/landing page. To get started, click "Get Started" to be redirected to Sign Up or click on the Log In or Sign Up buttons in the navigation bar. 
 - Once an account is created, the credentials are saved to the database and the user may log in. If the user already has an existing account, the user may log in. If the credentials entered match an existing account, the user will be logged in an redirected to the Profiles page.
 - For existing accounts, the Profiles page will list all patient profiles available that are associated with that account. For new accounts, the user may select the option to add a patient profile.

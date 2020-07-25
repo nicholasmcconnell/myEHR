@@ -68,19 +68,12 @@ button:focus {
   color: tomato;
 }
 
-textarea.desc {
-	width:100%;
-	box-sizing:border-box;
-	direction:rtl;
-	display:block;
-	max-width:100%;
-}
-
 /* Keep hover buttons on with smaller screens where there may not be a mouse */
 @media (max-width: 992px) {
   .fa-user-edit {
     color: green !important;
   }
+
   .rm-sm-user {
     color: #d9534f !important;
   }
