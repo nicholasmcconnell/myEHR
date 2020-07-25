@@ -194,19 +194,18 @@ export default function EHR({ location, setContext }) {
     }, 
 
     toggleDescriptionEdit = index => {
-        const arr = [];
 
-        conditions.forEach( (item, i) => {
-            
-            item.edit = i === index ? !item.edit : false;
-            arr.push(item)
-        })
+        const arr = conditions.reduce((acc, cur, i) => {
+            cur.edit = i === index ? !cur.edit : false;
+            acc.push(cur);
+            return acc;
+        }, [])
         setConditions(arr)
     },
 
     toggleContactEdit = index => {
-        
-        const arr = contacts.reduce( (acc, cur, i) => {
+
+        const arr = contacts.reduce((acc, cur, i) => {
             cur.edit = i === index ? !cur.edit : false;
             acc.push(cur);
             return acc;
@@ -222,11 +221,10 @@ export default function EHR({ location, setContext }) {
         setConditSuggestions([]);
 
         if (!text) return;
-        
         const [ search ]  = text.split('-'),
-            { data } = await API.fetchCondition(search),
-    
-        description = (data[0] && data[0].shortdef) ? data[0].shortdef.join('\n') : '',
+        { data: [ suggest ] } = await API.fetchCondition(search),
+
+        description = (suggest && suggest.shortdef) ? suggest.shortdef.join('\n') : '',
 
                 newCondition = { 
                     name: capitalizeWord(text), 
@@ -268,7 +266,6 @@ export default function EHR({ location, setContext }) {
         e.preventDefault();
         setAddContact(false)
         
-        hasContacts.current = true;
         setContacts([...contacts, newContact])
     },
 
@@ -276,27 +273,21 @@ export default function EHR({ location, setContext }) {
         const clone = [...conditions];
 
         clone.splice(index, 1)
-
-        hasConditions.current = clone.length === 0 ? false : true
-        setConditions([...clone])
+        setConditions(clone)
     },
 
     removeMed = index => {
         const clone = [...meds];
         
         clone.splice(index, 1)
-
-        hasMeds.current = clone.length === 0 ? false : true
-        setMeds([...clone])
+        setMeds(clone)
     },
 
     removeContact = index => {
         const clone = [...contacts];
 
         clone.splice(index, 1)
-
-        hasContacts.current = clone.length === 0 ? false : true
-        setContacts([...clone])
+        setContacts(clone)
     },
 
 /*
@@ -321,9 +312,9 @@ export default function EHR({ location, setContext }) {
         if (!value) return;
         
         const [ search ]  = value.split('-'),
-            { data } = await API.fetchCondition(search),
+            { data: [ suggest ] } = await API.fetchCondition(search),
     
-        description = (data[0] && data[0].shortdef) ? data[0].shortdef.join('\n') : '',
+        description = (suggest && suggest.shortdef) ? suggest.shortdef.join('\n') : '',
 
                 newCondition = { 
                     name: capitalizeWord(value), 
