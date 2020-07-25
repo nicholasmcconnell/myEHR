@@ -36,9 +36,6 @@ export default function EHR({ location, setContext }) {
         [ query, setQuery ] = useState(''),
 
         forceUpdate = useForceUpdate(), 
-        hasConditions = useRef(), 
-        hasMeds = useRef(), 
-        hasContacts = useRef(), 
         isInitialMount = useRef(true);
 
 /*
@@ -232,7 +229,6 @@ export default function EHR({ location, setContext }) {
                 edit: false, 
                 createdAt: Date.now()
             }
-        hasConditions.current = true;
         setConditions([...conditions, newCondition])
     },
 
@@ -252,7 +248,6 @@ export default function EHR({ location, setContext }) {
                 edit : false,
                 createdAt: Date.now()
             }
-        hasMeds.current = true;
         setMeds([...meds, newMed])
         setDoses('')
         setQuery('')
