@@ -1,10 +1,9 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import { Container, Row, Col } from '../../components/Grid';
+import Auth from '../../Auth';
 
 export default function Landing() {
-
-   const user = localStorage.getItem('userEmail')
 
     return (
         <div
@@ -22,7 +21,7 @@ export default function Landing() {
                             <h1 className="display-4"><em>My</em> EHR</h1>
                             <p className="lead">All the medical records you need in one, simple place.</p>
                             <hr className="my-4" />
-                       {(!user || user === '') ?
+                       {!Auth.isAuthenticated() ?
                             <Link to="/signup" className="btn btn-primary btn-lg">Get Started</Link> :
                             <Link to="/patients" className="btn btn-primary btn-lg">Get Started</Link> 
                        }

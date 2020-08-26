@@ -9,7 +9,6 @@ class Auth {
         cb()
     }
     logout(cb) {
-        localStorage.setItem('userEmail', '')
         this.authenticated = false
         cb()
     }
