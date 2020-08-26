@@ -23,7 +23,7 @@ export default function Landing() {
                             <h1 className="display-4"><em>My</em> EHR</h1>
                             <p className="lead">All the medical records you need in one, simple place.</p>
                             <hr className="my-4" />
-                       {(!user ?
+                       {(user === '' ?
                             <Link to="/signup" className="btn btn-primary btn-lg">Get Started</Link> :
                             <Link to="/patients" className="btn btn-primary btn-lg">Get Started</Link>) 
                        }
