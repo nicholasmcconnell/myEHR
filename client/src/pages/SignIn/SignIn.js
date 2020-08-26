@@ -35,6 +35,7 @@ export default function SignIn() {
                 .then(({ data }) => {
                     if (data.status === 'success') {
                         authorize()
+                        localStorage.setItem('userEmail', data.email)
                     }
                 }).catch( err => {
                     setErrorMsg('Login failed.  Please try again.')
